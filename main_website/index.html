@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- METADATA -->
+  <title>CSCI 1270 - Database Management Systems</title>
+  <link rel="shortcut icon" type="image/png" href="img/bee.svg" />
+  <meta property="og:image" content="static/img/preview.png" />
+  <meta name="author" content="CSCI 1270 Course Staff" />
+  <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+  <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+  <meta charset="utf-8">
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+  <!-- CSS -->
+  <link href="css/normalize.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+
+  <!-- JS -->
+  <script defer src="js/jquery.min.js"></script>
+  <script defer src="js/script.js"></script>
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+      rel="stylesheet">
+</head>
+
+<body>
+<!-- NAVBAR -->
+<nav>
+  <!-- REGULAR NAV -->
+  <div class="nav-holder nav-left">
+    <img class="nav-logo shake" src="img/bee.svg" draggable="false" />
+    <span class="nav-link">
+                <a href="#">CSCI 1270</a>
+            </span>
+  </div>
+  <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="#assignments">Assignments</a>
+            </span>
+    <span class="nav-link">
+                <a href="#lectures">Lectures</a>
+            </span>
+    <span class="nav-link">
+                <a href="#calendar">Calendar</a>
+            </span>
+    <span class="nav-link">
+                <a href="#resources">Resources</a>
+            </span>
+    <span class="nav-link">
+                <a href="#staff">Staff</a>
+            </span>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <div id="navholder-mobile" class="navholder-mobile">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+    <div class="navholder-content">
+      <a onclick="closeNav()" href="#">CSCI 1270</a>
+      <a onclick="closeNav()" href="#assignments">Assignments</a>
+      <a onclick="closeNav()" href="#lectures">Lectures</a>
+      <a onclick="closeNav()" href="#calendar">Calendar</a>
+      <a onclick="closeNav()" href="#resources">Resources</a>
+      <a onclick="closeNav()" href="#staff">Staff</a>
+    </div>
+  </div>
+
+  <!-- MOBILE NAV BUTTON -->
+  <span class="hamburger" onclick="openNav()">☰</span>
+</nav>
+
+<main>
+  <section id="landing">
+    <div class="landing-container">
+      <img class="landing-logo shake" src="img/bee.svg" draggable="false" />
+      <div>
+        <h1 class="landing-title fun">CSCI 1270</h1>
+        <h2 class="landing-subtitle fun">Database Management Systems</h2>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- INTRODUCTION -->
+  <section id="introduction">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Introduction</h1>
+
+    <h2>Welcome to CSCI 1270!</h2>
+    <p><a href="http://cs.brown.edu/courses/csci1270/website_2020/" target="_blank" rel="noopener">Link to previous course offering</a>.</p>
+    <p>
+      The concepts you will learn in this class include aspects of database design, database languages, and
+      database-system implementation. The course textbook is Database Systems Concepts, Seventh Edition by
+      Silberschatz, Korth, and Sudarshan. ISBN: 9780078022159. Lectures are held on Mondays and Wednesdays
+      from 3:00 pm to 4:20 pm virtually via <a href="https://brown.zoom.us/j/99985999323">Zoom</a> unless
+      otherwise specified. Optional in-person seminars are held on Friday at the same time. Please stop on by!
+    </p>
+
+    <p>
+      <strong>
+        If content is not showing up for you on the website, hard refresh the page (ctrl-shift-r)!
+      </strong>
+    </p>
+  </section>
+
+
+  <!-- INTRODUCTION -->
+  <section id="faq">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Shopping Period FAQ</h1>
+
+    <h2>Will this course be accessible to remote students?
+    </h2>
+    <ul>
+      <li>
+        Yes, all lectures will be delivered virtually. Lectures will also be recorded and timezone accommodations will be given for quizzes. Details regarding TA Hours are still being ironed out.
+
+      </li>
+    </ul>
+    <h2>What is the weekly workload for CSCI 1270? Any time commitment estimates?
+    </h2>
+    <ul>
+      <li>
+        There will be weekly written homeworks and coding assignments, with more time given to accommodate more complex tasks. Time commitments are tricky to estimate, because there's a large variance from student to student. But we're putting a lot of structure in place that should make this course very manageable.
+
+      </li>
+    </ul>
+    <h2>I've heard this course will be run in Golang and SQL; should I prepare?
+    </h2>
+    <ul>
+      <li>
+        While knowing the working language will only help you, we do not expect anybody to come into this course knowing either Golang or SQL. There will be space dedicated to learning Go and SQL.
+
+      </li>
+    </ul>
+    <h2>I need an override code! I need to enroll concurrently with another course! I have another special request that requires instructor permission!
+    </h2>
+    <ul>
+      <li>
+        Please email us at <a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a>.
+
+      </li>
+    </ul>
+    <h2>Can I audit this class?
+    </h2>
+    <ul>
+      <li>
+        We do not allow students to audit CSCI 1270. This is primarily because a significant proportion of your learning will happen through implementing the projects, which must be engaged with fully in order for the course to progress; a result of our cumulative assignments. However, if you are only interested in loosely following along the lectures and assignments, we encourage you to <a href="https://www.brown.edu/academics/college/degree/about/office-hours">Vagabond</a> the class instead - all of our content is open to all Brown students!
+
+      </li>
+    </ul>
+    <h2>Can anyone attend the seminars?
+    </h2>
+    <ul>
+      <li>
+        Yes! Our Friday seminars are open to the entire Brown community - please, drop by!
+
+      </li>
+    </ul>
+    <h2>{Any other question}
+    </h2>
+    <ul>
+      <li>
+        Wait! Before you ask, please read our Missive (linked below in the resources section)! If that doesn't answer your question, then please email our Head TA mailing list at <a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a>!
+
+      </li>
+    </ul>
+
+  </section>
+
+  <!-- ASSIGNMENTS -->
+  <section id="assignments">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Assignments</h1>
+
+    <p>
+      Please note: the dates on this page are tentative and may change to correspond with changes in lecture
+      pacing.
+    </p>
+    <p>
+      All weekly written and coding assignments should be turned in via Gradescope. All assignments will be
+      released by 11:59 PM on the day listed. All assignments are due at 11:59 pm ET on the day listed. They
+      will be graded and returned with solutions for the problems. Written assignments should be submitted
+      as PDFs.
+    </p>
+    <p>
+      All quizzes will be available through Gradescope on the day listed below. Once you've started, you will
+      have 90 minutes to complete the quiz.
+    </p>
+
+    <table>
+      <tr>
+        <th>Written</th>
+        <th>Coding</th>
+        <th>Out</th>
+        <th>In</th>
+      </tr>
+      <tr>
+        <td><a href="homework/setup.html">Setup</a></td>
+        <td>-</td>
+        <td>-</td>
+        <td>Sep 20</td>
+      </tr>
+      <tr>
+        <td><a href="homework/relational_algebra.html">Relational Algebra</a></td>
+        <td><a href="project/go.html">Go</a></td>
+        <td>Sep 15</td>
+        <td>Sep 22</td>
+      </tr>
+      <tr>
+        <td><a href="homework/er_diagrams.html">ER Diagrams</a></td>
+        <td><a href="project/sql.html">SQL</a></td>
+        <td>Sep 22</td>
+        <td>Sep 29</td>
+      </tr>
+      <tr>
+        <td><a href="homework/constraints+normalization.html">Constraints + Normalization</a></td>
+        <td><a href="project/pager.html">Pager</a></td>
+        <td>Sep 29</td>
+        <td>Oct 11</td>
+      </tr>
+      <tr>
+        <td>Quiz 1</td>
+        <td>-</td>
+        <td>Oct 13</td>
+        <td>Oct 13</td>
+      </tr>
+      <tr>
+        <td><a href="homework/storage+btrees.html">Storage + B-Trees</a></td>
+        <td><a href="project/b+tree.html">B+Tree</a></td>
+        <td>Oct 13</td>
+        <td>Oct 25</td>
+      </tr>
+      <tr>
+        <td><a href="homework/hash+join_algorithms.html">Hash + Join Algorithms</a></td>
+        <td><a href="project/hash.html">Hash</a></td>
+        <td>Oct 25</td>
+        <td>Nov 01</td>
+      </tr>
+      <tr>
+        <td><a href="homework/query_optimization.html">Query Optimization</a></td>
+        <td><a href="project/query.html">Query</a></td>
+        <td>Nov 01</td>
+        <td>Nov 08</td>
+      </tr>
+      <tr>
+        <td>Quiz 2</td>
+        <td>-</td>
+        <td>Nov 10</td>
+        <td>Nov 10</td>
+      </tr>
+      <tr>
+        <td><a href="homework/latches+transactions.html">Latches + Transactions</a></td>
+        <td><a href="project/concurrency.html">Concurrency</a></td>
+        <td>Nov 10</td>
+        <td>Nov 24</td>
+      </tr>
+      <tr>
+        <td><a href="homework/logging+recovery.html">Logging + Recovery</a></td>
+        <td><a href="project/recovery.html">Recovery</a></td>
+        <td>Nov 29</td>
+        <td>Dec 06</td>
+      </tr>
+      <tr>
+        <td>Quiz 3</td>
+        <td>-</td>
+        <td>Dec 14</td>
+        <td>Dec 14</td>
+      </tr>
+
+    </table>
+
+    <table>
+      <tr>
+        <th>Gearup</th>
+        <th>Date</th>
+        <th>Slides</th>
+        <th>Recording</th>
+      </tr>
+      <tr>
+        <td>Go</td>
+        <td>Sep 15</td>
+        <td><a href="https://docs.google.com/presentation/d/1cX58Flfs1jOZePIvcTxQFrXSrVxS982QPu3IV1Oay14/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/YO-_LoSP8nqIupZoco91Or7gm_i8-sbpZ4R3ObE3ogq0RzR5iU00eZ42kO74TNxL.kN7DHdOFM5PxUSLc">Recording</a></td>
+      </tr>
+      <tr>
+        <td>SQL</td>
+        <td>Sep 22</td>
+        <td><a href="https://docs.google.com/presentation/d/1Wu9iCNr5ozRXlCK9FILlSkLQD0HFuQ32Wazdhk-KZlI/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/9VyYcauZNQJ6ClXYVLTBb8li3GdKGKqk4yUwFuHk-GzXHQBHEc2MVikr09Bx69iN.DNQl-Kc12sKn3ZjI">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Pager</td>
+        <td>Sep 29</td>
+        <td><a href="https://docs.google.com/presentation/d/1RoBGFFpeWqnvs_GIU8HEhgrMIdYHW1pTUcF5GJjKqpU/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/To_bm7ugvi07epZNL2k7C_TgDPi11yD5IGPKUMPB5klCfCTAMheuSZcVsbeNRpg.D90vPwqXKcRP6V8P">Recording</a></td>
+      </tr>
+      <tr>
+        <td>B+Tree</td>
+        <td>Oct 13</td>
+        <td><a href="https://docs.google.com/presentation/d/104FBRbNMpAqWOfUdFd9VLZB1-F4loNWTeLo4h3jV2go/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/0FuY3O3weXo2K6UTlHOoDfeGcyHwTBX2oAAQKSC30w5UpepFE7E6EAc8jzFB4vks.TRf1dDutCiBOdjZ9?startTime=1634241265000">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Hash</td>
+        <td>Oct 25</td>
+        <td><a href="https://docs.google.com/presentation/d/1FOVgTu1cQrGpdruA1BSU_WvXIg5UdXHDoMEuqkntS9I/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/aJMHhexjSD0QsfKwlVyIxGzyiso9UuoruAecyq_0W60TpA7PgoTEvd27hIoXnyLx.0o6Y4b5XAvT2qtRY">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Query</td>
+        <td>Nov 1</td>
+        <td><a href="https://docs.google.com/presentation/d/1ddAo72y7_Jt7fvupG3DOsVr8aONzdk2stZMzf-lu80c/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/yuZwdqAkAzcgbggFtG-029V8cOBCiWv-ssYJWhnYcq5WjIwW59pOdN-HuLv3h_1H.U-RUTVXbgKQ8ex1b">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Concurrency</td>
+        <td>Nov 10</td>
+        <td><a href="https://docs.google.com/presentation/d/1ZT0lxjus54bPWsnMQsLV-i38tMPQfo0MaPx0vzvyfSI/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/j-p91yeWVoy_KsDH5ky9k0eYY4tnlb5OGyRF9hIYeesANm87ei5QqLOYcTa-T3Av.r2n3eso1oLextnIN">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Recovery</td>
+        <td>Nov 29</td>
+        <td><a href="https://docs.google.com/presentation/d/1dFTTQbZJR0Ae1PbygNZ1RY1Z0t3o3MAlxdHSFFCsL2Q/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/60VXlRsj70BtaIcufXulPS03z86-U1EaqjPW5iyKnXncQQNZLh8ghtOXzWBVRorn.FjLR3BMM6sLWEU8i">Recording</a></td>
+      </tr>
+
+    </table>
+
+    <h2>Late Assignments</h2>
+    <p>
+      Each student gets <strong>5 late days</strong> during the semester, in that they are not penalized for
+      them. You may not use more than 2 late days on a single assignment. At the end of the semester, we will
+      optimally distribute the late days over your projects. A late day used on either the written or code portion
+      of an assignment counts as a late day for the assignment as a whole. After your five late days, we will take
+      off 25% per late day, distributed optimally.
+    </p>
+
+    <h2>Solution Code Requests</h2>
+    <p>
+      Since projects in CSCI 1270 build atop one another, we recognize that if a student falls behind, later
+      projects will be impossible. If you require solution code to continue in the course, please fill out the
+      form linked <a href="https://forms.gle/EipkkNQytKRzwtaF9">here</a> to request it. You will only receive
+      solution code two days after the due date of the relevant project due date(s) at the earliest.
+      <strong>Most importantly, note that distributing or making available solution code in any way, knowingly
+        or unknowingly, is a violation of the Academic Code.</strong> This includes sharing code with a peer in
+      the class, even if they have also filled out the request form. For the most up-to-date information on
+      solution code requests, please see our Missive.
+    </p>
+  </section>
+
+
+  <!-- LECTURES -->
+  <section id="lectures">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Lectures</h1>
+
+    <p>
+      Lectures are held on Mondays and Wednesdays from 3:00 pm to 4:20 pm virtually via
+      <a href="https://brown.zoom.us/j/99985999323">Zoom</a> unless otherwise specified. Lecture slides and recordings
+      will be posted soon after lecture ends. You are highly encouraged to attend all lectures.
+    </p>
+    <p>
+      <strong>The following lecture schedule is very approximate</strong>. Please note that the schedule may
+      be subject to change depending how quickly or slowly we are able to
+      move through lectures.
+    </p>
+
+    <table>
+      <tr>
+        <th>Topic</th>
+        <th>Date</th>
+        <th>Slides</th>
+        <th>Recording</th>
+        <th>Book</th>
+      </tr>
+      <tr>
+        <td>Introduction to Databases</td>
+        <td>Sep 08</td>
+        <td><a href="https://drive.google.com/file/d/1zEOuOnQPZccWyXTEj_1qKwrvd4m1VztL/view?usp=sharing">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/qOuY8BbFlsgmz3NZSpppFPpKe0_VPgLbSf23H2z2MwCaR70Rb5jeSUg59BSLKkUG.jaZFcd7yHOfY8ywY?startTime=1631126752000">Recording</a></td>
+        <td>CH1</td>
+      </tr>
+      <tr>
+        <td>Relational Model + Algebra</td>
+        <td>Sep 13</td>
+        <td><a href="https://docs.google.com/presentation/d/1vO9eHP_XLqUB_nmmYUzSTvqiUONbuMzj/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://drive.google.com/file/d/17ntiNyaRaiLJBZ_ZHmzfnDWISq2FSKW_/view?usp=sharing">2</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/uN8DrBdYoZJbkl_eYuuMp8PlmYZWQgmE-1YuYhCSjTdvZzGisVH1CbWbPt-_mSXJ.XToDUEO1zKZfKBmk">Recording</a></td>
+        <td>CH2</td>
+      </tr>
+      <tr>
+        <td>Entity-Relationship Models</td>
+        <td>Sep 15</td>
+        <td><a href="https://docs.google.com/presentation/d/1waqPyMvovMnGHtgNysIpJNbnynn5OLXl/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/2Iah-pFaK5XmaI15R6qKoUSplslw-yu3gFaNpLT0IT9v-d6AyP0vvnCI3w2RN3nO.hc9H4O-YgPAY6xIg">Recording</a></td>
+        <td>CH6</td>
+      </tr>
+      <tr>
+        <td>Relational Calculus + SQL</td>
+        <td>Sep 20</td>
+        <td><a href="https://docs.google.com/presentation/d/15qgdGJ6WXuVGBvofK8W4g6opJunIezJI/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1GUqUAna5UDMycyYoXpQGz4qoqkyP8Sve/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a></td>
+        <td><a href="https://drive.google.com/file/d/1_-nI7i7yMhjfUxJXowDJ7CHLbk1aKbiA/view?usp=sharing">Recording</a></td>
+        <td>CH3, CH4, CH5</td>
+      </tr>
+      <tr>
+        <td>Constraints</td>
+        <td>Sep 22</td>
+        <td><a href="https://drive.google.com/file/d/1lbyAzjlAIGQBcHEN23wsmoyoAp2U1sWd/view?usp=sharing">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/DbtUkwq74wlU3iq13htPX-Vp1gxPmpaKtmZiEJecyR7jmQdM_Y3JCcxqc0Iv8zQW.T7i9HMjxBSb06mXz">Recording</a></td>
+        <td>CH4, CH7</td>
+      </tr>
+      <tr>
+        <td>Normalization</td>
+        <td>Sep 27</td>
+        <td><a href="https://drive.google.com/file/d/1urV8U8CYWsfUKwl0iBqyl8cQgE-bSSLV/view?usp=sharing">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/17R1DBRdFJZgLNbeAffrvT93HROE2GVXKMuEYVFyLpU_6I5-dQvFN7U7YBVJq3kL.u8PGAm6FYLnkqCku">Recording</a></td>
+        <td>CH7</td>
+      </tr>
+      <tr>
+        <td>Storage and Disks</td>
+        <td>Sep 29</td>
+        <td><a href="https://docs.google.com/presentation/d/1cDtEoif3zObXIxCtdxU0Se3qq2aWYgXf/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1KgHTrisIyA6Gd5dJxzUXMgDYAYlTYouMIpWATgfZPZc/edit?usp=sharing">2</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/wJbmOktcaETGESDw4rGIh23BZkXncbQjd86rvf_GyAJy98WBfN4OY0kfVpUNG1a1.clbjb550n7NX3Qoc">Recording</a></td>
+        <td>CH12</td>
+      </tr>
+      <tr>
+        <td>B-Trees</td>
+        <td>Oct 04</td>
+        <td><a href="https://docs.google.com/presentation/d/1X0e1LzNFTUDD3Nj3W7GeX3KFBiU1yFmF/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/D3bonciwZh4T45u58FwJm4m3SPjQkKhnv3_0MsUK7OozuOesY_XZJ0FqiPSLVNg.sDjJF_efO9Xk-Gta">Recording</a></td>
+        <td>CH13, CH14</td>
+      </tr>
+      <tr>
+        <td>Hashing</td>
+        <td>Oct 06</td>
+        <td><a href="https://docs.google.com/presentation/d/1X0e1LzNFTUDD3Nj3W7GeX3KFBiU1yFmF/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1e6AdLr8aB6aM5UX0PB8H9zBYMIAlx3P6/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/Tt6o1Gynzp6X2eLL2DFjrKjtOHSVMc97kXQDtgVYAgka87H-ApZIgyLcF0zTaAtg.T-eF2eilscAjza-q">Recording</a></td>
+        <td>CH 14</td>
+      </tr>
+      <tr>
+        <td>Indigenous Peoples' Day (No Class)</td>
+        <td>Oct 11</td>
+        <td>-</td>
+        <td>-</td>
+        <td>TBA</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz 1</strong></td>
+        <td>Oct 13</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Query Processing</td>
+        <td>Oct 18</td>
+        <td><a href="https://docs.google.com/presentation/d/1WiOIn_skeOTdixaGJj4Zpedw3hZunzoG/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/sKhrM7DkV8HY4Px924krb39m4_getp_E-m9j1WC_uyOYAmnyQQ22n2HsgiIFUQL3.ri_gdvZPt5kZUrw9">Recording</a></td>
+        <td>CH14</td>
+      </tr>
+      <tr>
+        <td>Query Processing cont.</td>
+        <td>Oct 20</td>
+        <td>-</td>
+        <td><a href="https://brown.zoom.us/rec/share/z3q1uhGILgn7Vjn3cFJMdaAh8lOLGD2PwaRz-kOWAfzzkUUnK-mvoWoNf2T2O8So.hhp2LpxEqOCrOP9E">Recording</a></td>
+        <td>CH15</td>
+      </tr>
+      <tr>
+        <td>Transactions</td>
+        <td>Oct 25</td>
+        <td><a href="https://docs.google.com/presentation/d/1MRn8om7MP86CIP-kwA28TIgkULlsee6_/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/lzLpjMtYqFxz-D3HjFRE94ao38Hz1hiNgVcPXiNNjCR8DFbDRrY_QXqznQQDdGIg.9Qko50FLjTlzaiAz">Recording</a></td>
+        <td>CH15, CH16</td>
+      </tr>
+      <tr>
+        <td>Transactions cont.</td>
+        <td>Oct 27</td>
+        <td>-</td>
+        <td><a href="https://brown.zoom.us/rec/share/GPtaigzjiToG9mPSgB4hPnvJuk00Jgl7CysPwbYsuKdk2sIfLyKhCJYSO2PE1Cy2.Pb-FkD9ovzZbg20_?startTime=1635360311000">Recording</a></td>
+        <td>CH17</td>
+      </tr>
+      <tr>
+        <td>Recovery</td>
+        <td>Nov 01</td>
+        <td><a href="https://docs.google.com/presentation/d/1H_A5RXyOHuVyFoyQblA7DgXwRbwfJ5Y4/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/N353ZciDzvcABxV8wmJfRnXMxMRXaUMT5meZuy4ym6WuzrzjGclKOY9JJQZZpK9n.t2AnFUWKEuGDHYGP">Recording</a></td>
+        <td>CH17</td>
+      </tr>
+      <tr>
+        <td>Concurrency</td>
+        <td>Nov 03</td>
+        <td><a href="https://drive.google.com/file/d/1l_UzKwpPV_vOg2kMNYAOBm5xnquZuxsK/view?usp=sharing">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/RGiyhPfLJjU5ja142extkhrzd4X4G4OHOobFVC-xlrj30fXVJz7uOXiaTB9kmjnS.C9lpU3xW9VfAvvbn">Recording</a></td>
+        <td>CH18</td>
+      </tr>
+      <tr>
+        <td>Parallel Databases</td>
+        <td>Nov 08</td>
+        <td><a href="https://docs.google.com/presentation/d/1-7YJn5dZCrRR_Z5UOPiXG2wcjQjo159W/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/lGFojpTUYNyWCAA3BKO-dp862qob0tBAl4dJDb0A443Zgoi8ytmVvvBUnfHkObSW.hJ7ppFIQ-AloRy99">Recording</a></td>
+        <td>CH19</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz 2</strong></td>
+        <td>Nov 10</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Distributed Databases</td>
+        <td>Nov 15</td>
+        <td><a href="https://docs.google.com/presentation/d/12uj7e0qbO1lZOi_pD793yKOGq3ZbRjoe/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1hfhyZD1sakfjzqc_HmjnByjxRwmCFyYk/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/1g3vmXBfTKR8fRb9k7ZyYwruIcmEd5Ttm5rBNw8xYxG9gCAj9XciSFpE-QsYk54H.SQXNvuyVgnnvNOAg">Recording</a></td>
+        <td>CH21-23</td>
+      </tr>
+      <tr>
+        <td>NoSQL Databases</td>
+        <td>Nov 17</td>
+        <td><a href="https://docs.google.com/presentation/d/1ktY9ZThrVKLqjznZC-DzsFUBuxPpcEwh/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/y8iJC2f51opnP8zwFnOhXotdgaIG2zUiCZWSQdr13cX60aYbmS8yGemDcfAJtEYr.FhPZ6qbAphx35CsX">Recording</a></td>
+        <td>CH21-23</td>
+      </tr>
+      <tr>
+        <td>Thanksgiving (No class)</td>
+        <td>Nov 22</td>
+        <td>-</td>
+        <td>-</td>
+        <td>CH29</td>
+      </tr>
+      <tr>
+        <td>Thanksgiving (No class)</td>
+        <td>Nov 24</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Thanksgiving (No class)</td>
+        <td>Nov 29</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Guest Lecture - John Meehan</td>
+        <td>Dec 01</td>
+        <td>-</td>
+        <td><a href="https://brown.zoom.us/rec/share/iCCVHaHrqJG8H0iWHpEghWhgpAEizuG1952ktwYjrS4dk0YuI02NZMTlTCK_aH0f.TkIDdEIxA2hlaqJU">Recording</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Guest Lecture - Franco Solleza</td>
+        <td>Dec 06</td>
+        <td><a href="https://drive.google.com/file/d/1y_PbCy3oc0zvL_rJp3VROYZtEU3ZYVxd/view?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/DM6PkZ9MaNvs6N0HgW27dPLVZd5wT67rkTptL5wsmVzBHWavpedlS4O7FpCiFct1.BUMJn8rjqlcXuXB9">Recording</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>Guest Lecture - Andy Pavlo</td>
+        <td>Dec 08</td>
+        <td>-</td>
+        <td><a href="https://brown.zoom.us/rec/share/MJ1KypJ50l7MlWabyJrYDlYk7zUjSreqjjzDeEVnCLHaqipVgD0l13Ys3vG9cMDV.jgeIzRtdWxyMiHtT">Recording</a></td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td><strong>Quiz 3</strong></td>
+        <td>Dec 14</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+
+    </table>
+  </section>
+
+
+  <!-- SEMINARS -->
+  <section id="seminars">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Seminars</h1>
+
+    <p>
+      To spread our love of databases and to expose you to cutting edge database concepts, the
+      CSCI 1270 TAs run seminars on Fridays from 3:00 pm to 4:00 pm, in-person in CIT Lubrano (477).
+      Recordings will be posted soon after the seminar ends. You are highly encouraged to attend any
+      seminars that interest you!
+    </p>
+    <p>
+      <strong>The following seminar schedule is very approximate</strong>. Please note that the schedule may
+      be subject to change depending on TA availability.
+    </p>
+
+    <table>
+      <tr>
+        <th>Topic</th>
+        <th>Date</th>
+        <th>Slides</th>
+        <th>Recording</th>
+      </tr>
+      <tr>
+        <td>Efficient SQL</td>
+        <td>Oct 01</td>
+        <td><a href="https://docs.google.com/presentation/d/1Z1kmIUzZX2OKYNhvuYwWVyo-rzX9h5gDzVrrw7aEXdY/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/MvKloeJzM0QtifdkHE2dCayMKtZrRGjoaOH6SVbqZE8MP3e09G2W3ngJ3psAJpjH.2IbWP26FGIiP95jP">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Time Series Databases</td>
+        <td>Oct 08</td>
+        <td><a href="https://docs.google.com/presentation/d/1aoBZJTjGUH6ILApbnwQrjvhBsnB3D1ClIZHDDnxGdf8/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/LvJDKmn-Live9Ni643NIK57y499MHKLSCRr2-Aw20RUGmWjdfOo5D0hcLAoYJvCa.2EGrW3FRcT3DTs-D">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Advanced Indexes</td>
+        <td>Oct 22</td>
+        <td><a href="https://docs.google.com/presentation/d/1K2pC_Jq4odJRyRElzKTmiik09vumpm5ZV-zomwiNO4w/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/nnx_iwvgyyfqqVIYrUthV8ZeSRKV5074NEHUpFZd6geguxiAPF3YcevLgrhMUt2L.mvzGC5FYPhVI8nWq">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Denormalization & MongoDB</td>
+        <td>Oct 29</td>
+        <td><a href="https://docs.google.com/presentation/d/1E1RnZ6IOJl0_eG1DqqBal312zd53DATaIiF8NbpzIa8/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/3l2nZ9yAtmLEBWFXpPI2KB8sJHtuGPlZSooaCujfFvdNFd2IrARntaeLeif8O-RQ.z-wUhMXbP3IlHkXd">Recording</a></td>
+      </tr>
+      <tr>
+        <td>Graph Databases</td>
+        <td>Nov 12</td>
+        <td><a href="https://docs.google.com/presentation/d/1ECRezTPcxfvlbGCvmuyMmhjd8VirZjudsuRI0SEn0gM/edit?usp=sharing">Slides</a></td>
+        <td><a href="https://brown.zoom.us/rec/share/Df9q0NSKLYDHaeVB_i6vEKAyC-E1yAtcLYZZ_xTS7EqblcM1ORMnfvTO4NWwfn2c.OFaqSygKZim1_TlV">Recording</a></td>
+      </tr>
+
+    </table>
+  </section>
+
+
+  <!-- CALENDAR -->
+  <section id="calendar">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Calendar</h1>
+
+    <p>
+      Zoom links are included in the Google Calendar event, as well as in the SignMeUp Queue.
+    </p>
+
+    <div class="iframe-container">
+      <iframe src="https://calendar.google.com/calendar/embed?src=c_4rt01saju6eqgmv1r8d2iqregc%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </section>
+
+
+  <!-- RESOURCES -->
+  <section id="resources">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Resources</h1>
+
+    <h2>Guides</h2>
+    <ul>
+      <li><a href="misc/course_guide.html">Course Guide</a></li>
+      <li><a href="misc/dev_guide.html">Local Development Guide</a></li>
+      <li><a href="misc/go_help.html">Guide to Golang</a></li>
+      <li><a href="misc/sql_help.html">Guide to SQL</a></li>
+    </ul>
+
+    <h2>Documents</h2>
+    <ul>
+      <li><a href="static/files/missive.pdf">Missive</a></li>
+      <li><a href="static/files/collab.pdf">Collaboration Policy</a></li>
+    </ul>
+
+    <h2>Contact</h2>
+    <ul>
+      <li><a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a></li>
+      <li><a href="mailto:cs1270tas@lists.brown.edu">cs1270tas@lists.brown.edu</a></li>
+    </ul>
+  </section>
+
+
+  <!-- STAFF -->
+  <section id="staff">
+    <div class="hexagon"></div>
+    <h1 tabindex="0">Staff</h1>
+
+    <div class="staff-tiling">
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-sbz" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/sbz.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-sbz)" />
+        </svg>
+        <h2>Stan Zdonik</h2>
+        <p>Professor | sbz</p>
+        <p></p>
+        <p></p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-dcheong" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/dcheong.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-dcheong)" />
+        </svg>
+        <h2>Desmond Cheong</h2>
+        <p>HTA | dcheong</p>
+        <p>CS senior specializing in systems, powered by yakult and kaya toast.</p>
+        <p>🙃</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-nyoung10" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/nyoung10.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-nyoung10)" />
+        </svg>
+        <h2>Nick Young</h2>
+        <p>HTA | nyoung10</p>
+        <p>Hi! I'm from Vancouver, Canada and I enjoy photography, badminton, and building mechanical keyboards!</p>
+        <p>🧋</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-cluckett" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/cluckett.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-cluckett)" />
+        </svg>
+        <h2>Connor Luckett</h2>
+        <p>GTA | cluckett</p>
+        <p>Hi, I'm Connor! I am in my third year as a Ph.D. student, mentored by Dr. Cetintemel. I love to think about how we can help others navigate GDPR/CCPA compliance. I am an avid drummer and a Private Pilot.</p>
+        <p>✈️</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-amathur7" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/amathur7.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-amathur7)" />
+        </svg>
+        <h2>Aakansha Mathur</h2>
+        <p>UTA | amathur7</p>
+        <p>I am a SCM CS student at Brown. My academic interests are databases, machine learning and natural language processing.</p>
+        <p>❄️</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-hwu62" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/hwu62.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-hwu62)" />
+        </svg>
+        <h2>Huiyuan Wu</h2>
+        <p>UTA | hwu62</p>
+        <p>Hi, i am Huiyuan Wu, a second year Master's student in computer science.</p>
+        <p>😅</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-jchu27" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/jchu27.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-jchu27)" />
+        </svg>
+        <h2>Junchi Chu</h2>
+        <p>UTA | jchu27</p>
+        <p>I love cooking, fishing, writing my novels. I like basketball, my favorite team is GSW!</p>
+        <p>😂</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-schakr12" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/schakr12.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-schakr12)" />
+        </svg>
+        <h2>Sayan Chakraborty</h2>
+        <p>UTA | schakr12</p>
+        <p>Hi! I'm an international CS grad student from India. I can speak 4 languages. In my spare time you can find me eating/cooking good food, listening to podcasts or sleeping (basically I'm the human form of a Panda).</p>
+        <p>😴</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-sboukman" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/sboukman.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-sboukman)" />
+        </svg>
+        <h2>Solomon Boukman</h2>
+        <p>UTA | sboukman</p>
+        <p>I use he/him pronouns, and I am from New Jersey. For fun I like playing basketball, videogames, skateboarding, and gardening. My interests with computer science are machine learning and data engineering.</p>
+        <p>💯</p>
+      </div>
+      <div class="staff-tile">
+        <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="img-arana16" patternUnits="userSpaceOnUse" width="100" height="100">
+              <image xlink:href="static/img/staff/arana16.jpg" width="100" />
+            </pattern>
+          </defs>
+          <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-arana16)" />
+        </svg>
+        <h2>Amrit Singh Rana</h2>
+        <p>UTA | arana16</p>
+        <p>Hi. I am Amrit. I am a first year ScM student. I am interested in Distributed Systems. I like to hike, travel and play music in my free time.</p>
+        <p>🎹</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>
