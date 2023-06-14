@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Hash | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="hash">Hash <a class="pdf" href="../static/gen/hash.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=wKyMIrBClYw&ab_channel=DEANTRBL">instagram</a></p>
+<p>Sometimes, range queries and sorted order don't matter too much to you, and all you care about is fast lookup. A hash table is a very popular data structure for performing quick lookups used in everything from coding interviews to industry standard indexes. In this assignment, you will implement an extendible hash table.</p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<h2 id="extendible-hashing">Extendible Hashing</h2>
+<p>As you know from lecture, extendible hashing is a method of hashing that adapts as you insert more and more data. This is a direct upgrade from static hashing, which doesn't adapt as the amount of entries grows, thus leading to inefficient lookups later on. For direct lookups, extendible hashing can be a very efficient and lightweight indexing solution. However, it does not support range queries or maintain any sorted order, making it less than ideal as a general purpose indexing scheme like a B+Tree.</p>
+<p>An extendible hash table has two moving parts: the table and the buckets. The table is essentially an array of pointers to buckets. Each bucket has a <em>local depth</em>, denoted <span class="math inline">\(d_i\)</span> , which is the number of trailing bits that every element in that bucket has in common. The table has a <em>global depth</em>, denoted <span class="math inline">\(d\)</span> , that is the maximum of the buckets' local depths.</p>
+<p>A hash table also has an associated hash function. Ideally, this hash function is fast and uniform across the output space, meaning that keys will be uniformly distributed across the buckets. In this implementation, we use <a href="https://github.com/cespare/xxhash">xxhash</a> since it is the state of the art, but really, many other hash functions would work just fine. You won't need to call this hash function directly; just use the <code>Hasher</code> function in the <code>hash_subr.go</code> file.</p>
+<h3 id="basic-operations">Basic Operations</h3>
+<p>When a hash table performs <strong>lookup</strong>, the search key is hashed, and then the table is used to determine the bucket that we should look at. The last <span class="math inline">\(d\)</span> bits of the search key's hash are used as the key to the table, and then we do a linear scan over the bucket it points to.</p>
+<p>When a hash table performs <strong>insertion</strong>, the insertion key is hashed, and then the table is used to determine the bucket that our new tuple should be in. The last <span class="math inline">\(d\)</span> bits of the hash is used as the key to the hash table, after which we add the new tuple to the end of the bucket.</p>
+<h3 id="splitting">Splitting</h3>
+<p>When a value is inserted into a hash table, one of two things can happen: either the bucket doesn't overflow, or the bucket does overflow. If it overflows, then we need to <strong>split</strong> our bucket. To split a bucket, we create a new bucket with the same search key as the bucket that overflowed, but with a &quot;1&quot; prepended to it. We then prepend a &quot;0&quot; to the original bucket's search key. As an example, if a bucket with a local depth of 3 and search key &quot;101&quot; splits, we would be left with two buckets, each of local depth 4 and with search keys &quot;0101&quot; and &quot;1101&quot;. Then, we transfer values matching the new search key from the old bucket to the new bucket, and we are done.</p>
+<p><em>It's worth noting that while we talk about &quot;prepending&quot; as if we are dealing with strings, in actuality, this action is done entirely through the bit-level representation of integers. Think about what you would have to add to a search key to effectively prepend its bit representation with a 1 or a 0. Hint: it has something to do with powers of 2.</em></p>
+<p>However, if a bucket overflows and ends up with a local depth greater than the global depth, this is no good. We should always maintain a global depth equal to the maximum of the buckets' local depths. To remedy this, we double the size of the hash table by appending it to itself and increasing global depth by 1. Then, we can iterate through and make sure that the buckets are all being pointed to by the correct slots in the hash table.</p>
+<p>It is possible that after a split, all of the values in the old bucket ended up in the same bucket, immediately triggering a second split. This can be caused either by a bad hash function (imagine a hash function that maps all inputs to the same output), or due to an <em>adversarial workload</em>. In your database, you should handle recursive splits; however, you should not worry about endless recursive splits (which would happen if all elements in a splitting bucket had exactly the same hash).</p>
+<!-- TODO: A worked example of insertions and splits -->
+<h3 id="deletion-and-fragmentation">Deletion and Fragmentation</h3>
+<p>When a hash table performs <strong>deletion</strong>, depending on your scheme, the other values may have to be moved over to fill the space it left. A good indexing scheme would use slotted pages to avoid this, but our setup doesn't readily accomodate this. Alternatively, we could populate a free list. There are many ways to handle deletion, since we don't have to maintain any sort order on the bucket level. In this assignment, you should shift over the remaining entries on the right one place left or move the last entry into the gap created by the deletion to ensure that there is no internal fragmenting in the bucket.</p>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>The following are the files you will need to alter:</p>
+<ul>
+<li><code>cmd/bumble/main.go</code></li>
+<li><code>pkg/db/db.go</code></li>
+<li><code>pkg/hash/table.go</code></li>
+<li><code>pkg/hash/bucket.go</code></li>
+</ul>
+<p>And the following are the files you'll need to read:</p>
+<ul>
+<li><code>pkg/db/db.go</code></li>
+<li><code>pkg/hash/hash.go</code></li>
+<li><code>pkg/hash/hash_subr.go</code></li>
+<li><code>pkg/hash/entry.go</code></li>
+</ul>
+<h2 id="subroutine-code">Subroutine Code</h2>
+<p>We've provided subroutine code so that you don't have to worry about the fact that all of this data is actually being stored on pages. We handle the marshalling and unmarshalling of data, you handle the actual logic of the hash table.</p>
+<p>You will need to read the <code>hash_subr.go</code> and <code>entry.go</code> files to implement this assignment. The <code>hash.go</code> file is just a wrapper for the <code>db.Index</code> interface. You don't need to understand exactly how every function works, just understand what they do so that you know when you need to call them. If you ever find yourself manipulating bytes yourself, you have done something wrong and need to leverage the subroutine code more. You shouldn't change the subroutine code unless a TA has instructed you to do so. Note that there are a number of functions that are tagged with future assignment names - you won't need them now.</p>
+<p>A common pattern you will see is how we get buckets; we use <a href="https://tour.golang.org/flowcontrol/12">defer</a> to ensure that the page is returned to the pager eventually.</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Get page and put later:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">newBucket</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewHashBucket</span>(<span style="color:#a6e22e">table</span>.<span style="color:#a6e22e">pager</span>, <span style="color:#a6e22e">bucket</span>.<span style="color:#a6e22e">depth</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+}
+<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">newBucket</span>.<span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">Put</span>()
+</pre><h2 id="implementation-specific-details">Implementation-specific Details</h2>
+<p>Your hash table should allow inserts of duplicate values! Don't worry, non-duplicity is enforced through the database layer, so there won't be any undefined behaviour. However, we do need to allow duplicate entries for later in the course. One known issue is that if the bucket size is <span class="math inline">\(x\)</span> , and we insert <span class="math inline">\(x+1\)</span> elements with the same key (and thus the same hash), this scheme will lead to infinite bucket splits; ignore this issue, because there is no good solution to this problem without involving overflow chains, which you are not expected to implement.</p>
+<h2 id="part-1-bucket-functions">Part 1: Bucket Functions</h2>
+<p>Implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>) <span style="color:#a6e22e">Find</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#a6e22e">entry</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">bool</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>) <span style="color:#a6e22e">Insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#66d9ef">bool</span>, <span style="color:#66d9ef">error</span>) <span style="color:#75715e">// ALLOW DUPLICATE ENTRIES
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>) <span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>) <span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>) <span style="color:#a6e22e">Select</span>() ([]<span style="color:#a6e22e">entry</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">error</span>) 
+</pre><p>Some hints:</p>
+<ul>
+<li>These functions operate on a single bucket; you can safely assume that the key-value pair belongs in this bucket if these functions are called.</li>
+<li>Use <code>modifyEntry</code>, <code>updateValueAt</code>, <code>updateKeyAt</code>, and <code>updateNumKeys</code> to change the values of entries.</li>
+<li>When deleting, we want to make sure that we don't introduce any fragmentation. Thus, when deleting from the middle of a bucket, we should shift the entries to the right of the hole left to fill the gap. Alternatively, we can move the last element in the bucket to fill the gap.</li>
+<li>The <code>bool</code> value in the return type of <code>Insert</code> should be true when that insert triggers a split. This will be used in part 2 when you implement splitting; this will help you detect splits on insertion.</li>
+<li>Some of these functions have an <code>error</code> in their return type; not all functions are expected to ever return an error! If you think a function should never error, just return <code>nil</code>.</li>
+<li>Do <strong>NOT</strong> use <code>GetAndLockBucket</code> or <code>GetAndLockBucketByPN</code> - these functions will be used in a later assignment.</li>
+</ul>
+<h2 id="part-2-hash-table-functions">Part 2: Hash Table Functions</h2>
+<p>Implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Find</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#a6e22e">entry</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">error</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Split</span>(<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>, <span style="color:#a6e22e">hash</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span> <span style="color:#75715e">// ALLOW DUPLICATE ENTRIES
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Select</span>() ([]<span style="color:#a6e22e">entry</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">error</span>) 
+</pre><p>Some hints:</p>
+<ul>
+<li>To hash a value, use <code>Hasher(key, depth)</code>.</li>
+<li>To get a bucket by its hash, use <code>table.GetBucket(hash)</code>. To get it by its page number, use <code>table.GetBucketByPN(pn)</code></li>
+<li><code>Split</code> takes the hash of the bucket that should be duplicated; this makes it easier to be called from <code>Insert</code>.</li>
+<li>The maximum size of a bucket is <code>BUCKETSIZE</code>; the splitting condition should be handled very similarly to in B+Tree.</li>
+<li>Remember to handle recursive splits!</li>
+<li>Some of these functions have an <code>error</code> in their return type; not all functions are expected to ever return an error! If you think a function should never error, just return <code>nil</code>.</li>
+</ul>
+<h2 id="debugging">Debugging</h2>
+<p>We know that this is a difficult assignment, so we have a few tips on how to debug.</p>
+<p>Each bucket currently can hold up to a lot of entries before it will split. To lower the number of entries you need to insert before a split occurs, make the following changes:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// var BUCKETSIZE int64 = (PAGESIZE - BUCKET_HEADER_SIZE) / ENTRYSIZE // num entries
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">BUCKETSIZE</span> <span style="color:#66d9ef">int64</span> = <span style="color:#ae81ff">5</span> <span style="color:#75715e">// Or another number
+</span></pre><p>Moreover, if you'd like to use the <code>mod</code> operator as the hasher instead of the actual hasher we use, feel free to replace <code>Hasher</code> with the following function:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Hasher</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">depth</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">int64</span> {
+	<span style="color:#66d9ef">return</span> int64(<span style="color:#a6e22e">key</span> <span style="color:#f92672">%</span><span style="color:#a6e22e">powInt</span>(<span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">depth</span>))
+}
+</pre><p><strong>WARNING: REMEMBER TO REVERT THESE CHANGES BEFORE YOU SUBMIT, OTHERWISE THE AUTOGRADER <strong>WILL</strong> TIME OUT!</strong></p>
+<p>Then, run your database on the command line. You should be able to <code>insert</code>, <code>delete</code>, and <code>update</code> entries (among other operations) after you've run <code>create hash table &lt;table_name&gt;</code>. Critically, by running <code>pretty from &lt;table&gt;</code>, you can pretty-print the current state of your Hash Table. This should provide some observability into the system that will be useful in debugging.</p>
+<h3 id="example-usage">Example Usage</h3>
+<p>Let's run our database using <code>./bumble -project db</code>. Next, we create a table using <code>create hash table t</code>, and insert keys [1, 10, 20] with any value (<code>insert k v into t</code>). Let's observe the state of the database using <code>pretty from t</code> (pretty-print the table <code>t</code>):</p>
+<pre style="color:#f8f8f2;background-color:#272822">bumble&gt; pretty from t
+<span style="color:#f92672">====</span>
+global depth: 2
+<span style="color:#f92672">====</span>
+bucket <span style="color:#ae81ff">0</span>
+bucket depth: <span style="color:#ae81ff">2</span>
+entries:<span style="color:#f92672">(</span>20, 0<span style="color:#f92672">)</span>,
+<span style="color:#f92672">====</span>
+bucket <span style="color:#ae81ff">1</span>
+bucket depth: <span style="color:#ae81ff">2</span>
+entries:<span style="color:#f92672">(</span>1, 0<span style="color:#f92672">)</span>,
+<span style="color:#f92672">====</span>
+bucket <span style="color:#ae81ff">2</span>
+bucket depth: <span style="color:#ae81ff">2</span>
+entries:
+<span style="color:#f92672">====</span>
+bucket <span style="color:#ae81ff">3</span>
+bucket depth: <span style="color:#ae81ff">2</span>
+entries:<span style="color:#f92672">(</span>10, 0<span style="color:#f92672">)</span>,
+<span style="color:#f92672">====</span>
+</pre><p>Let's dissect the above; we ran <code>pretty from t</code> and see that our global depth is 2 (meaning we are considering the last two bits of each key's hash). We have 4 buckets, three of which have entries in them.</p>
+<h2 id="testing">Testing</h2>
+<p>Run our unit tests on Gradescope. We've provided a subset of the tests <a href="/static/posts/project/hash/hash_test_sample.go">here</a>.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started, download the following stencil packages: <a href="https://drive.google.com/file/d/11Ck0hhgptkrRTMhzXUfKhZwQGXx3FENj/view?usp=sharing">db</a>, <a href="https://drive.google.com/file/d/19H6NvAiUwRW6-z-pa1CeS6sKqhMqEbrU/view?usp=sharing">hash</a>. <strong>You should replace your old <code>db</code> package with this new one.</strong> The <code>main.go</code> file should be left unchanged. When finished, your filestructure should look like this:</p>
+<pre><code>./
+    - cmd/
+        - bumble/
+    - pkg/
+        - btree/
+        - config/
+        - db/
+        - utils/
+        - hash/
+        - list/
+        - pager/
+        - repl/
+</code></pre>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

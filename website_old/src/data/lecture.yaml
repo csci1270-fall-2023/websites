@@ -1,0 +1,168 @@
+lectures:
+  - topic: Introduction to Databases
+    date: Sep 08
+    slides: <a href="https://drive.google.com/file/d/1zEOuOnQPZccWyXTEj_1qKwrvd4m1VztL/view?usp=sharing">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/qOuY8BbFlsgmz3NZSpppFPpKe0_VPgLbSf23H2z2MwCaR70Rb5jeSUg59BSLKkUG.jaZFcd7yHOfY8ywY?startTime=1631126752000">Recording</a>
+    book: CH1
+
+  - topic: Relational Model + Algebra
+    date: Sep 13
+    slides: <a href="https://docs.google.com/presentation/d/1vO9eHP_XLqUB_nmmYUzSTvqiUONbuMzj/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://drive.google.com/file/d/17ntiNyaRaiLJBZ_ZHmzfnDWISq2FSKW_/view?usp=sharing">2</a>
+    recording: <a href="https://brown.zoom.us/rec/share/uN8DrBdYoZJbkl_eYuuMp8PlmYZWQgmE-1YuYhCSjTdvZzGisVH1CbWbPt-_mSXJ.XToDUEO1zKZfKBmk">Recording</a>
+    book: CH2
+
+  - topic: Entity-Relationship Models
+    date: Sep 15
+    slides: <a href="https://docs.google.com/presentation/d/1waqPyMvovMnGHtgNysIpJNbnynn5OLXl/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/2Iah-pFaK5XmaI15R6qKoUSplslw-yu3gFaNpLT0IT9v-d6AyP0vvnCI3w2RN3nO.hc9H4O-YgPAY6xIg">Recording</a>
+    book: CH6
+
+  - topic: Relational Calculus + SQL
+    date: Sep 20
+    slides: <a href="https://docs.google.com/presentation/d/15qgdGJ6WXuVGBvofK8W4g6opJunIezJI/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1GUqUAna5UDMycyYoXpQGz4qoqkyP8Sve/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a>
+    recording: <a href="https://drive.google.com/file/d/1_-nI7i7yMhjfUxJXowDJ7CHLbk1aKbiA/view?usp=sharing">Recording</a>
+    book: CH3, CH4, CH5
+
+  - topic: Constraints
+    date: Sep 22
+    slides: <a href="https://drive.google.com/file/d/1lbyAzjlAIGQBcHEN23wsmoyoAp2U1sWd/view?usp=sharing">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/DbtUkwq74wlU3iq13htPX-Vp1gxPmpaKtmZiEJecyR7jmQdM_Y3JCcxqc0Iv8zQW.T7i9HMjxBSb06mXz">Recording</a>
+    book: CH4, CH7
+
+  - topic: Normalization
+    date: Sep 27
+    slides: <a href="https://drive.google.com/file/d/1urV8U8CYWsfUKwl0iBqyl8cQgE-bSSLV/view?usp=sharing">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/17R1DBRdFJZgLNbeAffrvT93HROE2GVXKMuEYVFyLpU_6I5-dQvFN7U7YBVJq3kL.u8PGAm6FYLnkqCku">Recording</a>
+    book: CH7
+
+  - topic: Storage and Disks
+    date: Sep 29
+    slides: <a href="https://docs.google.com/presentation/d/1cDtEoif3zObXIxCtdxU0Se3qq2aWYgXf/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1KgHTrisIyA6Gd5dJxzUXMgDYAYlTYouMIpWATgfZPZc/edit?usp=sharing">2</a>
+    recording: <a href="https://brown.zoom.us/rec/share/wJbmOktcaETGESDw4rGIh23BZkXncbQjd86rvf_GyAJy98WBfN4OY0kfVpUNG1a1.clbjb550n7NX3Qoc">Recording</a>
+    book: CH12
+
+  - topic: B-Trees
+    date: Oct 04
+    slides: <a href="https://docs.google.com/presentation/d/1X0e1LzNFTUDD3Nj3W7GeX3KFBiU1yFmF/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/D3bonciwZh4T45u58FwJm4m3SPjQkKhnv3_0MsUK7OozuOesY_XZJ0FqiPSLVNg.sDjJF_efO9Xk-Gta">Recording</a>
+    book: CH13, CH14
+
+  - topic: Hashing
+    date: Oct 06
+    slides: <a href="https://docs.google.com/presentation/d/1X0e1LzNFTUDD3Nj3W7GeX3KFBiU1yFmF/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1e6AdLr8aB6aM5UX0PB8H9zBYMIAlx3P6/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a>
+    recording: <a href="https://brown.zoom.us/rec/share/Tt6o1Gynzp6X2eLL2DFjrKjtOHSVMc97kXQDtgVYAgka87H-ApZIgyLcF0zTaAtg.T-eF2eilscAjza-q">Recording</a>
+    book: CH 14
+
+  - topic: Indigenous Peoples' Day (No Class)
+    date: Oct 11
+    slides: "-"
+    recording: "-"
+    book: TBA
+
+  - topic: <strong>Quiz 1</strong>
+    date: Oct 13
+    slides: "-"
+    recording: "-"
+    book: "-"
+
+  - topic: Query Processing
+    date: Oct 18
+    slides: <a href="https://docs.google.com/presentation/d/1WiOIn_skeOTdixaGJj4Zpedw3hZunzoG/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/sKhrM7DkV8HY4Px924krb39m4_getp_E-m9j1WC_uyOYAmnyQQ22n2HsgiIFUQL3.ri_gdvZPt5kZUrw9">Recording</a>
+    book: CH14
+
+  - topic: Query Processing cont.
+    date: Oct 20
+    slides: "-"
+    recording: <a href="https://brown.zoom.us/rec/share/z3q1uhGILgn7Vjn3cFJMdaAh8lOLGD2PwaRz-kOWAfzzkUUnK-mvoWoNf2T2O8So.hhp2LpxEqOCrOP9E">Recording</a>
+    book: CH15
+
+  - topic: Transactions
+    date: Oct 25
+    slides: <a href="https://docs.google.com/presentation/d/1MRn8om7MP86CIP-kwA28TIgkULlsee6_/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/lzLpjMtYqFxz-D3HjFRE94ao38Hz1hiNgVcPXiNNjCR8DFbDRrY_QXqznQQDdGIg.9Qko50FLjTlzaiAz">Recording</a>
+    book: CH15, CH16
+
+  - topic: Transactions cont.
+    date: Oct 27
+    slides: "-"
+    recording: <a href="https://brown.zoom.us/rec/share/GPtaigzjiToG9mPSgB4hPnvJuk00Jgl7CysPwbYsuKdk2sIfLyKhCJYSO2PE1Cy2.Pb-FkD9ovzZbg20_?startTime=1635360311000">Recording</a>
+    book: CH17
+
+  - topic: Recovery
+    date: Nov 01
+    slides: <a href="https://docs.google.com/presentation/d/1H_A5RXyOHuVyFoyQblA7DgXwRbwfJ5Y4/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/N353ZciDzvcABxV8wmJfRnXMxMRXaUMT5meZuy4ym6WuzrzjGclKOY9JJQZZpK9n.t2AnFUWKEuGDHYGP">Recording</a>
+    book: CH17
+
+  - topic: Concurrency
+    date: Nov 03
+    slides: <a href="https://drive.google.com/file/d/1l_UzKwpPV_vOg2kMNYAOBm5xnquZuxsK/view?usp=sharing">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/RGiyhPfLJjU5ja142extkhrzd4X4G4OHOobFVC-xlrj30fXVJz7uOXiaTB9kmjnS.C9lpU3xW9VfAvvbn">Recording</a>
+    book: CH18
+
+  - topic: Parallel Databases
+    date: Nov 08
+    slides: <a href="https://docs.google.com/presentation/d/1-7YJn5dZCrRR_Z5UOPiXG2wcjQjo159W/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/lGFojpTUYNyWCAA3BKO-dp862qob0tBAl4dJDb0A443Zgoi8ytmVvvBUnfHkObSW.hJ7ppFIQ-AloRy99">Recording</a>
+    book: CH19
+
+  - topic: <strong>Quiz 2</strong>
+    date: Nov 10
+    slides: "-"
+    recording: "-"
+    book: "-"
+
+  - topic: Distributed Databases
+    date: Nov 15
+    slides: <a href="https://docs.google.com/presentation/d/12uj7e0qbO1lZOi_pD793yKOGq3ZbRjoe/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1hfhyZD1sakfjzqc_HmjnByjxRwmCFyYk/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a>
+    recording: <a href="https://brown.zoom.us/rec/share/1g3vmXBfTKR8fRb9k7ZyYwruIcmEd5Ttm5rBNw8xYxG9gCAj9XciSFpE-QsYk54H.SQXNvuyVgnnvNOAg">Recording</a>
+    book: CH21-23
+
+  - topic: NoSQL Databases
+    date: Nov 17
+    slides: <a href="https://docs.google.com/presentation/d/1ktY9ZThrVKLqjznZC-DzsFUBuxPpcEwh/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>
+    recording: <a href="https://brown.zoom.us/rec/share/y8iJC2f51opnP8zwFnOhXotdgaIG2zUiCZWSQdr13cX60aYbmS8yGemDcfAJtEYr.FhPZ6qbAphx35CsX">Recording</a>
+    book: CH21-23
+
+  - topic: Thanksgiving (No class)
+    date: Nov 22
+    slides: "-"
+    recording: "-"
+    book: CH29
+
+  - topic: Thanksgiving (No class)
+    date: Nov 24
+    slides: "-"
+    recording: "-"
+    book: "-"
+
+  - topic: Thanksgiving (No class)
+    date: Nov 29
+    slides: "-"
+    recording: "-"
+    book: "-"
+
+  - topic: Guest Lecture - John Meehan
+    date: Dec 01
+    slides: "-"
+    recording: <a href="https://brown.zoom.us/rec/share/iCCVHaHrqJG8H0iWHpEghWhgpAEizuG1952ktwYjrS4dk0YuI02NZMTlTCK_aH0f.TkIDdEIxA2hlaqJU">Recording</a>
+    book: "-"
+
+  - topic: Guest Lecture - Franco Solleza
+    date: Dec 06
+    slides: <a href="https://drive.google.com/file/d/1y_PbCy3oc0zvL_rJp3VROYZtEU3ZYVxd/view?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/DM6PkZ9MaNvs6N0HgW27dPLVZd5wT67rkTptL5wsmVzBHWavpedlS4O7FpCiFct1.BUMJn8rjqlcXuXB9">Recording</a>
+    book: "-"
+
+  - topic: Guest Lecture - Andy Pavlo
+    date: Dec 08
+    slides: "-"
+    recording: <a href="https://brown.zoom.us/rec/share/MJ1KypJ50l7MlWabyJrYDlYk7zUjSreqjjzDeEVnCLHaqipVgD0l13Ys3vG9cMDV.jgeIzRtdWxyMiHtT">Recording</a>
+    book: "-"
+
+  - topic: <strong>Quiz 3</strong>
+    date: Dec 14
+    slides: "-"
+    recording: "-"
+    book: "-"

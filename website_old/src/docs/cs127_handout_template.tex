@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{fancyhdr, graphicx, amsmath, amssymb, mathrsfs, amsthm, hyperref, listings, longtable, booktabs}
+
+% HOUSEKEEPING
+\thispagestyle{fancyplain}
+\headheight 35pt
+\headsep 10pt
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+% ASSIGNMENT INFORMATION
+\newcommand\course{CSCI 1270} % COURSE NAME
+\newcommand\semester{Fall 2021} % SEMESTER
+\newcommand\ttitle{$title$} % HOMEWORK TITLE
+\newcommand\ddate{$due$} % HANDIN DATE
+
+% HEADER
+\lhead{\course\ --- \semester}
+\chead{\textbf{\Large \ttitle}}
+\rhead{Due \ddate}
+
+% PANDOC FIXES
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+\providecommand{\tightlist}{%
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\newcommand{\passthrough}[1]{#1}
+
+
+%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+$body$
+
+\section*{Feedback}
+
+As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so \href{https://forms.gle/VPwUWmVv68v1JVh4A}{here}!
+\end{document}

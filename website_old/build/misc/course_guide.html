@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Course Guide | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 id="course_guide">Course Guide</h1>
+            
+        <p>This is a guide to various aspects of the course, including how to attend lecture, visit TA hours, hand in assignments and quizzes, and use GitHub. If you're looking for support on Golang or SQL, please check out the respective guides, accessible via the home page. If you have any questions please feel free to contact the TA’s at <a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a> or ask your question on Campuswire.</p>
+<hr />
+<h1 id="lectures">Lectures</h1>
+<p>The following is a step-by-step guide on how to join lectures.</p>
+<ol>
+<li>Find the Zoom link on the course website or on the course calendar. Click on it to join the class Zoom call. If prompted for a password, find it on Campuswire.</li>
+<li>If you have a question during class, either use the &quot;raise hand&quot; feature or type your question into the chat. Your question will either be answered by the Professor or through chat.</li>
+<li>While attendance at lectures is not mandatory, we <strong>highly</strong> encourage you to come to lectures!</li>
+</ol>
+<hr />
+<h1 id="ta-hours">TA Hours</h1>
+<p>The following is a step-by-step guide on how to get help at TA Hours.</p>
+<ol>
+<li>Navigate and sign in to <a href="https://signmeup.cs.brown.edu/">SignMeUp</a> using your Brown login.</li>
+<li>Find the TA Hours queue for CSCI 1270 and click on it.</li>
+<li>Click &quot;Join Queue&quot; and type in a <strong>detailed</strong> explanation of why you are at hours. Be reminded to follow our Hours policy, available on the home page of the course website.</li>
+<li>Join the Zoom waiting room or head to the CIT room indicated on the queue and wait to be helped by the TA. If you are not available by the time you are called, the TA may move on to help other students.</li>
+<li>Get help!</li>
+</ol>
+<hr />
+<h1 id="quizzes">Quizzes</h1>
+<p>The following is a step-by-step guide on how to submit quizzes.</p>
+<ol>
+<li>Quizzes will be timed and administered through Gradescope. You will be able to start the quiz any time on the day of the quiz; however, once you begin, you will have to submit the quiz within 90 minutes. When you are ready to take the quiz, navigate to the corresponding assignment in Gradescope and click into it.</li>
+<li>Your time will begin when you click &quot;Start Assignment&quot;.</li>
+<li>Complete the questions in the quiz.</li>
+<li>When completed, click &quot;View your Submission&quot; and &quot;Submit&quot;.</li>
+<li>You will be allowed to resubmit until your time is completely up.</li>
+</ol>
+<hr />
+<h1 id="handin">Handin</h1>
+<p>Written assignments will be handed in through Gradescope. Written assignments don't have to be typeset in LaTeX, but they do have to be handed in as PDFs. Find the corresponding assignment on Gradescope and click &quot;Submit Assignment&quot;. Upload your PDF handin and select the pages that correspond to each question. We highly recommend/appreciate that you separate questions into separate pages, so no page contains more than one question - this makes the grading process much smoother for us. When you are done, you should receive an email confirmation.</p>
+<p>Coding assignments will also be handed in through Gradescope. Find the corresponding assignment and click &quot;Submit Assignment&quot;. Choose the GitHub repository that corresponds to your assignment and choose the branch you'll be handing in. Click &quot;Submit&quot;. After handing in, the autograder will verify that your project is formatted and structured correctly and run our test suite. After confirming that your project was handed in and autograded correctly, you may close the window.</p>
+<hr />
+<h1 id="grading">Grading</h1>
+<p>All assignments will be autograded on Gradescope. If you have a question about your grade or are certain that a test case that failed should have passed, submit a regrade request detailing your experimentation process. The grade proportions between each type of test will vary depending on the assignment; consult the Gradescope assignment for the full, up-to-date rubric.</p>
+<hr />
+<h1 id="latex">LaTeX</h1>
+<p>We recommend typesetting your homeworks in LaTex where reasonable. We strongly recommend using <a href="https://www.overleaf.com/">Overleaf</a> to write LaTeX in. Here is a <a href="https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols">cheat sheet</a> and a <a href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes">tutorial</a> to help get you started with LaTeX. We also have an <a href="/static/files/cheatsheet.pdf">in-house cheatsheet</a> and <a href="/static/files/cs127_hw_template.tex">homework template</a> for you.</p>
+<hr />
+<h1 id="git-and-github">Git and GitHub</h1>
+<p>GitHub is a version control system system built atop Git. GitHub enables you to store your code in an online repository and share it with others, which is great for collaboration and, in the case of this course, handing in assignments. We'll be using GitHub Classroom to distribute stencil code for assignments, but most of your work in this course will be done on a single repository, which you will submit multiple times throughout the semester as you build out more of your database. You can create a Github account <a href="https://github.com">here</a>. Let's learn some basic Git commands.</p>
+<ul>
+<li><code>git clone &lt;url&gt;</code> creates a local copy of an online repository.</li>
+<li><code>git remote add origin &lt;url&gt;</code> links a local repository to an online repository.</li>
+<li><code>git add &lt;file&gt;</code> adds a particular file to your repository, and <code>git add -A</code> adds all files in the repository folder to the repository.</li>
+<li><code>git commit -m &lt;message&gt;</code> commits what you have added to your repository to the repository history.</li>
+<li><code>git push origin &lt;branch&gt;</code> pushes your commits to an online repository.</li>
+<li><code>git pull origin &lt;branch&gt;</code> pulls commits from an online repository. <strong>Always run this before you start developing and before you commit!</strong></li>
+<li><code>git stash</code> saves your local changes and reverses the state of your folder to the last commit. <code>git stash pop</code> or <code>git stash apply</code> reapplies the saved changes. This is useful for dealing with merge conflicts.</li>
+<li><code>git checkout &lt;branch&gt;</code> switches to a separate branch of your repository. To create a branch, run <code>git checkout -b &lt;new_branch&gt;</code>.</li>
+</ul>
+<p>There are many more commands to learn, but they will likely not be particularly useful in this course, seeing as we don't do any pair or group assignments. If you prefer working with a GUI, we recommend <a href="https://desktop.github.com/">GitHub Desktop</a>.</p>
+<p>Be sure to commit your code often and write detailed commit messages. This helps you look back on your code to find bits and bobs that you may have implemented in the past, especially once you have moved on from this course. Read <a href="https://chris.beams.io/posts/git-commit/">here</a> to learn how to write a good commit message.</p>
+<hr />
+
+
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

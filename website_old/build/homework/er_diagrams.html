@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>ER Diagrams | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="er_diagrams">ER Diagrams <a class="pdf" href="../static/gen/er_diagrams.pdf">View as a PDF</a></h1>
+            
+        <h1 id="question-1">Question 1</h1>
+<h2 id="11-schema-design">1.1 Schema Design</h2>
+<p>Given the following ER Diagram, please write out the corresponding relational schemas. Be sure to:</p>
+<ul>
+<li>remove redundant attributes</li>
+<li>underline or bold primary keys</li>
+<li>dashed-underline or italicize foreign keys</li>
+</ul>
+<p><img src="/static/posts/homework/er_diagrams/q1.png" alt="Q1" /></p>
+<h2 id="12-queries">1.2 Queries</h2>
+<p>Next, use your schemas to answer the following queries in relational algebra.</p>
+<ol>
+<li>What are the names of the publishers who have published at least one book written by &quot;JK Rowling&quot;?</li>
+<li>What are the emails of customers who have strictly more than one (&gt;1) of some book in a shopping basket?</li>
+<li>What are the pairs of different books that are in the same shopping basket?</li>
+<li>What are the books that are in more than one (&gt;1) shopping basket?</li>
+<li>What are the names of customers with a book from every publisher in their shopping basket?</li>
+</ol>
+<h1 id="question-2">Question 2</h1>
+<h2 id="21-initial-design">2.1 Initial Design</h2>
+<p>Let's say you are designing a new website for Barry's Beehive Bonanza (BBB) on Thursday, and Barry needs to store customer data. You decide to design a relational database for Barry. Given the following business requirements, create an ER Diagram:</p>
+<ul>
+<li>The website should have users, each of which have an email, a name, a password, and any number of phone numbers.</li>
+<li>The website should also have beehives, each of which has a name, a location, a size, and a single owner, which must be a user.</li>
+<li>While users can own beehives (as described above), they can also subscribe to beehives. A beehive can have many subscribers and a user may subscribe to many beehives.</li>
+<li>The website should also have honey types, each of which has a name and a locale. Each beehive should have at least one honey type that they produce.</li>
+</ul>
+<h2 id="22-amendments">2.2 Amendments</h2>
+<p>Oh no! Barry realized that there are actually three kinds of beehives: the Langstroths, the Warres and the Top Bars. Each one needs different information about them; use generalization to accomodate the following new information in your ER Diagram:</p>
+<ul>
+<li>All Langstroths, Warres, and Top Bars are beehives, and each beehive is exactly one of a Langstroth, Warre, or Top Bar.</li>
+<li>Langstroths have a number of racks attribute.</li>
+<li>Warres have a wood type attribute.</li>
+<li>Top Bars have a <code>num_levels</code> attribute.</li>
+</ul>
+<h1 id="question-3">Question 3</h1>
+<h2 id="31-er-diagrams">3.1 ER Diagrams</h2>
+<p>Given the following schema, please draw out the corresponding ER Diagram. Be sure to:</p>
+<ul>
+<li>remove redundant attributes</li>
+<li>use the ER Diagram elements as laid out in the reference section below</li>
+</ul>
+<pre><code>person(id, name, age, address, phone_num)
+gardener(person_id, years_exp)
+tree(tree_id, max_height, years_to_maturity)
+trees_cultivated(gardener_id, tree_id)
+</code></pre>
+<p>Note that:</p>
+<ul>
+<li>All gardeners are people, but not all people are gardeners</li>
+<li>A gardener can cultivate many different kinds of trees, and a specific tree can be cultivated by many different gardeners.</li>
+</ul>
+<h2 id="32-amendment-1">3.2 Amendment 1</h2>
+<p>Now, draw the same ER diagram with the following added details:</p>
+<ul>
+<li>Consider now that there are landscapers; landscapers are people, but they are not gardeners. There are no landscapers that are not people. Landscapers have an hourly_rate.</li>
+<li>There are now also pilots; pilots are people, but are neither gardeners nor landscapers. Pilots fly planes, each of which has a name, weight, and maximum_flying_height. Pilots can fly many planes, and planes can be flown by many pilots. Pilots, especially low-flying ones, also have trees that they dislike. Pilots can have many disliked trees, and a tree can be disliked by many pilots.</li>
+</ul>
+<h2 id="33-amendment-2">3.3 Amendment 2</h2>
+<p>Now, all of these people can be members of a union. A union should have a name, a location of operation, and a founding year. There is each a gardener union, a landscaper union, and a pilot union. Consider now that there is no overlap between these unions. Not all of each profession are in a union, but all unions have at least one member. People can only be in one union. People without jobs cannot be in a union.</p>
+<h2 id="34-bringing-it-back">3.4 Bringing it back</h2>
+<p>Lastly, using your new ER Diagram, write a new relational schema for this scenario. If you need to change existing schemas, that is perfectly fine.</p>
+<h1 id="question-4">Question 4</h1>
+<p>Consider the following three ER Diagrams:</p>
+<p><img src="/static/posts/homework/er_diagrams/erd1.jpg" alt="erd1" /><br />
+<img src="/static/posts/homework/er_diagrams/erd2.jpg" alt="erd2" /><br />
+<img src="/static/posts/homework/er_diagrams/erd3.jpg" alt="erd3" /></p>
+<p>Items have an item ID, a name, and a price. Customers have a customer ID and a name. Salepersons have an employee ID and a name. Only one item can be sold at a time. Items are fancy, individually-made works of art that are each unique. Per the artist's request, a customer may only ever purchase one item. The artist is very insistent on this!</p>
+<ol>
+<li>Which one(s) should we <strong>NOT</strong> use if our only query will be retrieving salespersons who helped customers? Why?</li>
+<li>Which one(s) should we <strong>NOT</strong> use if our only query will be retrieving the items sold by salespersons? Why?</li>
+<li>Suppose we are equally interested in gaining information between which customers are being helped by which salespersons and which salespersons are selling which items. Indicate which of the above we should choose and justify your choice.</li>
+</ol>
+<h1 id="faq">FAQ</h1>
+<ul>
+<li>There are some discrepancies between the lecture slides and the textbook; when in doubt, follow the textbook as the source of truth.</li>
+<li>Feel free to use any software to draw your ER Diagram. We recommend Google Drawings or Draw.io.</li>
+</ul>
+<h1 id="reference">Reference</h1>
+<p><img src="/static/posts/homework/er_diagrams/guide.png" alt="Guide to ER Diagram Symbols" /></p>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

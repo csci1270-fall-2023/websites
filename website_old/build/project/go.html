@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Go | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="go">Go <a class="pdf" href="../static/gen/go.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=Z9G1Mf6TZRs&ab_channel=Anime%21onTMSOfficialChannel">Gotta Go Fast</a></p>
+<p>Welcome to CSCI 1270! Throughout the semester, you'll implement many components of a database in Go. This assignment is meant to get you up to speed with the language and with the codebase you'll spend the semester on. Creating a strong foundation with this language is crucial to succeeding in the rest of the class; if you ever have any questions about the Go language, don't hesitate to ask a TA for support!</p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<h2 id="golang">Golang</h2>
+<p>To get started with Go, work through <a href="https://tour.golang.org/">A Tour of Go</a> first, then reading through our <a href="../misc/go_help">Guide to Go</a> to fill in any gaps. The guide has more linked to useful resources to aid and abet your understanding of the language; feel free to check them out. Even if you're already familiar with or proficient in the language, everybody benefits from a brief refresher.</p>
+<h2 id="the-codebase">The Codebase</h2>
+<p>After you clone the stencil, you should see a few folders and files. As the semester grows, you will add more packages and grow this codebase. Worry not; <strong>each assignment is designed such that you only have to touch the files we explicitly tell you to touch</strong>. You never have to create any new files beyond what we provide in each assignment's stencil code, and the overall codebase design is done for you. Your job throughout the semester is to finish the rest.</p>
+<p>The stencil has a few files in the root directory, and then a few subdirectories. We'll explain every relevant part of the codebase to you now.</p>
+<ul>
+<li><code>./</code>
+<ul>
+<li><code>README.md</code> is an empty file for you to details your designs.</li>
+<li><code>.gitignore</code> contains a list of files for Git to ignore.</li>
+<li><code>Makefile</code> contains a list of build targets that will be useful to you. Poke through to see what commands are available - they are rather basic commands. Please don't change existing targets.</li>
+</ul>
+</li>
+<li><code>cmd/</code> contains the project's <code>main</code> packages. For now, there should only be one folder: <code>bumble</code>, which will build into an executable that you can run.</li>
+<li><code>pkg/</code> contains the project packages, each one roughly corresponding to a project. In future assignments, you will be given stencil code to put in this directory. For now, you should see four subfolders: <code>config</code>, <code>utils</code>, <code>list</code>, and <code>repl</code>.</li>
+</ul>
+<p>You'll notice that the <code>cmd/bumble/main.go</code> file is already filled out for you, with a lot of commented out code. We will be releasing a new <code>main.go</code> for each assignment, so you shouldn't have to worry about dealing with this code. If you wanted to update your <code>main.go</code> manually, when you get to the corresponding assignment, all you need to do is comment out the portions underneath the corresponding assignment comments and the system should play nice. This file is the primary entrypoint into the project; peruse through it to get a sense of how your code will be called throughout the course.</p>
+<h2 id="doubly-linked-lists">Doubly Linked Lists</h2>
+<p>You may recall from your introductory sequence that a Linked List is a recursive data structure composed of nodes, in which each node stores a value and a pointer to the next node. A Doubly Linked List (sometimes called a double-ended queue, or deque) is the same, <strong>except that it also stores a pointer to the previous node</strong>. We want our deque to be efficient, so by storing pointers to both the head and the tail (first and last elements of the list), we can support constant time insertion and removal from the ends of the list.</p>
+<p>For this assignment, don't worry enforcing acyclicity; if a loop arises, it means that the link was used poorly.</p>
+<h2 id="read-evaluate-print-loop-repl">Read-Evaluate-Print-Loop (REPL)</h2>
+<p>A Read-Evaluate-Print-Loop, also known as a REPL, is the primary user interface for command line applications. When the application is run, the REPL is first provisioned with the resources it needs to fulfill user requests (<em>e.g.</em> setting up a database, reading config files, etc.). Then, it enters a loop, where it repeats the following actions until terminated using an EOF, SIGINT, SIGKILL, or SIGTERM (if you don't know what these mean, search up EOF and POSIX Signals; in this course, signal handlers are implemented for you):</p>
+<ul>
+<li><strong>Read</strong> in user input from the command line,</li>
+<li><strong>Evaluate</strong> the user's request,</li>
+<li><strong>Print</strong> the results of the requested action, and finally,</li>
+<li><strong>Loop</strong>.</li>
+</ul>
+<p>As a concrete example, consider a database CLI. It might read input like <code>SELECT * FROM table</code>. Then it would evaluate the meaning of the command, and execute some code to get data from the requested table. Lastly, it would print out that information back to the user, and ready itself to read input again.</p>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>In this assignment, you will implement a doubly linked list to be used later on in the semester and a reusable REPL to use your linked list. The following are the files you will need to alter:</p>
+<ul>
+<li><code>pkg/list/list.go</code></li>
+<li><code>pkg/repl/repl.go</code></li>
+</ul>
+<h2 id="part-1-doubly-linked-list">Part 1: Doubly Linked List</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/list/list.go</code></li>
+</ul>
+<p>In your stencil should be two defined structs: a <code>List</code> struct and a <code>Link</code> struct. A <code>List</code> contains pointers to the head and tail of the list, and a <code>Link</code> contains a pointer to the list it's a part of, a value, the previous link, and the next link. Some of these data fields are not necessary for a Doubly Linked List, but will prove useful when we apply this data structure later. Implement the following functions (in no particular order):</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Create a new list.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewList</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>
+
+<span style="color:#75715e">// Get a pointer to the head of the list.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">PeekHead</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>
+
+<span style="color:#75715e">// Get a pointer to the tail of the list.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">PeekTail</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>
+
+<span style="color:#75715e">// Add an element to the start of the list. Returns the added link.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">PushHead</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>
+
+<span style="color:#75715e">// Add an element to the end of the list. Returns the added link.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">PushTail</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>
+
+<span style="color:#75715e">// Find an element in a list given a boolean function, f, that evaluates to true on the desired element.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">Find</span>(<span style="color:#a6e22e">f</span> <span style="color:#66d9ef">func</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#66d9ef">bool</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>
+
+<span style="color:#75715e">// Apply a function to every element in a list in-place. f should alter Link in place.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">Map</span>(<span style="color:#a6e22e">f</span> <span style="color:#66d9ef">func</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>))
+
+
+<span style="color:#75715e">// Get the list this link belongs to.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">link</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#a6e22e">GetList</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>
+
+<span style="color:#75715e">// Get the link&#39;s value.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">link</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#a6e22e">GetKey</span>() <span style="color:#66d9ef">interface</span>{}
+
+<span style="color:#75715e">// Set the link&#39;s value.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">link</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#a6e22e">SetKey</span>(<span style="color:#a6e22e">value</span> <span style="color:#66d9ef">interface</span>{})
+
+<span style="color:#75715e">// Get the link&#39;s prev.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">link</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#a6e22e">GetPrev</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>
+
+<span style="color:#75715e">// Get the link&#39;s next.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">link</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#a6e22e">GetNext</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span> 
+
+<span style="color:#75715e">// Remove this link from the list.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">link</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) <span style="color:#a6e22e">PopSelf</span>()
+</pre><p>Some notes:</p>
+<ul>
+<li>You may notice that there is no <code>Remove</code> method - the intended usage is to <code>Find</code> the link, then call <code>PopSelf</code> on it to remove it from a list.</li>
+<li>You may notice that some of these methods take in functions as parameters; you can use the following construct to define an inline function in Go:</li>
+</ul>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">f</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">l</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Link</span>) { <span style="color:#75715e">/* do something */</span> }
+</pre><ul>
+<li>This is a great opportunity to get yourself acquainted with Golang testing - try it out on a <code>sample_test.go</code> file!</li>
+</ul>
+<h2 id="part-2-repl">Part 2: REPL</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/repl/repl.go</code></li>
+</ul>
+<p>In your stencil should be a <code>REPL</code> struct containing two fields: a map of commands and a map of help strings. Our codebase will rely heavily on this REPL construct, so it's important that we build a reusable and extendible REPL. With this design, each package can return its own REPL instance, and we can combine them into one that we'll actually run. To that end, implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Create a new REPL.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewREPL</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>
+
+<span style="color:#75715e">// Combine a slice of REPLs. If no REPLs are passed in,
+</span><span style="color:#75715e">// return a NewREPL(). If REPLs have overlapping triggers,
+</span><span style="color:#75715e">// return an error. Otherwise, return a REPL with the union
+</span><span style="color:#75715e">// of the triggers.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CombineRepls</span>(<span style="color:#a6e22e">repls</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>, <span style="color:#66d9ef">error</span>)
+
+<span style="color:#75715e">// Add a command to the REPL.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>) <span style="color:#a6e22e">AddCommand</span>(<span style="color:#a6e22e">trigger</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">action</span> <span style="color:#66d9ef">func</span>(<span style="color:#66d9ef">string</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">REPLConfig</span>) <span style="color:#66d9ef">error</span>, <span style="color:#a6e22e">help</span> <span style="color:#66d9ef">string</span>)
+
+<span style="color:#75715e">// Print out all of the usage information (in no order).
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>) <span style="color:#a6e22e">HelpString</span>() <span style="color:#66d9ef">string</span>
+
+<span style="color:#75715e">// Start the REPL loop with prompt. Hint: use bufio.NewScanner(reader)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>) <span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>, <span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>, <span style="color:#a6e22e">prompt</span> <span style="color:#66d9ef">string</span>)
+</pre><p>You'll notice another function named <code>RunChan</code> - you do <strong>not</strong> need to implement this function; this function will be provided to you in a later assignment.</p>
+<p>Moreover, your REPL should have some meta commands that are available no matter which other commands you use. These commands should not be allowed to be overwritten; whether you throw an error or refuse to take commands that begin with a period is up to you. For now, implement the following meta command:</p>
+<ul>
+<li><code>.help</code>: Prints out every command and meta command available to you (hint: use the information we injected through <code>AddCommand</code> in Part 2).</li>
+</ul>
+<p>Some notes:</p>
+<ul>
+<li>We <strong>highly</strong> recommend defining a function to clean user input. Extra whitespace around and between tokens should be ignored.</li>
+<li>The <code>strings</code> library may be useful to you.</li>
+<li>The REPL should run print the <code>prompt</code> string on every iteration of the loop.</li>
+<li>The scanner should be used in a <code>for</code> loop; use <code>for scanner.Scan() { /* do stuff */ }</code> to loop until the user inputs EOF or SIGINT, and use <code>scanner.Text()</code> to get the inputted text.</li>
+<li>You should pass the entire line to the first parameter in an <code>action</code> when a command is run. Don't remove the equivalent of <code>argv[0]</code> - pass the whole string!</li>
+<li>You will notice that, in the stencil code, we provide a <code>reader</code> and a <code>writer</code> - instead of using <code>fmt</code> to handle input and output, please use <code>io.WriteString(writer, string)</code> to write to output.</li>
+<li>You'll notice that the <code>action</code> function takes in a <code>*REPLConfig</code> - this is used so that any actions that are run know which user is making the request and where it should write output to. When needed, pass it the defined <code>replConfig</code>.</li>
+<li>You'll notice that the <code>Run</code> function takes in a <code>net.Conn</code> and a <code>uuid.UUID</code> - if you need to, pass in <code>nil</code> and <code>uuid.New()</code> respectively for those two fields for now.</li>
+</ul>
+<h2 id="part-3-executable">Part 3: Executable</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/list/list.go</code></li>
+</ul>
+<p>Now, you'll put your REPL to good use and define a way to interact with a linked list! Your ListREPL should contain a List instance within it, which the user will provide commands to interact with. Define the following function in <code>list.go</code>:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Returns a ListREPL.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">ListRepl</span>(<span style="color:#a6e22e">list</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">List</span>) <span style="color:#a6e22e">REPL</span>
+</pre><p>That supports the following commands:</p>
+<ul>
+<li><code>list_print</code>: Prints out all of the elements in the list in order, separated by commas (e.g. &quot;0, 1, 2&quot;)</li>
+<li><code>list_push_head &lt;elt&gt;</code>: Inserts the given element to the List as a string.</li>
+<li><code>list_push_tail &lt;elt&gt;</code>: Inserts the given element to the end of the List as a string.</li>
+<li><code>list_remove &lt;elt&gt;</code>: Removes the given element from the list.</li>
+<li><code>list_contains &lt;elt&gt;</code>: Prints &quot;found!&quot; if the element is in the list, prints &quot;not found&quot; otherwise.</li>
+</ul>
+<p>Each of these commands should do something very similar:</p>
+<ul>
+<li>Check that the number of fields is correct and throw an error otherwise (you may find <code>strings.Fields</code> useful)</li>
+<li>Run the corresponding function on the included list.</li>
+<li>Return any errors that may have been returned; otherwise, return <code>nil</code>.</li>
+</ul>
+<p>To get a sense of how your <code>ListRepl</code> is being called, take a look at the <code>main.go</code> file we've included.</p>
+<h2 id="error-handling">Error Handling</h2>
+<p>One pattern that you will see very often in Go is the error handling pattern. We want to emphasize it since forgetting to handle errors is often a common site for bugs. Whenever we have a function that returns an error, we always check it immediately:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>()
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+    <span style="color:#75715e">// Do something else with the error
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+}
+</pre><h2 id="building">Building</h2>
+<p>Once you've implemented the above functionality, you should be able to build and run. Running <code>make build</code> then <code>./bumble</code> should run the binary. If you are having any troubles with building or running, please let us know on Campuswire. We recommend building often to verify that your code is syntactically correct; the compiler should guide you as you learn the language.</p>
+<h2 id="testing">Testing</h2>
+<p>When you submit, Gradescope will automatically test your code and report your grade back. This is the grade you will receive on the assignment, no strings attached. We don't believe in hiding test cases - if you're able to pass all of our tests, you deserve to know, and you deserve to be finished.</p>
+<p>However, we highly suggest you test your own code anyways! Your stencil should contain a sample test that should show you how to write tests in Go. Testing is not graded, but is useful in verifying the completeness of your code.</p>
+<p>Lastly, do not rely on the autograder to verify that everything in your codebase works. Certain things we don't have the infrastructure to test; for example, whether the REPL prints out reasonable help strings or terminates as expected all the time. Please actually build and run your code rather than just trying to pass our autograder tests.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>First, make sure you have a local development environment set up! See the <a href="../../misc/dev_guide">local development guide</a> for help, and let us know via Campuswire or TA Hours if you need help getting your dev environment set up.</p>
+<p>To get started, get your stencil repository <a href="https://classroom.github.com/a/Fj51YWH9">here</a>. When cloning, <strong>do NOT clone using ssh</strong>! You must clone using HTTP for the build to work. A good first step is to ensure that your build pipeline is working by writing a quick &quot;Hello, world!&quot; program.</p>
+<p>Please note: <strong>you may NOT change any of the function headers defined in the stencil</strong>. Doing so will break the autograder; if you don't understand a function header, please ask us what it means and we'll be happy to clarify.</p>
+<hr />
+<h1 id="faq">FAQ</h1>
+<ul>
+<li><strong>How is this graded?</strong>: See the <a href="../../misc/course_guide">course guide</a>.</li>
+<li><strong>How do I hand this in?</strong>: See the <a href="../../misc/course_guide">course guide</a>.</li>
+<li><strong>What packages can I import?</strong>: You may import any standard library package that doesn't trivialize the assignment. You may not import any packages outside of the standard library (<em>e.g.</em> from GitHub). If you are ever unsure whether or not a package is fair game, please post on Campuswire.</li>
+<li><strong>Why is everything panicking?</strong>: Remember to remove all of the panics once you've implemented a function!</li>
+</ul>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

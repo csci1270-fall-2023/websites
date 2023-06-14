@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Constraints + Normalization | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="constraints+normalization">Constraints + Normalization <a class="pdf" href="../static/gen/constraints+normalization.pdf">View as a PDF</a></h1>
+            
+        <h1 id="question-1">Question 1</h1>
+<h2 id="premise">Premise</h2>
+<p>Consider the following schema and data:</p>
+<pre><code>course (c_id, dept_id, dept, evaluations, inst, office, sect, time_slot)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>c_id</th>
+<th>dept_id</th>
+<th>dept</th>
+<th>evaluations</th>
+<th>inst</th>
+<th>office</th>
+<th>sect</th>
+<th>time_slot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>61</td>
+<td>1</td>
+<td>CS</td>
+<td>HW, Midterm, Final</td>
+<td>Eddie Kohler</td>
+<td>345</td>
+<td>A</td>
+<td>8am-10am</td>
+</tr>
+<tr>
+<td>61</td>
+<td>1</td>
+<td>CS</td>
+<td>HW, Midterm, Final</td>
+<td>Eddie Kohler</td>
+<td>345</td>
+<td>B</td>
+<td>1pm-3pm</td>
+</tr>
+<tr>
+<td>165</td>
+<td>2</td>
+<td>MATH</td>
+<td>Project, Final</td>
+<td>Stratos Idreos</td>
+<td>346</td>
+<td>A</td>
+<td>10am-11am</td>
+</tr>
+<tr>
+<td>165</td>
+<td>2</td>
+<td>MATH</td>
+<td>Project, Final</td>
+<td>Stratos Idreos</td>
+<td>346</td>
+<td>B</td>
+<td>7pm-8pm</td>
+</tr>
+<tr>
+<td>265</td>
+<td>2</td>
+<td>MATH</td>
+<td>HW</td>
+<td>Andy Pavlo</td>
+<td>346</td>
+<td>B</td>
+<td>1pm-2pm</td>
+</tr>
+<tr>
+<td>455</td>
+<td>3</td>
+<td>PHYS</td>
+<td>Midterm, Final</td>
+<td>Nesime Tatbul</td>
+<td>347</td>
+<td>B</td>
+<td>6pm-7pm</td>
+</tr>
+</tbody>
+</table>
+<p>Throughout this problem, we will take this schema through four different normal forms to gain a sense of what benefits each one brings. Note that it will be useful to you to create populated tables using the data above for each schema you create, but it is not required. Lastly, for each conversion, be sure to document and explain your steps; not too much, just enough for us to understand your thought process.</p>
+<h2 id="11-first-normal-form">1.1 First Normal Form</h2>
+<p>A schema is in the first normal form when:</p>
+<ul>
+<li>The attributes are atomic, and</li>
+<li>The attribute names are unique.</li>
+</ul>
+<p>We already have the latter, so we'll focus on the former. Once you've identified the non-atomic attributes, you can either split them into multiple attributes or into a separate relation entirely.</p>
+<p>Convert this schema into the first normal form. You should have three relations by the end of your conversion.</p>
+<h2 id="12-second-normal-form">1.2 Second Normal Form</h2>
+<p>A schema is in the second normal form when:</p>
+<ul>
+<li>The schema is in first normal form (done!)</li>
+<li>There are no partial dependencies.</li>
+</ul>
+<p>In other words, say there's a candidate key <span class="math inline">\(A\)</span> . Then, every other attribute in the relation should depend on all of <span class="math inline">\(A\)</span> , not a subset of it. If there is an attribute such that only a part of <span class="math inline">\(A\)</span> functionally determines it, there is a partial dependency. Once you've identified a partial dependency, you can normalize it by splitting the relation in two: one for attributes that are partially dependent, and one for those that aren't.</p>
+<p>Convert this schema into the second normal form. You should have four relations by the end of your conversion.</p>
+<h2 id="13-third-normal-form">1.3 Third Normal Form</h2>
+<p>A schema is in the third normal form when:</p>
+<ul>
+<li>The schema is in second normal form (done!)</li>
+<li>There are no transitive dependencies.</li>
+</ul>
+<p>A transitive dependency is a dependency between two sets of attributes where both sets are still dependent on the primary key. Formally, if <span class="math inline">\(A \to B\)</span> and <span class="math inline">\(B \to C\)</span> and NOT <span class="math inline">\(B \to A\)</span> , then <span class="math inline">\(A \to C\)</span> is a transitive dependency. Once you've identified a transitive dependency, you can separate the dependent attributes out into another relation.</p>
+<p>Convert this schema into the third normal form. You should have five relations by the end of your conversion.</p>
+<p>(Hint: in these instances of our relations, and conceivably for all potential instances, instructors only teach one course).</p>
+<h2 id="14-bcnf-third-and-a-half-normal-form">1.4 BCNF (Third-and-a-half Normal Form)</h2>
+<p>A schema is in BCNF when:</p>
+<ul>
+<li>The schema is in third normal form (done!)</li>
+<li>For all depencies, either:
+<ul>
+<li><span class="math inline">\(a \to b\)</span> is a trivial dependency ( <span class="math inline">\(a \subseteq b\)</span> ), or</li>
+<li><span class="math inline">\(a\)</span> is a superkey.</li>
+</ul>
+</li>
+</ul>
+<p>Convert this schema into BCNF. You should have six relations by the end of your conversion.</p>
+<h1 id="question-2">Question 2</h1>
+<p>Consider the following schema <span class="math inline">\(S\)</span> and constraints <span class="math inline">\(F\)</span> :</p>
+<pre><code>users (user_id, name, dept_id, dept_name)
+books (book_id, isbn, title, author, publisher)
+
+user_id -&gt; name
+user_id -&gt; dept_id
+user_id -&gt; dept_name
+dept_id -&gt; dept_name
+book_id -&gt; isbn
+isbn -&gt; title
+isbn -&gt; publisher
+isbn -&gt; author
+</code></pre>
+<p>Complete the following exercises:</p>
+<ol>
+<li>What are the additional functional dependencies that can be generated by Armstrong's Transivity Rule?</li>
+<li>Compute the canonical cover of this set of contraints, <span class="math inline">\(F_C\)</span> . (Hint: use the algorithm described in class).</li>
+<li>Normalize the given schema to BCNF. Was your normalization lossy? Was your normalization dependency preserving?</li>
+</ol>
+<h1 id="question-3">Question 3</h1>
+<p>Use Armstrong's axioms (reflexivity, augmentation, and transitivity ONLY) to prove the following rules:</p>
+<ol>
+<li>If <span class="math inline">\(a \to b\)</span>, then <span class="math inline">\(a \to ab\)</span> (extensivity).</li>
+<li>If <span class="math inline">\(a \to b\)</span> and <span class="math inline">\(a \to c\)</span> , then <span class="math inline">\(a \to bc\)</span> (union rule).</li>
+<li>If <span class="math inline">\(a \to b\)</span> and <span class="math inline">\(bc \to d\)</span> , then <span class="math inline">\(ac \to d\)</span> (pseudotransitivity).</li>
+</ol>
+<h1 id="question-4">Question 4</h1>
+<p>You've learned how to create table-level checks during table creation using key words such as <code>NOT NULL</code>, <code>UNIQUE</code>, or <code>CHECK</code>. Now, we'll learn how to create arbitrary assertions over multiple tables that your database should check.</p>
+<p>Note that global assertions can be expensive for your database system to maintain; they need to be checked every time a change is made. Moreover, not every SQL implementation has assertions, nor do they all do it the same way. Don't worry about performance or syntax-correctness too much for this homework, but keep it in mind for future database design decisions.</p>
+<p>An assertion essentially takes a subquery and checks whether it evaluates to some result. The following makes sure that there are exactly 0 users:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">ASSERTION</span> assertion_name <span style="color:#66d9ef">CHECK</span> (
+    <span style="color:#ae81ff">0</span> <span style="color:#f92672">=</span> (<span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">COUNT</span>(<span style="color:#f92672">*</span>) <span style="color:#66d9ef">FROM</span> users)
+)
+</pre><p>Consider the following schema:</p>
+<pre><code>users (user_id, name, dept_id, dept_name)
+books (book_id, isbn, title, author, publisher)
+reads (user_id, book_id)
+</code></pre>
+<p>Now, create assertions to check the following:</p>
+<ol>
+<li>Make sure that there is never a book by &quot;JK Rowling&quot; that is also published by &quot;Penguin&quot; (Hint: use NOT IN).</li>
+<li>Make sure that the number of users in a department never exceeds 100.</li>
+<li>Make sure that nobody is reading more than 5 books.</li>
+</ol>
+<h1 id="question-5">Question 5</h1>
+<p>As of now, we’ve mostly been focusing on OLTP workloads. OLTP (OnLine Transactional Processing) workloads are commonly used for many systems because they are very good at retrieving data. Unfortunately, OLTP databases are a poor choice for asking questions about the data, like calculating statistics over the data. In that case, we use OLAP (OnLine Analytical Processing). You don’t need a perfect understanding between the two for this question. You only need to understand that we sometimes (not always!) structure data differently when the situation calls for it. We encourage you to read more about the differences <a href="https://www.ibm.com/cloud/blog/olap-vs-oltp">here</a>.</p>
+<p>One schema design used in OLAP workloads is the Star Schema. In this style, we represent facts as a centralized table (for example, in this question: when a worker bee collects honey, this is recorded in the fact_work table). Dimensions about these facts are represented in related tables. Consider the following star schema for Barry’s bees.</p>
+<p><strong>ER Diagram:</strong></p>
+<p><img src="/static/posts/homework/constraints+normalization/star.jpg" alt="erd3" /></p>
+<p><strong>Star Schema:</strong></p>
+<pre><code>fact_work(worker_id, queen_id, honey_id, hive_id, quantity_mililiters, hours_worked)
+dim_worker(worker_id, worker_name)
+dim_queen(queen_id, queen_name)
+dim_hive(hive_id, location)
+dim_honey(honey_id, type)
+</code></pre>
+<p><strong>Normalized Schema:</strong></p>
+<pre><code>workers(worker_id, worker_name, hive_id, queen_id)
+queens(queen_id, queen_name)
+hives(hive_id, location)
+honey(honey_id, type)
+work(work_id, worker_id, honey_id, quantity_mililiters, hours_worked)
+</code></pre>
+<ol>
+<li>Does the star schema meet 1NF? Why or why not?</li>
+<li>Does the star schema meet 2NF? Why or why not?</li>
+<li>Does the star schema meet 3NF? Why or why not?</li>
+<li>Does the star schema meet BCNF? Why or why not?</li>
+<li>Suppose we want to know how many workers live in each hive. Can we write an SQL query to find this for the star schema? How about the normalized schema?</li>
+<li>Suppose we want to know how many quantity_mililiters of honey were produced for each queen, along with the queen bee's name. Write a SQL query to find this for both the star schema and the normalized schema.</li>
+<li>In what ways is this star schema &quot;better&quot; than a normalized schema?</li>
+</ol>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

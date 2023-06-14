@@ -1,0 +1,270 @@
+{{ partial header }}
+
+<main>
+    <section id="landing">
+        <div class="landing-container">
+            <img class="landing-logo shake" src="static/img/bee.svg" draggable="false" />
+            <div>
+                <h1 class="landing-title fun">CSCI 1270</h1>
+                <h2 class="landing-subtitle fun">Database Management Systems</h2>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- INTRODUCTION -->
+    <section id="introduction">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Introduction</h1>
+
+        <h2>Welcome to CSCI 1270!</h2>
+        <p><a href="http://cs.brown.edu/courses/csci1270/website_2020/" target="_blank" rel="noopener">Link to previous course offering</a>.</p>
+        <p>
+            The concepts you will learn in this class include aspects of database design, database languages, and
+            database-system implementation. The course textbook is Database Systems Concepts, Seventh Edition by
+            Silberschatz, Korth, and Sudarshan. ISBN: 9780078022159. Lectures are held on Mondays and Wednesdays
+            from 3:00 pm to 4:20 pm virtually via <a href="https://brown.zoom.us/j/99985999323">Zoom</a> unless
+            otherwise specified. Optional in-person seminars are held on Friday at the same time. Please stop on by!
+        </p>
+
+        <p>
+            <strong>
+                If content is not showing up for you on the website, hard refresh the page (ctrl-shift-r)!
+            </strong>
+        </p>
+    </section>
+
+
+    <!-- INTRODUCTION -->
+    <section id="faq">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Shopping Period FAQ</h1>
+
+        {{ loop faq.faqs
+        <h2>${question}</h2>
+        <ul>
+            <li>
+                ${answer}
+            </li>
+        </ul>
+        }}
+    </section>
+
+    <!-- ASSIGNMENTS -->
+    <section id="assignments">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Assignments</h1>
+
+        <p>
+            Please note: the dates on this page are tentative and may change to correspond with changes in lecture
+            pacing.
+        </p>
+        <p>
+            All weekly written and coding assignments should be turned in via Gradescope. All assignments will be
+            released by 11:59 PM on the day listed. All assignments are due at 11:59 pm ET on the day listed. They
+            will be graded and returned with solutions for the problems. Written assignments should be submitted
+            as PDFs.
+        </p>
+        <p>
+            All quizzes will be available through Gradescope on the day listed below. Once you've started, you will
+            have 90 minutes to complete the quiz.
+        </p>
+
+        <table>
+            <tr>
+                <th>Written</th>
+                <th>Coding</th>
+                <th>Out</th>
+                <th>In</th>
+            </tr>
+            {{ loop assignment.assignments
+            <tr>
+                <td>${written}</td>
+                <td>${coding}</td>
+                <td>${out}</td>
+                <td>${in}</td>
+            </tr>
+            }}
+        </table>
+
+        <table>
+            <tr>
+                <th>Gearup</th>
+                <th>Date</th>
+                <th>Slides</th>
+                <th>Recording</th>
+            </tr>
+            {{ loop gearup.gearups
+            <tr>
+                <td>${gearup}</td>
+                <td>${date}</td>
+                <td>${slides}</td>
+                <td>${recording}</td>
+            </tr>
+            }}
+        </table>
+
+        <h2>Late Assignments</h2>
+        <p>
+            Each student gets <strong>5 late days</strong> during the semester, in that they are not penalized for
+            them. You may not use more than 2 late days on a single assignment. At the end of the semester, we will
+            optimally distribute the late days over your projects. A late day used on either the written or code portion
+            of an assignment counts as a late day for the assignment as a whole. After your five late days, we will take
+            off 25% per late day, distributed optimally.
+        </p>
+
+        <h2>Solution Code Requests</h2>
+        <p>
+            Since projects in CSCI 1270 build atop one another, we recognize that if a student falls behind, later
+            projects will be impossible. If you require solution code to continue in the course, please fill out the
+            form linked <a href="https://forms.gle/EipkkNQytKRzwtaF9">here</a> to request it. You will only receive
+            solution code two days after the due date of the relevant project due date(s) at the earliest.
+            <strong>Most importantly, note that distributing or making available solution code in any way, knowingly
+            or unknowingly, is a violation of the Academic Code.</strong> This includes sharing code with a peer in
+            the class, even if they have also filled out the request form. For the most up-to-date information on
+            solution code requests, please see our Missive.
+        </p>
+    </section>
+
+
+    <!-- LECTURES -->
+    <section id="lectures">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Lectures</h1>
+
+        <p>
+            Lectures are held on Mondays and Wednesdays from 3:00 pm to 4:20 pm virtually via
+            <a href="https://brown.zoom.us/j/99985999323">Zoom</a> unless otherwise specified. Lecture slides and recordings
+            will be posted soon after lecture ends. You are highly encouraged to attend all lectures.
+        </p>
+        <p>
+            <strong>The following lecture schedule is very approximate</strong>. Please note that the schedule may
+            be subject to change depending how quickly or slowly we are able to
+            move through lectures.
+        </p>
+
+        <table>
+            <tr>
+                <th>Topic</th>
+                <th>Date</th>
+                <th>Slides</th>
+                <th>Recording</th>
+                <th>Book</th>
+            </tr>
+            {{ loop lecture.lectures
+            <tr>
+                <td>${topic}</td>
+                <td>${date}</td>
+                <td>${slides}</td>
+                <td>${recording}</td>
+                <td>${book}</td>
+            </tr>
+            }}
+        </table>
+    </section>
+
+
+    <!-- SEMINARS -->
+    <section id="seminars">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Seminars</h1>
+
+        <p>
+            To spread our love of databases and to expose you to cutting edge database concepts, the
+            CSCI 1270 TAs run seminars on Fridays from 3:00 pm to 4:00 pm, in-person in CIT Lubrano (477).
+            Recordings will be posted soon after the seminar ends. You are highly encouraged to attend any
+            seminars that interest you!
+        </p>
+        <p>
+            <strong>The following seminar schedule is very approximate</strong>. Please note that the schedule may
+            be subject to change depending on TA availability.
+        </p>
+
+        <table>
+            <tr>
+                <th>Topic</th>
+                <th>Date</th>
+                <th>Slides</th>
+                <th>Recording</th>
+            </tr>
+            {{ loop seminar.seminars
+            <tr>
+                <td>${topic}</td>
+                <td>${date}</td>
+                <td>${slides}</td>
+                <td>${recording}</td>
+            </tr>
+            }}
+        </table>
+    </section>
+
+
+    <!-- CALENDAR -->
+    <section id="calendar">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Calendar</h1>
+
+        <p>
+            Zoom links are included in the Google Calendar event, as well as in the SignMeUp Queue.
+        </p>
+
+        <div class="iframe-container">
+            <iframe src="https://calendar.google.com/calendar/embed?src=c_4rt01saju6eqgmv1r8d2iqregc%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </section>
+
+
+    <!-- RESOURCES -->
+    <section id="resources">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Resources</h1>
+
+        <h2>Guides</h2>
+        <ul>
+            <li><a href="misc/course_guide">Course Guide</a></li>
+            <li><a href="misc/dev_guide">Local Development Guide</a></li>
+            <li><a href="misc/go_help">Guide to Golang</a></li>
+            <li><a href="misc/sql_help">Guide to SQL</a></li>
+        </ul>
+
+        <h2>Documents</h2>
+        <ul>
+            <li><a href="static/files/missive.pdf">Missive</a></li>
+            <li><a href="static/files/collab.pdf">Collaboration Policy</a></li>
+        </ul>
+
+        <h2>Contact</h2>
+        <ul>
+            <li><a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a></li>
+            <li><a href="mailto:cs1270tas@lists.brown.edu">cs1270tas@lists.brown.edu</a></li>
+        </ul>
+    </section>
+
+
+    <!-- STAFF -->
+    <section id="staff">
+        <div class="hexagon"></div>
+        <h1 tabindex="0">Staff</h1>
+
+        <div class="staff-tiling">
+            {{ loop staff.staff
+            <div class="staff-tile">
+                <svg viewbox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="img-${cslogin}" patternUnits="userSpaceOnUse" width="100" height="100">
+                            <image xlink:href="static/img/staff/${photo}" width="100" />
+                        </pattern>
+                    </defs>
+                    <polygon id="hex" points="25 8 75 8 100 50 75 92 25 92 0 50" fill="url(#img-${cslogin})" />
+                </svg>
+                <h2>${name}</h2>
+                <p>${role} | ${cslogin}</p>
+                <p>${bio}</p>
+                <p>${emoji}</p>
+            </div>
+            }}
+        </div>
+    </section>
+</main>
+
+{{ partial footer }}

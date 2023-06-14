@@ -1,0 +1,60 @@
+assignments:
+  - written: <a href="/homework/setup">Setup</a>
+    coding: "-"
+    out: "-"
+    in: Sep 20
+
+  - written: <a href="/homework/relational_algebra">Relational Algebra</a>
+    coding: <a href="/project/go">Go</a>
+    out: Sep 15
+    in: Sep 22
+
+  - written: <a href="/homework/er_diagrams">ER Diagrams</a>
+    coding: <a href="/project/sql">SQL</a>
+    out: Sep 22
+    in: Sep 29
+
+  - written: <a href="/homework/constraints+normalization">Constraints + Normalization</a>
+    coding: <a href="/project/pager">Pager</a>
+    out: Sep 29
+    in: Oct 11
+
+  - written: Quiz 1
+    coding: "-"
+    in: Oct 13
+    out: Oct 13
+
+  - written: <a href="/homework/storage+btrees">Storage + B-Trees</a>
+    coding: <a href="/project/b+tree">B+Tree</a>
+    out: Oct 13
+    in: Oct 25
+
+  - written: <a href="/homework/hash+join_algorithms">Hash + Join Algorithms</a>
+    coding: <a href="/project/hash">Hash</a>
+    out: Oct 25
+    in: Nov 01
+
+  - written: <a href="/homework/query_optimization">Query Optimization</a>
+    coding: <a href="/project/query">Query</a>
+    out: Nov 01
+    in: Nov 08
+
+  - written: Quiz 2
+    coding: "-"
+    in: Nov 10
+    out: Nov 10
+
+  - written: <a href="/homework/latches+transactions">Latches + Transactions</a>
+    coding: <a href="/project/concurrency">Concurrency</a>
+    out: Nov 10
+    in: Nov 24
+
+  - written: <a href="/homework/logging+recovery">Logging + Recovery</a>
+    coding: <a href="/project/recovery">Recovery</a>
+    out: Nov 29
+    in: Dec 06
+
+  - written: Quiz 3
+    coding: "-"
+    in: Dec 14
+    out: Dec 14

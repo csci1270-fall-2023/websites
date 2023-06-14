@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Storage + B-Trees | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="storage+btrees">Storage + B-Trees <a class="pdf" href="../static/gen/storage+btrees.pdf">View as a PDF</a></h1>
+            
+        <h1 id="question-1">Question 1</h1>
+<p>Please provide short answers to the following questions:</p>
+<ol>
+<li>Why might we want to store relations in separate files?</li>
+<li>Why might we want to store all relations, or even an entire database, in the same file?</li>
+<li>When might the leaf nodes of a B+-tree file organization lose sequentiality? Suggest how the file organization may be reorganized to restore sequentiality.</li>
+<li>What are the three parts of a slotted page structure header?</li>
+<li>Why does the data and keys in a slotted page block grow from either end?</li>
+<li>How does columnstore make file compression easier? What feature of column stores makes interacting with single tuples expensive?</li>
+</ol>
+<h1 id="question-2">Question 2</h1>
+<h2 id="21-storage">2.1 Storage</h2>
+<p>Consider the following schema for an online game distributor:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> games (
+    gameId INT <span style="color:#66d9ef">PRIMARY</span> <span style="color:#66d9ef">KEY</span>,
+    gameTitle VARCHAR(<span style="color:#ae81ff">48</span>),
+    distributorId INT,
+    price FLOAT
+);
+</pre><p>You can assume the following:</p>
+<ul>
+<li>The table contains 1024 tuples in total.</li>
+<li><code>INT</code>s are 8 bytes long, <code>VARCHAR(48)</code>s are 48 bytes long, and <code>FLOAT</code>s are 4 bytes long.</li>
+<li>All attributes of a tuple are stored in contiguous space within the same disk block.</li>
+<li>A disk block size is 512 bytes.</li>
+<li>The disk on average performs the sequential read at 1ms per disk block and the random read at 10ms per disk block.</li>
+</ul>
+<ol>
+<li>What is the maximum number of tuples that can be stored in a disk block?</li>
+<li>What is the minimum number of disk blocks that need to be allocated to store all tuples in the table?</li>
+<li>What is the minimum time to read all tuples (in no particular order), assuming that the minimum number of disk blocks are allocated?</li>
+</ol>
+<h2 id="22-indexing">2.2 Indexing</h2>
+<p>Suppose that a secondary index of B+Tree is created on the <code>distributorId</code> column. Assume the following:</p>
+<ul>
+<li>The tree has an order of 5 (up to 4 keys, 5 children), each leaf node is 60% loaded, and internal nodes are all fully loaded.</li>
+<li>You can assume distributorId is a candidate key with unique values for simplicity.</li>
+</ul>
+<ol>
+<li>How many leaf nodes does this secondary index require?</li>
+<li>How many disk reads (including index search and tuple retrieval) in the worst case are required to find a tuple by its distributorId? Hint: find the height of the tree.</li>
+</ol>
+<h1 id="question-3">Question 3</h1>
+<h2 id="31-insertion">3.1 Insertion</h2>
+<p>Starting with the given B tree (degree = 3), insert all of the following keys in the given order and show the resulting tree at the end. In the case of equal keys, insert to the left.</p>
+<p>[11, 15, 3, 18, 20, 4, 6, 18, 8, 3, 11]</p>
+<p><img src="/static/posts/homework/storage+btrees/insertion.png" alt="Q3.1" /></p>
+<h2 id="32-deletion">3.2 Deletion</h2>
+<p>Starting with the given B tree (degree = 4), remove all of the following keys in the given order and show the resulting tree at the end. (11pts)</p>
+<p>[15, 11, 18, 3, 8, 5, 3, 7]</p>
+<p><img src="/static/posts/homework/storage+btrees/deletion.png" alt="Q3.2" /></p>
+<h1 id="question-4">Question 4</h1>
+<h2 id="41">4.1</h2>
+<p>Consider the B-tree in 3.2 before we removed the entries. Suppose we want to retrieve all values between 7 and 19 that reside in a leaf node (assume that values in internal nodes only exist for organization purposes; they don't represent real tuples). Assuming our B-tree edges only point downward (i.e. we cannot traverse back up an edge), what is the least number of tree searches it would take to perform this search?</p>
+<h2 id="42">4.2</h2>
+<p>We've decided we need a faster way to search for a RANGE of records! Suppose we connected each leaf node in our B-Tree with a pointer to the leaf node directly to the right of it. How many tree searches will our query now take and in which order will we visit all nodes?</p>
+<h2 id="43">4.3</h2>
+<p>Alternatively, instead of using the solution we proposed in 4.2, we could make all edges bidirectional. This allows us to visit neighbouring nodes by traversing up to an ancestor node, then traversing back down. Is it better to make every branch a doubly-linked pointer, or is our linked list solution better? Why?</p>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

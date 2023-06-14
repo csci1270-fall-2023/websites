@@ -1,0 +1,40 @@
+gearups:
+  - gearup: Go
+    date: Sep 15
+    slides: <a href="https://docs.google.com/presentation/d/1cX58Flfs1jOZePIvcTxQFrXSrVxS982QPu3IV1Oay14/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/YO-_LoSP8nqIupZoco91Or7gm_i8-sbpZ4R3ObE3ogq0RzR5iU00eZ42kO74TNxL.kN7DHdOFM5PxUSLc">Recording</a>
+
+  - gearup: SQL
+    date: Sep 22
+    slides: <a href="https://docs.google.com/presentation/d/1Wu9iCNr5ozRXlCK9FILlSkLQD0HFuQ32Wazdhk-KZlI/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/9VyYcauZNQJ6ClXYVLTBb8li3GdKGKqk4yUwFuHk-GzXHQBHEc2MVikr09Bx69iN.DNQl-Kc12sKn3ZjI">Recording</a>
+
+  - gearup: Pager
+    date: Sep 29
+    slides: <a href="https://docs.google.com/presentation/d/1RoBGFFpeWqnvs_GIU8HEhgrMIdYHW1pTUcF5GJjKqpU/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/To_bm7ugvi07epZNL2k7C_TgDPi11yD5IGPKUMPB5klCfCTAMheuSZcVsbeNRpg.D90vPwqXKcRP6V8P">Recording</a>
+
+  - gearup: B+Tree
+    date: Oct 13
+    slides: <a href="https://docs.google.com/presentation/d/104FBRbNMpAqWOfUdFd9VLZB1-F4loNWTeLo4h3jV2go/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/0FuY3O3weXo2K6UTlHOoDfeGcyHwTBX2oAAQKSC30w5UpepFE7E6EAc8jzFB4vks.TRf1dDutCiBOdjZ9?startTime=1634241265000">Recording</a>
+
+  - gearup: Hash
+    date: Oct 25
+    slides: <a href="https://docs.google.com/presentation/d/1FOVgTu1cQrGpdruA1BSU_WvXIg5UdXHDoMEuqkntS9I/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/aJMHhexjSD0QsfKwlVyIxGzyiso9UuoruAecyq_0W60TpA7PgoTEvd27hIoXnyLx.0o6Y4b5XAvT2qtRY">Recording</a>
+
+  - gearup: Query
+    date: Nov 1
+    slides: <a href="https://docs.google.com/presentation/d/1ddAo72y7_Jt7fvupG3DOsVr8aONzdk2stZMzf-lu80c/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/yuZwdqAkAzcgbggFtG-029V8cOBCiWv-ssYJWhnYcq5WjIwW59pOdN-HuLv3h_1H.U-RUTVXbgKQ8ex1b">Recording</a>
+
+  - gearup: Concurrency
+    date: Nov 10
+    slides: <a href="https://docs.google.com/presentation/d/1ZT0lxjus54bPWsnMQsLV-i38tMPQfo0MaPx0vzvyfSI/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/j-p91yeWVoy_KsDH5ky9k0eYY4tnlb5OGyRF9hIYeesANm87ei5QqLOYcTa-T3Av.r2n3eso1oLextnIN">Recording</a>
+
+  - gearup: Recovery
+    date: Nov 29
+    slides: <a href="https://docs.google.com/presentation/d/1dFTTQbZJR0Ae1PbygNZ1RY1Z0t3o3MAlxdHSFFCsL2Q/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/60VXlRsj70BtaIcufXulPS03z86-U1EaqjPW5iyKnXncQQNZLh8ghtOXzWBVRorn.FjLR3BMM6sLWEU8i">Recording</a>

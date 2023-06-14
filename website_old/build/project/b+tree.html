@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>B+Tree | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="b+tree">B+Tree <a class="pdf" href="../static/gen/b+tree.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=U7EKvt_COlI&ab_channel=AnnabethMcKaslin15">Here Comes The Sun</a></p>
+<p>You've surely encountered binary search trees before - data structures that allow quick ( <span class="math inline">\(O(\log(n))\)</span> ) search. A similar search structure, the B+Tree, is like a binary tree generalized to <code>n</code> children. In this assignment, you will implement a B+Tree from scratch and use it to store and retrieve data.</p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<h2 id="btrees">BTrees</h2>
+<p><img src="/static/posts/project/b+tree/btree.jpeg" alt="btree" /></p>
+<p>To understand B+Trees, we should first cover what a BTree is. A BTree is a self-balancing recursive data structure that allows logarithmic time search, insertion, and deletion. It is a generalization of the binary search tree in that each node can have more than 1 search key and more than 2 children. A BTree of order <span class="math inline">\(m\)</span> is formally defined as a tree that satisfies the following properties:</p>
+<ul>
+<li>Each node has at most <span class="math inline">\(m\)</span> children,</li>
+<li>Every non-leaf (internal) node has at least <span class="math inline">\(\lceil m/2 \rceil\)</span> children,</li>
+<li>The root has at least two children unless it is a leaf node,</li>
+<li>A non-leaf node with <span class="math inline">\(k\)</span> children contains <span class="math inline">\(k-1\)</span> keys,</li>
+<li>All leaves appear on the same level and carry no information.</li>
+</ul>
+<p>One way to visualize what an internal node looks like is an array of <span class="math inline">\(2k-1\)</span> values, alternating between a child node pointer and a key:</p>
+<pre><code>[child_1, key_1, child_2, key_2, ..., key_k-1, child_k]
+</code></pre>
+<p>And a leaf node is similarly visualizable, except that there is a one-to-one correspondence between keys and values, making it an array of <span class="math inline">\(2k\)</span> values:</p>
+<pre><code>[key_1, value_1, key_2, value_2, ..., value_k-1, key_k, value_k]
+</code></pre>
+<p>Critically, all of the values of a node in between two values must be between those two values. So, there will never be any keys less than <code>key_1</code> or greater than <code>key_2</code> in <code>child_2</code> or any of its descendants. This mirrors the invariant present in any search tree.</p>
+<p>This data structure supports search, insertion, and deletion. Updates are supported as well, but can be thought of as a deletion followed by a subsequent insertion. We describe each of these algorithms.</p>
+<p><strong>Search</strong> - to search for a entry, we start at the root node. If the entry we're looking for is in this node, we return it. Otherwise, we binary search over the keys to find the branch that our desired entry could be in, and repeat this process for that child node until we either find the entry or bottom out.</p>
+<p><strong>Insertion</strong> - to insert a entry, we start at the root node. Then, we traverse to a leaf node and insert the entry in the correct spot, assuming the entry doesn't already exist. If the leaf node <em>overflows</em> (i.e. has more than <span class="math inline">\(k\)</span> entries), then we need to <em>split</em> it so that our BTree is still valid. To split a leaf node, we create a new leaf node and transfer half of the entries (not including the median) over to the new leaf node. Then, we take the median element and push that value up into the parent node to serve as a separator key for our two new nodes. If the parent node overflows, we repeat this process for that node.</p>
+<p><strong>Deletion</strong> - to delete a value, we first find the value (if it exists), then we remove it. This operation becomes rather complicated when nodes underflow (less than <span class="math inline">\(\lceil m/2 \rceil\)</span> children), or when deleting a value from an internal node; we leave it as an exercise to the reader to explore this operation.</p>
+<p>To explore how some of these BTree operations work, try out this <a href="https://www.cs.usfca.edu/~galles/visualization/BTree.html">online visualization</a>.</p>
+<h2 id="btrees-1">B+Trees</h2>
+<p><img src="/static/posts/project/b+tree/b+tree.jpeg" alt="b+tree" /></p>
+<p>Now that we understand BTrees, it's time to explore what a B+Tree is. A B+Tree is a BTree with a few important changes:</p>
+<ul>
+<li>Each leaf node has a pointer to its right neighbor. This makes linear scans much easier, since we don't have to traverse the tree structure to get to the next leaf node.</li>
+<li>Internal nodes store duplicates of values in leaf nodes. Critically, when a leaf node splits, it doesn't push any entries up to the parent; rather, it only pushes a copy of the entry up. This means that if we were to scan every leaf node, we would retrieve every value in the tree.</li>
+</ul>
+<p>Otherwise, everything else is the same as in a BTree. This structure is better optimized for when data you're looking for is on disk, since internal nodes only need to store keys, and then all of the large values are kept on leaf nodes. In our scheme, each node corresponds to a page, meaning the number of pages we have to read in to find a particular value is equal to the height of our B+Tree.</p>
+<p>The operations in a B+Tree are slightly different:</p>
+<p><strong>Search</strong> - to search for a value, we start at the root node and traverse all the way to the correct leaf node, using binary search to descend quickly. Once we arrive at the leaf node, binary search for the value.</p>
+<p><strong>Insertion</strong> - to insert a value, we start at the root node. Then, we traverse to a leaf node and insert the value in the correct spot. If the leaf node <em>overflows</em> (i.e. has more than <span class="math inline">\(k\)</span> values), then we need to <em>split</em> it so that our BTree is still valid. To split a leaf node, we create a new leaf node and transfer half of the values (including the median) over to the new leaf node. Then, we take a copy of the median element and push that value up into the parent node to serve as a separator key for our two new nodes. If the parent node overflows, we repeat this process for that node. The main difference here is that we duplicate the median key when we split.</p>
+<p><strong>Deletion</strong> - to delete a value, we first find the value in a leaf node(if it exists), then we remove it. This operation becomes rather complicated when nodes underflow (less than <span class="math inline">\(\lceil m/2 \rceil\)</span> children), or when deleting a value from an internal node; we leave it as an exercise to the reader to explore this operation.</p>
+<p>To explore how some of these B+Tree operations work, try out this <a href="https://www.cs.usfca.edu/~galles/visualization/BPlusTree.html">online visualization</a>.</p>
+<h3 id="split-indexing">Split Indexing</h3>
+<p>Splitting a node is actually quite a tricky operation which requires careful indexing; to help you wrap your head around the implementation of this opereation, we provide the following example. Let's say our internal node looks like this:</p>
+<pre><code>[child_0, key_0, child_1, key_1, child_2, key_2, child_3, key_3, child, key_4, child_5]
+</code></pre>
+<p>and then our second child (child index = 1) splits. Here's the node after the split, with <code>child*</code> as the new child, and <code>key*</code> the new key.</p>
+<pre><code>[child_0, key_0, child_1, key*, child*, key_1, child_2, key_2, child_3, key_3, child, key_4, child_5]
+</code></pre>
+<p>Notice how many keys and how many children we shifted. We shifted 3 of each. Next, notice the indices of the keys and children that we shifted. We shifted child indexes 3 and above, and we shifted key indexes 2 and above. <strong>The indexes for the keys and children we moved do not match up!</strong> Be careful about this nuance when you implement splits for internal nodes!</p>
+<h2 id="cursors">Cursors</h2>
+<p>One of the B+Tree's biggest optimization is the existence of links between leaf nodes to allow faster linear scans. A cursor is an abstraction that takes advantage of these links to carry out selections quickly.</p>
+<p>Essentially, a cursor is a data structure that points to a particular part of another data structure, with a few options for movement and action. A cursor typically has two operations: <code>StepForward</code> and <code>GetEntry</code>. <code>StepForward</code> steps the cursor over the next value; for example, if we are in the middle of a node, it moves on to the next value, otherwise, it skips over to the next node. <code>GetEntry</code> returns the value that the cursor is currently pointing at for the surrounding program to handle. Critically, in a B+Tree, a cursor never needs to be in an internal node, making it an easy to understand and simple to use abstraction.</p>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>In this project, you'll first do a little bit of setup, then you'll be writing a B+Tree: nodes, cursors, and all!</p>
+<p>The following are the files you'll need to alter:</p>
+<ul>
+<li><code>cmd/bumble/main.go</code></li>
+<li><code>pkg/db/db.go</code></li>
+<li><code>pkg/btree/node.go</code></li>
+<li><code>pkg/btree/cursor.go</code></li>
+<li><code>pkg/btree/btree.go</code></li>
+</ul>
+<p>And the following are the files you'll need to read:</p>
+<ul>
+<li><code>pkg/db/db.go</code></li>
+<li><code>pkg/btree/entry.go</code></li>
+<li><code>pkg/btree/btree_subr.go</code></li>
+</ul>
+<h2 id="subroutine-code">Subroutine Code</h2>
+<p>We've provided subroutine code so that you don't have to worry about the fact that all of this data is actually being stored on pages. We handle the marshalling and unmarshalling of data, you handle the actual logic of the B+Tree.</p>
+<p><strong>You will need to read the <code>btree_subr.go</code> file in full to implement this assignment.</strong> We recommend doing this before starting to write any code. You don't need to understand exactly how every function works, just understand what they do so that you know when you need to call them. If you ever find yourself manipulating bytes yourself, you have done something wrong and need to leverage the subroutine code more. You shouldn't change the subroutine code unless a TA has instructed you to do so.</p>
+<p>A common pattern you will see is how we get nodes; we use <a href="https://tour.golang.org/flowcontrol/12">defer</a> to ensure that the page is returned to the pager eventually, and then use one of the following three converter functions to use the page as a header, leaf node, or internal node:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Get page and put later:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">page</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">table</span>.<span style="color:#a6e22e">pager</span>.<span style="color:#a6e22e">GetPage</span>(<span style="color:#a6e22e">pagenum</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+}
+<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">Put</span>()
+<span style="color:#75715e">// And then one of the following:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">header</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pageToNodeHeader</span>(<span style="color:#a6e22e">page</span>)
+<span style="color:#a6e22e">leaf</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pageToLeafNode</span>(<span style="color:#a6e22e">page</span>)
+<span style="color:#a6e22e">internal</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">pageToInternalNode</span>(<span style="color:#a6e22e">page</span>)
+</pre><p>Some more notes about subroutine or stencil code:</p>
+<ul>
+<li>The <code>search</code> function gives you the index of the smallest element larger than the key you give it. In other words, for internal nodes it tells you the index of the child branch to descend into, and for leaf nodes, it tells you the index that the key you're looking for, should it exist, would be at.</li>
+<li>The following node functions should be used to get and manipulate keys and values: <code>getKeyAt</code>, <code>getValueAt</code>, <code>getPNAt</code>,  <code>getChildAt</code>, <code>updateKeyAt</code>, <code>updateValueAt</code>, <code>updatePNAt</code>, <code>updateNumKeys</code>, <code>modifyEntry</code>. <strong>Do not edit any node struct attributes directly; otherwise, changes will not be persisted in the database!</strong></li>
+<li>To create a new leaf node, use <code>createLeafNode(node.page.GetPager())</code>. To create a new internal node, use <code>createInternalNode(node.page.GetPager())</code>.</li>
+<li>To get a node's child, use <code>getChildAt</code>. Note: as the function's name and documentation suggest, this helper function increases the pinCount of the page storing the child, and hence the node's page must be <code>Put</code> accordingly after use.</li>
+<li>Do <strong>NOT</strong> use <code>getAndLockChildAt</code> - this function will be used in a later assignment.</li>
+<li>After using any function that creates or gets a node, be sure to run <code>defer newNode.getPage().Put()</code> so that you properly release the new page you just read in.</li>
+<li>B+Tree leaf nodes have a right sibling; to change it, use <code>setRightSibling</code>.</li>
+</ul>
+<h2 id="the-database-abstraction">The Database Abstraction</h2>
+<p>The <code>db</code> package serves as an interface between the B+Tree and the rest of your code; since a B+Tree is one of many potential index schemes (foreshadowing), this allows us to support multiple kinds of indexes rather easily. We recommend poking through the code to get a sense of what it does and how it works. Once you have added the above code, you should have access to the <code>DatabaseRepl</code> functionality, which supports the following commands:</p>
+<ul>
+<li><code>create &lt;type&gt; table &lt;table&gt;</code> - Creates a table with a particular type. For now, only supports type of &quot;btree&quot;. You must create a table before using it.</li>
+<li><code>find &lt;key&gt; from &lt;table&gt;</code> - Finds a particular key-value pair from the given table.</li>
+<li><code>insert &lt;key&gt; &lt;value&gt; into &lt;table&gt;</code> - Inserts a particular key-value pair into the given table. Does not allow insertion of duplicates.</li>
+<li><code>update &lt;table&gt; &lt;key&gt; &lt;value&gt;</code> - Updates a particular key-value pair in the given table. Does not update non-existent entries.</li>
+<li><code>delete &lt;key&gt; from &lt;table&gt;</code> - Deletes a particular key-value pair from the given table.</li>
+<li><code>select from &lt;table&gt;</code> - Returns all of the key-value pairs from the given table.</li>
+<li><code>pretty from &lt;table&gt;</code> - Pretty-prints the internal structure of the index.</li>
+</ul>
+<h2 id="part-1-node-functions">Part 1: Node Functions</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/btree/node.go</code></li>
+<li><code>pkg/btree/btree_subr.go</code></li>
+</ul>
+<p>Implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LeafNode</span>) <span style="color:#a6e22e">insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">update</span> <span style="color:#66d9ef">bool</span>) <span style="color:#a6e22e">Split</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LeafNode</span>) delete(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LeafNode</span>) <span style="color:#a6e22e">split</span>() <span style="color:#a6e22e">Split</span> 
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) <span style="color:#a6e22e">insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">update</span> <span style="color:#66d9ef">bool</span>) <span style="color:#a6e22e">Split</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) <span style="color:#a6e22e">insertSplit</span>(<span style="color:#a6e22e">split</span> <span style="color:#a6e22e">Split</span>) <span style="color:#a6e22e">Split</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) delete(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) <span style="color:#a6e22e">split</span>() <span style="color:#a6e22e">Split</span> 
+</pre><p><strong>Note that we do not expect you to handle coalescing underflowing nodes on deletion.</strong> It's perfectly fine for your delete implementation to simply remove a value from the leaf node; don't worry about maintaining the &quot;at least <span class="math inline">\(\lceil m/2 \rceil\)</span> values&quot; invariant.</p>
+<p>You may be wondering what a <code>Split</code> is - a <code>Split</code> is a struct that indicates whether the operation below triggered a node split, and if it did, the node that was pushed up, so that the calling function can receive it. Let's say we're at node A and we call insert on our child; our child comes back and tells us that it has split, and pushes a new node up to us. We then add that node to node A, and potentially split again to our parent. In this project, we handle root node splitting for you; however, you must handle the cases where internal and leaf nodes split!</p>
+<p>Some notes:</p>
+<ul>
+<li>A B+Tree is a recursive data structure, so you should expect your code to be recursive in nature! Take advantage of the fact that both internal and leaf nodes implement the <code>Node</code> interface.</li>
+<li>If any child function call returns an error, you should propagate that error upwards! Critically, there is an error field in the <code>Split</code> struct; if a child function call returns a <code>Split</code> with an error in it, the parent function call should also return this error.</li>
+<li>The <code>update</code> field in <code>insert</code> indicates whether the insertion is an insertion or an update. If <code>update == true</code>, then the function should only modify the value for an existing key. If <code>update == false</code>, then the function should only insert a new key-value pair.</li>
+<li>To insert or delete an entry, you should be shifting entries left or right to make space.</li>
+<li>Remember to always run <code>defer page.Put()</code> whenever you traverse a node!</li>
+</ul>
+<h2 id="part-2-cursor-functions">Part 2: Cursor Functions</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/btree/cursor.go</code></li>
+<li><code>pkg/btree/btree.go</code></li>
+</ul>
+<p>Next, we'll want to take advantage of the B+Tree structure and define a cursor that can scan over leaf nodes. We've defined the basic cursor functions for you and filled out <code>TableStart</code> so you have a sense of how to approach the rest of the functions. With that, implement the following functions in <code>pkg/btree/cursor.go</code>:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TableEnd</span>(<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BTreeIndex</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Cursor</span>, <span style="color:#66d9ef">error</span>)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TableFind</span>(<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BTreeIndex</span>, <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Cursor</span>, <span style="color:#66d9ef">error</span>)
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TableFindRange</span>(<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BTreeIndex</span>, <span style="color:#a6e22e">startKey</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">endKey</span> <span style="color:#66d9ef">int64</span>)
+</pre><p>And the following in <code>pkg/btree/btree.go</code>:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">BTreeIndex</span>) <span style="color:#a6e22e">Select</span>() ([]<span style="color:#a6e22e">entry</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">error</span>)
+</pre><p>Some hints to get you started:</p>
+<ul>
+<li>Use the <code>TableStart</code> implementation as a guide to how to interact with nodes and their underlying page representation.</li>
+<li>Remember to always run <code>defer page.Put()</code> whenever you traverse a node!</li>
+<li><code>StepForward</code> will return <code>true</code> when the cursor has reached the end of the table.</li>
+<li>To convert a cursor's current position into an Entry, use <code>GetEntry</code>.</li>
+</ul>
+<h2 id="debugging">Debugging</h2>
+<p>We know that this is a difficult assignment, so we have a few tips on how to debug.</p>
+<p>Each node currently can hold up to a few dozen entries before it will split. To lower the number of entries you need to insert before a split occurs, make the following changes:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// var ENTRIES_PER_LEAF_NODE int64 = ((pager.PAGESIZE - LEAF_NODE_HEADER_SIZE) / ENTRYSIZE) - 1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ENTRIES_PER_LEAF_NODE</span> <span style="color:#66d9ef">int64</span> = <span style="color:#ae81ff">5</span> <span style="color:#75715e">// Or another integer
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// var KEYS_PER_INTERNAL_NODE int64 = (ptrSpace / (KEY_SIZE + PN_SIZE)) - 1
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">KEYS_PER_INTERNAL_NODE</span> <span style="color:#66d9ef">int64</span> = <span style="color:#ae81ff">5</span> <span style="color:#75715e">// Or another integer
+</span></pre><p><strong>WARNING: REMEMBER TO REVERT THESE CHANGES BEFORE YOU SUBMIT, OTHERWISE THE AUTOGRADER <strong>WILL</strong> TIME OUT!</strong></p>
+<p>Then, run your database on the command line. You should be able to <code>insert</code>, <code>delete</code>, and <code>update</code> entries (among other operations) after you've run <code>create btree table &lt;table_name&gt;</code>. Critically, by running <code>pretty from &lt;table&gt;</code>, you can pretty-print the current state of your B+Tree. This should provide some observability into the system that will be useful in debugging.</p>
+<h3 id="example-usage">Example Usage</h3>
+<p>Let's run our database using <code>./bumble -project db</code>. Next, we create a table using <code>create btree table t</code>, and insert keys [1, 2, 4, 5, 6, 8] with any value (<code>insert k v into t</code>). Let's observe the state of the database using <code>pretty from t</code> (pretty-print the table <code>t</code>):</p>
+<pre style="color:#f8f8f2;background-color:#272822">bumble&gt; pretty from t
+<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> Internal <span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> size: <span style="color:#ae81ff">2</span>
+ |
+ |--&gt; <span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> Leaf size: <span style="color:#ae81ff">3</span>
+ |     |--&gt; <span style="color:#f92672">(</span>1, 0<span style="color:#f92672">)</span>
+ |     |--&gt; <span style="color:#f92672">(</span>2, 0<span style="color:#f92672">)</span>
+ |     |--&gt; <span style="color:#f92672">(</span>4, 0<span style="color:#f92672">)</span>
+ |     |--+
+ |        | node @ <span style="color:#ae81ff">1</span>
+ |        v
+
+ |    <span style="color:#f92672">[</span>KEY<span style="color:#f92672">]</span> <span style="color:#ae81ff">5</span>
+ |
+ |--&gt; <span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> Leaf size: <span style="color:#ae81ff">3</span>
+ |     |--&gt; <span style="color:#f92672">(</span>5, 0<span style="color:#f92672">)</span>
+ |     |--&gt; <span style="color:#f92672">(</span>6, 0<span style="color:#f92672">)</span>
+ |     |--&gt; <span style="color:#f92672">(</span>8, 0<span style="color:#f92672">)</span>
+</pre><p>Let's dissect the above; we ran <code>pretty from t</code> and see that our root node is an internal node with page number 0, and has 2 children. Each of the leafs has three keys and three values. The leaf at page number 2 has a right sibling at page number 1.</p>
+<h2 id="testing">Testing</h2>
+<p>Run our unit tests on Gradescope. We've provided a subset of the tests <a href="/static/posts/project/b+tree/btree_test_sample.go">here</a>.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started, download the following stencil packages: <a href="https://drive.google.com/file/d/1fyy0O7ohlSMlrXXVtkv8DToWVjMYUiTj/view?usp=sharing">db</a>, <a href="https://drive.google.com/file/d/120iBQF-NYy6uFY4zj_Z3wFWTVj3j1V5r/view?usp=sharing">btree</a>. We've provided an updated <code>main.go</code> file <a href="https://drive.google.com/file/d/1POqLJ3Ufp3UE9TOjo9uq_5hojS6CKrv1/view?usp=sharing">here</a>. When finished, your filestructure should look like this:</p>
+<pre><code>./
+    - cmd/
+        - bumble/
+    - pkg/
+        - btree/
+        - config/
+        - db/
+        - utils/
+        - list/
+        - pager/
+        - repl/
+</code></pre>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

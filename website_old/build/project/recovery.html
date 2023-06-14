@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Recovery | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="recovery">Recovery <a class="pdf" href="../static/gen/recovery.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=BPyQM7FmG8g&ab_channel=JoJo%27sMusic">end of THE WORLD</a></p>
+<p>What happens when our database crashes? What if we lose power for a moment or run out of memory? In dramatic terms, <em>how can our database be prepared for the <strong>end of THE WORLD</strong></em>? The answer is recovery! In this assignment, you'll make your database crash-tolerant using write-ahead logging and recovery.</p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<h2 id="write-ahead-logging">Write-Ahead Logging</h2>
+<p>When our database crashes, we lose everything that was stored in volatile memory. Write-ahead logging aims to solve this problem by storing enough information to recreate the state of the database after a crash.</p>
+<p>In write-ahead logging, we write a log specifying the action we undertook <em>before</em> we actually do it. For example, if we inserted (10, 10) into the database, we would write a log that might look like &quot;&lt; Tx1, INSERT, 10, 10, tablename &gt;&quot;, indicating that transaction 1 inserted the value (10, 10) into table &quot;tablename&quot;. If we do this for every write action a database undertakes, then we will be able to recover just by <strong>replaying</strong> the log!</p>
+<p>You might be tempted to remark that write-ahead logging seems redundant and slow; why don't we just save the state of the database each time? The nature of write-ahead logging makes writing a log much less expensive than flushing a page: in short, appending a string to a file is much cheaper than mutating a data structure and flushing the corresponding pages.</p>
+<h2 id="log-types">Log Types</h2>
+<p>There are five kinds of logs in our database: TABLE logs, EDIT logs, START logs, COMMIT logs, and CHECKPOINT logs.</p>
+<p>TABLE logs signify the creation of a table. The structure of a TABLE log is <code>&lt; create tblType table tblName &gt;</code>, where <code>tblType</code> is either <code>hash</code> or <code>btree</code>, and <code>tblName</code> is the name of the table.</p>
+<p>EDIT logs signify actions that have modified the state of the database; for example, before a database insertion, deletion, or update, an EDIT log is written to disk. The structure of an EDIT log is <code>&lt; Tx, table, INSERT|DELETE|UPDATE, key, oldval, newval &gt;</code>, where <code>Tx</code> is the transaction that undertook this edit, <code>table</code> is the affected table, <code>key</code> is the affected key, and <code>oldval</code> and <code>newval</code> after the before and after results. Note that <code>oldval</code> xor <code>newval</code> can be null - think about why!</p>
+<p>START logs signify the beginning of a new transaction. The structure of a START log is <code>&lt; Tx start &gt;</code>.</p>
+<p>COMMIT logs signify the end of a running transaction. The structure of a COMMIT log is <code>&lt; Tx commit &gt;</code>.</p>
+<p>CHECKPOINT logs list the currently running transactions and guarantee that all memory has been flushed to disk. The structure of a CHECKPOINT log is <code>&lt; Tx1, Tx2... checkpoint &gt;</code>.</p>
+<p>Using these logs, we can define a recovery algorithm that can recovery from any database crash. We've handled the serialize and deserialize functions for you in the code; this will be useful, though, if you decide to debug by looking at your WAL.</p>
+<h2 id="checkpoints">Checkpoints</h2>
+<p>You might be wondering what a CHECKPOINT log is for. Let's say we've crashed and decide to recover our database by replaying our logs. You may have noticed that it is rather inefficient to replay a database's entire history. Especially since our database already has data stored on disk, we want to do the minimum amount of work required to restore the database.</p>
+<p>To achieve this, we use <strong>checkpoints</strong>. A checkpoint is a point in the logs where we can be sure that all data in memory was flushed to disk. In other words, there is no need to replay information up to a checkpoint, since it already exists on disk. A checkpoint log also contains information specifying which transactions are currently active; as you will see soon, this is imperative for recovery, since it gives us information about what instructions should actually be undone.</p>
+<p>When we call <code>checkpoint</code> on the REPL, we first flush all pages to disk, then write a checkpoint log to disk. This order is important; if we wrote the log first, but crashed during the flush itself, our recovery algorithm would not work!</p>
+<h2 id="the-recovery-algorithm">The Recovery Algorithm</h2>
+<p>Now that we have all of the groundwork we need, let's formalize the recovery algorithm. It goes as follows:</p>
+<ol>
+<li>Seek backwards through the logs to the most recent checkpoint and note which transactions are currently active using the information in the checkpoint log.</li>
+<li>Redo all actions from the most recent checkpoint to the end of the log, keeping track of which transactions are active. These actions <strong>should not</strong> be logged.</li>
+<li>Undo all actions that belong to active transactions from the end of the log to the start of the logs in reverse order. These actions <strong>should</strong> be logged.</li>
+</ol>
+<p>We encourage you to think about the following cases and why this algorithm properly restores the database:</p>
+<ul>
+<li>A transaction began before a checkpoint and commited after.</li>
+<li>A transaction began before a checkpoint and never committed.</li>
+<li>A transaction began after a checkpoint and commited after.</li>
+<li>A transaction began after a checkpoint and never commited.</li>
+<li>A transaction began before a checkpoint and commited after, but some of its results were already written out to disk.</li>
+<li>A transaction begin before a checkpoint and committed after, and another transaction with the same name began after as well, and never committed.</li>
+<li>And so on...</li>
+</ul>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>In this project, you'll implement crash recovery! After this final piece, you will have fully completed a disk-oriented, multi-indexed, fully-concurrent and fully-crash tolerant database! Congratulations!</p>
+<p>The following are the files you'll need to alter:</p>
+<ul>
+<li><code>cmd/bumble/main.go</code></li>
+<li><code>pkg/recovery/recovery.go</code></li>
+</ul>
+<p>And the following are the files you'll need to read:</p>
+<ul>
+<li><code>pkg/recovery/log.go</code></li>
+<li><code>pkg/recovery/reader.go</code></li>
+</ul>
+<h2 id="new-repl-commands">New REPL Commands</h2>
+<p>Our REPL now supports the following commands:</p>
+<ul>
+<li><code>checkpoint</code> - writes all pages to disk and writes a checkpoint log.</li>
+<li><code>abort</code> - rolls back the current transaction.</li>
+<li><code>crash</code> - crashes the database. Note that you cannot use <code>Ctrl-C</code> or <code>Ctrl-D</code> to simulate a crash, since both of those safely flush to disk.</li>
+</ul>
+<p>Note that you will need transaction management from the Concurrency assignment; however, we will not be testing to ensure that your database can recover from a multi-threaded workload.</p>
+<h2 id="part-1-logging">Part 1: Logging</h2>
+<p>Implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Table</span>(<span style="color:#a6e22e">tblType</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">tblName</span> <span style="color:#66d9ef">string</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Edit</span>(<span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>, <span style="color:#a6e22e">table</span> <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Index</span>, <span style="color:#a6e22e">action</span> <span style="color:#a6e22e">Action</span>, <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">oldval</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">newval</span> <span style="color:#66d9ef">int64</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Commit</span>(<span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Checkpoint</span>()
+</pre><p>Some notes:</p>
+<ul>
+<li>The <code>clientId</code> should be the value passed from the <code>REPLConfig</code>. This value should not be nil; if it is, you may have a bug in your REPL.</li>
+<li>For each log, update the corresponding <code>txStack</code> entry. The <code>txStack</code> tracks logs for each client individually to allow selective rollbacks. You should be calling either <code>make</code>, <code>append</code> or <code>delete</code> on values in the map.</li>
+<li>When a transaction begins, it should have exactly one entry in the stack corresponding to the startLog you've just written.</li>
+<li>When a transaction commits, you can delete all of its data in the map.</li>
+<li><code>TABLE</code> logs don't need to be added to any stacks.</li>
+<li>Use <code>rm.writeToBuffer(log.toString())</code> to write a log. All logs should be written once.</li>
+<li>In <code>Checkpoint</code>, you should flush all pages to disk before writing a checkpoint log. To do so, you will have to go through each table in <code>rm.d.GetTables()</code> and run <code>table.GetPager().FlushAllPages()</code>. Write the log <strong>AFTER</strong> flushing to disk!</li>
+<li>Remember to lock the respective Pagers using <code>LockAllUpdates()</code> and <code>UnlockAllUpdates()</code>.</li>
+</ul>
+<h2 id="part-2-recovery">Part 2: Recovery</h2>
+<p>Implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Rollback</span>(<span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>) <span style="color:#66d9ef">error</span>
+</pre><p>Some hints to help you along:</p>
+<ul>
+<li>The <code>Rollback</code> method should iterate backwards through the actions in a transaction's <code>txStack</code> - this should indicate to you that you need to add logs to this stack at some point.</li>
+<li>Don't roll back a transaction if the transactions logs are not well formed; i.e. the first log is not a <code>START</code> log, a log doesn't parse, etc.</li>
+<li><code>Commit</code> to <strong>both</strong> the RecoveryManager and TransactionManager when <code>Rollback</code> ends so that both the logs and system know that this transaction has ended.</li>
+</ul>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RecoveryManager</span>) <span style="color:#a6e22e">Recover</span>() <span style="color:#66d9ef">error</span>
+</pre><p>Some hints to help you along:</p>
+<ul>
+<li>Use <code>rm.readLogs()</code> to get the logs and most recent checkpoint position from disk. The logs are returned in forward order (<em>i.e</em> the 0-th log is the oldest log).</li>
+<li>Use the <code>Redo</code> and <code>Undo</code> functions we've provided to undo and redo logs. We highly recommend reading through them to get a sense of what the system does in each case.</li>
+<li>The <code>Recovery</code> method should implement the algorithm we described above in section titled &quot;The Recovery Algorithm&quot;; NOT the algorithm described in lecture.</li>
+<li>When encountering start or commit logs in the Redo phase, make sure to only call the corresponding function in <code>rm.tm</code>. Calling the corresponding function in <code>rm</code> will create a log, which we don't want. In the Undo phase we do want logs, so be sure to call both functions in this phase.</li>
+</ul>
+<p>And finally, some notes:</p>
+<ul>
+<li>You'll notice some new functions floating around; namely, <code>Prime</code> and <code>Delta</code>. These two functions change our database into something a bit more like a copy-on-write data structure. In short, these functions make sure that, when we recover, we recover from a snapshot of the database taken at the most recent checkpoint; otherwise, the internal representation of our B+Trees or Hash Tables may be corrupted due to our rolling Pager flushes. If you're interested in learning more, come to our hours and ask!</li>
+</ul>
+<h2 id="part-3-optimization-optional">Part 3: Optimization (Optional)</h2>
+<p>Since this is the last assignment, we'd like to challenge you to take our database to the next level somehow! Given the length of  Databases are complex creatures that often support many features. Sometimes they span millions of lines of code. From this rich field of possibilities, we have some suggestions for potential optimizations/improvements you could undertake; if any of them seem interesting to you, come talk with us about it. We'd love to hear about what you end up building! If you do any optimization, please write about it in your README.</p>
+<ul>
+<li>Database log compaction</li>
+<li>Linear probe tables</li>
+<li>External merge sort</li>
+<li>Variable-length records</li>
+<li>Support for more data types</li>
+<li>Database table statistics</li>
+<li>Query trees</li>
+<li>Query plans and optimizations</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Run our unit tests on Gradescope.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started, download the following stencil package: <a href="https://drive.google.com/file/d/1JuIQOiG9KG8D82iwS4xcpgIy_idgL-u4/view?usp=sharing">recovery</a>. We've provided an updated <code>main.go</code> file <a href="https://drive.google.com/file/d/1n9QQS0Tb5kh82105Dbo8wt3yMVpd0QVC/view?usp=sharing">here</a>. When finished, your filestructure should look like this:</p>
+<pre><code>./
+    - cmd/
+        - bumble/
+        - bumble_client/
+        - bumble_stress/
+    - pkg/
+        - btree/
+        - config/
+        - db/
+        - utils/
+        - hash/
+        - list/
+        - pager/
+        - repl/
+        - query/
+        - concurrency/
+        - recovery/
+</code></pre>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

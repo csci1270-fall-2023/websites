@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Local Development Guide | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 id="dev_guide">Local Development Guide</h1>
+            
+        <p>Developing locally is always tricky; this guide seeks to provide students with multiple ways to run code in the course, lest one method not work. Please try these in the order in which they are presented, as the methods below increase in complexity. If you have another way of running things that you think should be added to this guide, let us know!</p>
+<hr />
+<h1 id="local-development">Local Development</h1>
+<p>To get set up for local development, check out the <strong>Setup</strong> section of our <a href="/misc/go_help">Guide to Golang</a>. To validate, ensure that <code>go version</code> prints out a version of 1.13 or higher. Common issues with getting set up on Golang usually include correctly setting your PATH and GOPATH environment variables. Check these values to ensure that Go is being picked up properly by your shell.</p>
+<p>Also make sure you have Git installed. We use Git as a version control system. Install Git <a href="https://git-scm.com/download">here</a> or with your package manager of choice.</p>
+<p>Aside from getting set up on Golang and Git, you may want to consider getting familiar with a text editor. The following are options for you to peruse.</p>
+<ul>
+<li>VSCode</li>
+<li>Atom</li>
+<li>Sublime Text</li>
+<li>Vim</li>
+<li>Emacs</li>
+</ul>
+<p>Note: We really like VSCode for Golang development. Golang is a language where formatting counts. <a href="https://marketplace.visualstudio.com/items?itemName=golang.Go">The Go extension for VSCode has lots of great macros to save you time and keep you from making unnecessary mistakes</a>.</p>
+<p>If you are on an Apple m1 computer, then use the <a href="https://golang.org/dl/go1.16.darwin-arm64.pkg">1.16 installation for Darwin on ARM</a>. There should not be any major differences between 1.16 and 1.13. Unfortunately, m1 support did not start until 1.16.</p>
+<p>If you are on an Apple Intel computer, then use the <a href="https://golang.org/dl/go1.13.darwin-amd64.pkg">1.13 installation for Darwin on x86</a>.</p>
+<hr />
+<h1 id="department-machine-development">Department Machine Development</h1>
+<p>Another option is to use a department machine. Since your code should already be hosted on GitHub, this option should be relatively easy to set up. Moreover, Golang 1.13 is already installed on department machines, meaning you won't have to do any setup!</p>
+<p>If you've never SSH'd into a machine before, check out the Brown CS Department's guide <a href="https://cs.brown.edu/about/system/connecting/ssh/">here</a>. Then, <code>git clone</code> your repository in your userspace, verify that everything is working, and code away!</p>
+<p>The only thing to remember is: <strong>make sure you permission your code correctly so nobody else can read it!!!!</strong> Failure to permission code correctly is a violation of our academic code - see our syllabus for more.</p>
+<hr />
+<h1 id="dockerized-development">Dockerized Development</h1>
+<p>In case local development isn't working for you, we provide a Dockerfile that <em>should</em> work throughout the course. If the Dockerfile stops working, come to TA hours or post on Campuswire, and we'll try to get it working again. Install Docker <a href="https://docs.docker.com/get-docker/">here</a> (you don't need Docker Desktop, but it doesn't hurt).</p>
+<p>Download our Dockerfile <a href="/static/files/Dockerfile">here</a>. To run it, you'll need to first <strong>build the image</strong>, and then <strong>run a container</strong> on that image. Drop the Dockerfile into your project directory (if it isn't already in the stencil), then run the following two to build and run:</p>
+<ul>
+<li><code>docker build -t bumblebase:latest .</code></li>
+<li><code>docker run --rm -v $PWD/data:/app/data -it bumblebase:latest</code></li>
+</ul>
+<hr />
+
+
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

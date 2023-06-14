@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Relational Algebra | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="relational_algebra">Relational Algebra <a class="pdf" href="../static/gen/relational_algebra.pdf">View as a PDF</a></h1>
+            
+        <h1 id="question-1">Question 1</h1>
+<p>Consider the following relation:</p>
+<table>
+<thead>
+<tr>
+<th>employee_id</th>
+<th>employee_name</th>
+<th>job_title</th>
+<th>years_exp</th>
+<th>department</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Nick</td>
+<td>HTA</td>
+<td>1</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Desmond</td>
+<td>HTA</td>
+<td>2</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Stan</td>
+<td>Professor</td>
+<td>30</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Junchi</td>
+<td>UTA</td>
+<td>1</td>
+<td>CS</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Huiyuan</td>
+<td>UTA</td>
+<td>2</td>
+<td>CS</td>
+</tr>
+</tbody>
+</table>
+<p>Given the above relation, provide the following:</p>
+<ol>
+<li>A maximal super key (a super key with the largest possible size).</li>
+<li>All possible candidate keys.</li>
+<li>Which candidate key should we choose as our primary key (justify your response).</li>
+</ol>
+<h1 id="question-2">Question 2</h1>
+<p>Consider the following relational schema:</p>
+<pre><code>student (student_id, name, age, year)
+student_account (student_id, tuition, course)
+</code></pre>
+<p>Use relational algebra to answer the following queries:</p>
+<ol>
+<li>Find names of students who have a tuition charge greater than or equal to $10,000.</li>
+<li>Find student_ids of students whose age is over 20, graduate in 2025, and will take the &quot;Databases&quot; course</li>
+<li>Find all of pairs of ids of students who have the same name.</li>
+<li>Find all of the students that pay more in tuition than another student with the same name as them.</li>
+<li>Find the sum of tuition paid for each school year.</li>
+</ol>
+<h1 id="question-3">Question 3</h1>
+<p>The division (<span class="math inline">\(\div\)</span>) relational operator identifies attribute values from a relation that can be paired with allof the values from the other relation. One way to think about it is that it is the inverse of the Cartesian Product (<span class="math inline">\(\times\)</span>) relational operator: given relations <span class="math inline">\(R\)</span> and <span class="math inline">\(S\)</span> , <span class="math inline">\((R \times S) \div R = S\)</span> . Another way to think about it is that the tuples returned are the elements of <span class="math inline">\(R\)</span> that are associated with every element of <span class="math inline">\(S\)</span> . For another definition, see page 61 in the textbook.</p>
+<p>Given this operator, consider the following relational schema:</p>
+<pre><code>student (student_id, name, age, year)
+course (course_id, course_name, department)
+takes (student_id, course_id)
+</code></pre>
+<p>Use relational algebra to answer the following queries:</p>
+<ol>
+<li>Which courses were taken by every student?</li>
+<li>Which courses were taking by every student graduating in 2023?</li>
+<li>Which students took every course in the CS department?</li>
+<li>Which students took every course in the CS department except for &quot;Databases&quot;? Note that you should not return any students that have taken &quot;Databases&quot;.</li>
+</ol>
+<h1 id="question-4">Question 4</h1>
+<p>Consider the following selected tables from some schema:</p>
+<p><strong>Bees</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>cluster_no</th>
+<th>job</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Barry Benson</td>
+<td>24601</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Adam Flayman</td>
+<td>47</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Buzzwell</td>
+<td>24601</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Lou Lo Duca</td>
+<td>42</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Bob Bumble</td>
+<td>42</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Janet Benson</td>
+<td>24601</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Clusters</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>cluster_no</th>
+<th>established</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>42</td>
+<td>2147483647</td>
+</tr>
+<tr>
+<td>47</td>
+<td>1630026000</td>
+</tr>
+<tr>
+<td>24601</td>
+<td>1658797200</td>
+</tr>
+</tbody>
+</table>
+<p>In this question, we will explore how we can leverage properties of relational algebra to be more efficient.</p>
+<ol>
+<li>For each relational query, write out the intermediate tables after each calculation step.
+<ol>
+<li><span class="math inline">\(\sigma_{cluster\_no=24601}(\sigma_{job=7}(bees)) \bowtie clusters\)</span></li>
+<li><span class="math inline">\(\sigma_{cluster\_no=24601}(\sigma_{job=7}(bees \bowtie clusters))\)</span></li>
+</ol>
+</li>
+<li>How do the final tables for both queries compare?</li>
+<li>Sum the number of rows for each query that you counted in (2). Which query required you to write the least number of rows along the way in total?</li>
+<li>What qualities about your &quot;least-expensive&quot; query made it select less rows in total? Which operators were located where? Is there something particularly special about that?</li>
+</ol>
+<h2 id="note">Note</h2>
+<p>For any tabular data in this assignment, you may want to consider using <a href="https://www.tablesgenerator.com/">an online table tool</a> to help you save time when you type up your answers.</p>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

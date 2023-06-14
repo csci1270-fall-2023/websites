@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Guide to Golang | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 id="go_help">Guide to Golang</h1>
+            
+        <p>This is a quick whirlwind tour of the Go programming language! Please feel free to use this as reference for your assignments. We <strong>highly</strong> recommend starting with <a href="https://tour.golang.org/welcome/1">A Tour of Go</a> to get through the basics quickly and interactively; however, this guide will seek to be as comprehensive as possible. For other resources to learn Go, check out:</p>
+<ul>
+<li>CSCI 1380's <a href="http://cs.brown.edu/courses/csci1380/s21/content/docs/get-good-with-go.pdf">Get Going With Go</a></li>
+<li><a href="https://gobyexample.com/">Go by Example</a></li>
+</ul>
+<hr />
+<h1 id="setup">Setup</h1>
+<p>To get started with Go, first ensure that you have the Go programming language installed by running <code>go --version</code> in the terminal. If you don't have Go installed, follow the installation instructions <a href="https://golang.org/doc/install">here</a>. Note that Go 1.13 is already installed on all department machines. Please install Go 1.13 or above.</p>
+<p><em>Note that you do not need to do any of the following setup for this course; this is mainly for your own knowledge!</em></p>
+<p>To set up a Go project, navigate to your project folder and run <code>go mod init &lt;mod_name&gt;</code>. The module name is generally determined by your GitHub setup. If your GitHub username is <code>jcarberry</code> and your repository name is <code>db</code>, you should run <code>go mod init github.com/jcarberry/db</code>. This creates a <strong>Go module</strong>, which is essentially a virtual environment complete with a package system. Most Go projects should be in a Go module.</p>
+<p>You can import external packages into your module for use in your code. Running <code>go get &lt;pkg&gt;</code> will add the package to your <code>go.mod</code> file and create a checksum file, <code>go.sum</code>. Then, the package will then be accessible to your code. Try it out on <code>github.com/couchbase/vellum</code>!</p>
+<p>Some commands that are useful:</p>
+<ul>
+<li><code>go mod tidy</code> cleans up your packages and downloads newly added packages.</li>
+<li><code>go clean -modcache</code> removes cached packages.</li>
+</ul>
+<hr />
+<h1 id="dev-environment">Dev Environment</h1>
+<p>We highly recommend using a linter to verify that your code is syntactically correct! If you use VSCode, install the Go extension - this will provide syntax highligting and other language utilities that will make your development experience much smoother. If you don't use VSCode, look around for an equivalent package or extension in your preferred text editor - it will save you hours of time.</p>
+<hr />
+<h1 id="building-and-running">Building and Running</h1>
+<p>Now that you've installed and initialized a Go project, it's time to learn how to run it!</p>
+<ul>
+<li><code>go build &lt;dir&gt;</code> will build a <code>main</code> package into a runnable executable.</li>
+<li><code>go run &lt;file.go&gt;</code> will run a particular <code>main</code> package.</li>
+<li><code>go install &lt;dir&gt;</code> will build a <code>main</code> package and link it to your <code>$PATH</code>, so that it is callable from your entire machine.</li>
+</ul>
+<p>We'll explain what a <code>main</code> package is in the next section. In this class, building and running is handled by our Makefile. We typically build the package into an executable to avoid creating too many binaries in your <code>$PATH</code>.</p>
+<hr />
+<h1 id="project-structure">Project Structure</h1>
+<p>The basic structure of every Go project is about the same. In your root directory will be your <code>go.mod</code> file alongside any other configuration files or build scripts, like a Makefile or README. There will be two or three top-level directories: <code>cmd</code> and <code>pkg</code>, and potentially <code>internal</code>.</p>
+<p><code>cmd</code> is where the primary entrypoint(s) to your project will live, separated into subfolders that contain a <code>main</code> package. Each <code>main</code> package is an entrypoint to your application and can be compiled into an executable. Let's say you had a file: <code>cmd/db/main.go</code> - running <code>go build ./cmd/db</code> would create an executable <code>./db</code> that would run the code inside the associated <code>main.go</code> file. Similarly, <code>go run ./cmd/db/main.go</code> would run the package.  ·</p>
+<p><code>pkg</code> is where your project's packages live. A package is a collection of related Go files, typically implementing a single piece of logic. To use a package in your binaries, you have to import them using the module name you defined above (more on this later). Packages are self-contained, and everything capitalized will be exported from the package (e.g. <code>func Sample()</code> is exported, <code>func secret()</code> is not). The <code>main</code> package is specially designed to be compiled into a binary. You can have multiple <code>main</code> packages, each in a subfolder in the <code>cmd</code> directory (detailed above).</p>
+<p><code>internal</code> is where private packages live; privacy is guaranteed by the compiler, and code here can't be imported outside of the module. In this course, we don't use the <code>internal</code> folder.</p>
+<hr />
+<h1 id="hello-world">Hello World</h1>
+<p>The following is a classic &quot;Hello World&quot; program:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello, world!&#34;</span>)
+}
+</pre><p>The first line of every Go file must be the package it belongs in; in this case, <code>main</code>. Next are the packages that are imported using the <code>import</code> keyword. You can (and should) import multiple packages, both from the standard library and from external sources using the following syntax:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#f92672">import</span> (
+    <span style="color:#e6db74">&#34;fmt&#34;</span>
+    <span style="color:#e6db74">&#34;os&#34;</span>
+    
+    <span style="color:#a6e22e">db</span> <span style="color:#e6db74">&#34;github.com/jcarberry/db/pkg&#34;</span>
+)
+</pre><p>You will have to import packages from your own module into other parts of your module. However, all code in a module is accessible to all other files in that module, even unexported values.</p>
+<hr />
+<h1 id="printing">Printing</h1>
+<p>The <code>fmt</code> package is the main package for printing content out to the terminal:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Three, Two, One&#34;</span>)
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d, %d, %d\n&#34;</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>)
+</pre><hr />
+<h1 id="types">Types</h1>
+<p>Go's basic types are:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">bool</span>
+<span style="color:#66d9ef">string</span>
+<span style="color:#66d9ef">int</span>  <span style="color:#66d9ef">int8</span>  <span style="color:#66d9ef">int16</span>  <span style="color:#66d9ef">int32</span>  <span style="color:#66d9ef">int64</span>
+<span style="color:#66d9ef">uint</span> <span style="color:#66d9ef">uint8</span> <span style="color:#66d9ef">uint16</span> <span style="color:#66d9ef">uint32</span> <span style="color:#66d9ef">uint64</span> <span style="color:#66d9ef">uintptr</span>
+<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// alias for uint8
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">rune</span> <span style="color:#75715e">// alias for int32, represents a Unicode code point
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">float32</span> <span style="color:#66d9ef">float64</span>
+<span style="color:#66d9ef">complex64</span> <span style="color:#66d9ef">complex128</span>
+</pre><p>and their pointer variants, which are prefixed with a <code>*</code>. Each type has a zero value, which is <code>0</code> for numeric types, <code>false</code> for boolean types, and <code>&quot;&quot;</code> for strings.</p>
+<p>You can convert between types using <code>Type(v)</code>. Be aware of how the representation of data may affect the underlying data, however.</p>
+<hr />
+<h1 id="variables">Variables</h1>
+<p>Variables can be declared using the <code>var</code> keyword or using the <code>:=</code> operator:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>
+<span style="color:#a6e22e">x</span> = <span style="color:#ae81ff">10</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> = <span style="color:#ae81ff">11</span>  <span style="color:#75715e">// Types are inferred.
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">z</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">12</span>     <span style="color:#75715e">// Types are inferred.
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">14</span> <span style="color:#75715e">// Can initialize two at a time!
+</span></pre><p>Note that the <code>:=</code> operator is not available outside of functions.</p>
+<p>There is also a <code>const</code> keyword that can be used to declare constants outside of a function. By convention, constants should be named using <code>SCREAMING_SNAKE_CASE</code>.</p>
+<hr />
+<h1 id="functions">Functions</h1>
+<p>Functions can be declared like so:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">y</span>
+}
+</pre><p>Use the keyword <code>func</code>, give the function a name, and type each of the parameters and outputs. Functions can have multiple outputs and named outputs:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">split</span>(<span style="color:#a6e22e">sum</span> <span style="color:#66d9ef">int</span>) (<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">sum</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">9</span>
+	<span style="color:#a6e22e">y</span> = <span style="color:#a6e22e">sum</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">x</span>
+	<span style="color:#66d9ef">return</span>
+}
+</pre><p>Calling functions is rather straightforward as well:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">add</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">11</span>)) <span style="color:#75715e">// Prints 21
+</span></pre><p>You can also define functions anonymously and inline:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">isEven</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> { <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> }
+</pre><hr />
+<h1 id="loops">Loops</h1>
+<p>Go loops are declared using the <code>for</code> keyword. There are two main ways to write a for loop, traditionally and using the <code>range</code> keyword:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>)
+}
+
+<span style="color:#a6e22e">primes</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">6</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">13</span>}
+<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">idx</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">primes</span> {
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">idx</span>, <span style="color:#a6e22e">val</span>)
+}
+</pre><p>While loops are written as a for loop with no condition:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">for</span> {
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;ever&#34;</span>)
+}
+</pre><hr />
+<h1 id="control-flow">Control Flow</h1>
+<p><code>if</code> statements are written as follows:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">x</span> &lt; <span style="color:#ae81ff">8</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>
+} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">x</span> &gt; <span style="color:#ae81ff">10</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span>
+} <span style="color:#66d9ef">else</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">3</span>
+}
+</pre><p>You can declare variables to be used in the <code>if</code> statement, but variables declared like this will be scoped to the if block, and be inaccessible outside of it:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>(); <span style="color:#a6e22e">v</span> &gt; <span style="color:#ae81ff">10</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+}
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>) <span style="color:#75715e">// will error
+</span></pre><p>To check a number of cases, use the <code>switch</code> statement:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">v</span> {
+<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">10</span>:
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+<span style="color:#66d9ef">case</span> <span style="color:#ae81ff">12</span>:
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">default</span>:
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>
+}
+</pre><p>To have a function be invoked only when the calling function returns, use the <code>defer</code> keyword:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>() {
+    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Yoohoo&#34;</span>)
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Yahoo&#34;</span>)
+    <span style="color:#75715e">// Prints &#34;Yahoo&#34; then &#34;Yoohoo&#34;
+</span><span style="color:#75715e"></span>}
+</pre><hr />
+<h1 id="pointers">Pointers</h1>
+<p>Go has pointers that hold memory addresses. If you have never worked with pointers before, we recommend <a href="https://www.freecodecamp.org/news/pointers-in-c-are-not-as-difficult-as-you-think/">reading up about C pointers</a> to get an idea of how they work (Go pointers are similar to C pointers, just without pointer arithmetic). The zero value of a pointer is <code>nil</code>. Define and dereference a pointer like so:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>      <span style="color:#75715e">// x holds 10
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">ptr</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x</span>    <span style="color:#75715e">// ptr holds a reference to x
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ptr</span>    <span style="color:#75715e">// val holds the value of x
+</span></pre><p>You'll often see constructors that create pointers:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewDog</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">Dog</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Dog</span>{<span style="color:#a6e22e">paws</span>: <span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">rating</span>: <span style="color:#ae81ff">10</span>}
+}
+</pre><hr />
+<h1 id="arrays-slices-and-maps">Arrays, Slices, and Maps</h1>
+<p>Arrays are fixed-size composite data types. The type <code>[n]T</code> is an array of <code>n</code> values of type <code>T</code>. Declare an array, filled with its zero value or initialized yourself, like so:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">names</span> [<span style="color:#ae81ff">2</span>]<span style="color:#66d9ef">string</span>
+<span style="color:#a6e22e">primes</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">6</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">13</span>}
+</pre><p>Slices are dynamically-sized views of an array; they are much more commonly used than arrays. The type <code>[]T</code> is a slice of values of type <code>T</code>. While there are many ways to define a slice, the most useful one uses the <code>make</code> function, while using the <code>append</code> function to add more elements to the slice:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">names</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>)
+<span style="color:#a6e22e">names</span> = append(<span style="color:#a6e22e">names</span>, <span style="color:#e6db74">&#34;sparky&#34;</span>)
+</pre><p>Use the <code>len</code> function to find the lengths of slices (and many other datatypes).</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">names</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">8</span>)
+<span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">names</span>) <span style="color:#75715e">// 8
+</span></pre><p>Maps are key-value stores like Python dictionaries or Javascript objects. Declare and use a map like so:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">m</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
+<span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;ten&#34;</span>] = <span style="color:#ae81ff">10</span>
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;ten&#34;</span>])
+
+<span style="color:#a6e22e">ten</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;ten&#34;</span>]
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ten</span>)
+
+delete(<span style="color:#a6e22e">m</span>, <span style="color:#e6db74">&#34;ten&#34;</span>)
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;ten&#34;</span>]) <span style="color:#75715e">// errors
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">ten_check</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">m</span>[<span style="color:#e6db74">&#34;ten&#34;</span>]
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ok</span>) <span style="color:#75715e">// false
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ten_check</span>) <span style="color:#75715e">// 0
+</span></pre><hr />
+<h1 id="structs">Structs</h1>
+<p>A <code>struct</code> is a collection of fields:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Dog</span> {
+    <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">legs</span> <span style="color:#66d9ef">int</span>
+}
+</pre><p>To initialize and print a struct, see the following example:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">sparky</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Dog</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;sparky&#34;</span>, <span style="color:#a6e22e">legs</span>: <span style="color:#ae81ff">4</span>}
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%+v \n&#34;</span>, <span style="color:#a6e22e">sparky</span>)
+</pre><p>You can creates pointers to structs and access their fields in the exact same way (automatic dereferencing):</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">sparky</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Dog</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;sparky&#34;</span>, <span style="color:#a6e22e">legs</span>: <span style="color:#ae81ff">4</span>}
+<span style="color:#a6e22e">ptr</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sparky</span>
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ptr</span>.<span style="color:#a6e22e">name</span>)
+</pre><p>You can define methods on structs (functions with a struct as a receiver) like so:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">bark</span>() {
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Bark&#34;</span>)
+}
+
+<span style="color:#a6e22e">sparky</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Dog</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;sparky&#34;</span>, <span style="color:#a6e22e">legs</span>: <span style="color:#ae81ff">4</span>}
+<span style="color:#a6e22e">sparky</span>.<span style="color:#a6e22e">bark</span>() <span style="color:#75715e">// prints &#34;Bark&#34;
+</span></pre><p>Only pointer methods can mutate a struct:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Won&#39;t do anything
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">growLeg</span>() {
+    <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">legs</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+}
+
+<span style="color:#75715e">// Euruka!
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">growLeg</span>() {
+    <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">legs</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+}
+</pre><hr />
+<h1 id="interfaces">Interfaces</h1>
+<p>An interface is a set of method signatures. There is no <code>implements</code> keyword; any struct that has a method for every method signature automatically implements the interface.</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Animal</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">walk</span>()
+    <span style="color:#a6e22e">name</span>() <span style="color:#66d9ef">string</span>
+}
+</pre><p>The empty interface <code>interface{}</code> is implemented by every type, and is useful for when a type is unknown. We can cast from an <code>interface{}</code> type to another type (unsafely) using the <code>i.(type)</code> syntax:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">anyMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}) <span style="color:#75715e">// Can put anything in this map
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">anyMap</span>[<span style="color:#e6db74">&#34;one&#34;</span>] = <span style="color:#ae81ff">1</span>
+<span style="color:#a6e22e">anyMap</span>[<span style="color:#e6db74">&#34;two&#34;</span>] = <span style="color:#e6db74">&#34;two&#34;</span>
+<span style="color:#a6e22e">anyMap</span>[<span style="color:#e6db74">&#34;three&#34;</span>] = <span style="color:#a6e22e">Number</span>{<span style="color:#a6e22e">value</span>: <span style="color:#ae81ff">3</span>}
+
+<span style="color:#a6e22e">one</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">anyMap</span>[<span style="color:#e6db74">&#34;one&#34;</span>].(<span style="color:#66d9ef">int</span>)
+<span style="color:#a6e22e">one</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">anyMap</span>[<span style="color:#e6db74">&#34;one&#34;</span>].(<span style="color:#66d9ef">string</span>) <span style="color:#75715e">// This will panic!
+</span></pre><p>One thing to note about interfaces is that an interface can be implemented by either a struct a pointer to that struct; as a result, you should almost never use a pointer to an interface in a function header, as <a href="https://stackoverflow.com/questions/44370277/type-is-pointer-to-interface-not-interface-confusion">it can cause some confusion</a>:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Wrong</span>(<span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SomeInterface</span>) {} <span style="color:#75715e">// This will not work as expected, even if your struct has pointer receiver methods
+</span></pre><hr />
+<h1 id="errors">Errors</h1>
+<p>The <code>error</code> type is used to express errors. It is often returned by functions to signal whether or not the function ran as expected. The following is a very common pattern in Go:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">mightFail</span>(<span style="color:#a6e22e">input</span> <span style="color:#66d9ef">int</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">input</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;Can&#39;t use 0&#34;</span>)
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">input</span>
+    }
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mightFail</span>(<span style="color:#ae81ff">0</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">result</span>)
+}
+</pre><p>The <code>errors</code> package is useful for creating errors.</p>
+<hr />
+<h1 id="concurrency">Concurrency</h1>
+<p>This section will be populated later in the course. Important topics to review include:</p>
+<ul>
+<li>Goroutines</li>
+<li>Channels</li>
+<li><code>sync</code></li>
+</ul>
+<hr />
+<h1 id="testing-and-benchmarking">Testing and Benchmarking</h1>
+<p>Unit tests in Go are written in files that end in <code>_test.go</code>. Typically, unit tests for a given package live in the same folder as the package itself. Unit tests are simply functions that begin with <code>Test</code> and take one parameter of type <code>*testing.T</code>. You can run all of the tests for a given package using <code>go test [-v]</code>. The following is an example test:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestAdd</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+    <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">11</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">21</span> {
+        <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Addition is broken&#34;</span>)
+    }
+}
+</pre><p>Benchmarks in Go are the exact same as tests, except that they must be prefixed with <code>Benchmark</code> and take one parameter of type <code>*testing.B</code>. To run benchmarks, run <code>go test -bench=.</code>. Benchmark code must be run multiple times; be sure to wrap your benchmarked code in a for loop that runs at most <code>b.N</code> times. To have control over the benchmarking timer, for instance, to allow for setup or teardown, use <code>b.ResetTimer</code>, <code>b.StopTimer</code>, and <code>b.StartTimer</code>. To initiate cleanup, use <code>b.CleanUp</code>.</p>
+<p>To check your test's code coverage, run <code>go test -coverprofile=...</code>. In general, strive to cover most of your code with tests, about 80%. Note that high test coverage does not necessarily mean good testing, and good testing does not always result in high test coverage; given that this class also uses system testing, it may be that the majority of your testing infrastructure lies there. That is perfectly fine. What's important is that you are confident that your software works as intended.</p>
+<hr />
+<h1 id="style--other-tips">Style &amp; Other Tips</h1>
+<ul>
+<li>You might notice that Go doesn't require semicolons; it is considered poor style to include them unless when necessary.</li>
+<li>The <code>interface{}</code> type is the &quot;Any&quot; type in Go. All other types implement it. To cast an <code>interface{}</code> variable to another type, use the dot syntax. e.g. <code>x.(int)</code> casts <code>interface{}</code> variable <code>x</code> to an <code>int</code>.</li>
+<li>Typically, you want to access struct attributes using getters and setters; avoid accessing them directly with the dot operator.</li>
+<li>To return an error, use the <code>errors</code> package: <code>errors.New(&quot;this is an error&quot;)</code>. Our autograder does not care what error string you write, just that an error is thrown when expected.</li>
+<li>To cast any value to a string, use <code>fmt.Sprintf(&quot;%v\n&quot;, x)</code>. This code returns a string version of <code>x</code>.</li>
+<li>Capitalized functions and structs are exported from a package, while uncapitalized functions and structs are not. So <code>func Hello()</code> would be accessible from another package, but <code>func goodbye()</code> would not.</li>
+<li>If there are any unused imports, Go will fail to build. Comment out unused imports before building!</li>
+<li>When using <code>make</code> to create an array, you pretty much always want to have the second argument be 0: <code>make([]Entry, 0)</code>. Otherwise, the first <code>x</code> entries will be <code>nil</code> or the equivalent empty value.</li>
+</ul>
+<hr />
+
+
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

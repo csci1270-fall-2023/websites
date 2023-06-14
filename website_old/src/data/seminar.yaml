@@ -1,0 +1,25 @@
+seminars:
+  - topic: Efficient SQL
+    date: Oct 01
+    slides: <a href="https://docs.google.com/presentation/d/1Z1kmIUzZX2OKYNhvuYwWVyo-rzX9h5gDzVrrw7aEXdY/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/MvKloeJzM0QtifdkHE2dCayMKtZrRGjoaOH6SVbqZE8MP3e09G2W3ngJ3psAJpjH.2IbWP26FGIiP95jP">Recording</a>
+
+  - topic: Time Series Databases
+    date: Oct 08
+    slides: <a href="https://docs.google.com/presentation/d/1aoBZJTjGUH6ILApbnwQrjvhBsnB3D1ClIZHDDnxGdf8/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/LvJDKmn-Live9Ni643NIK57y499MHKLSCRr2-Aw20RUGmWjdfOo5D0hcLAoYJvCa.2EGrW3FRcT3DTs-D">Recording</a>
+
+  - topic: Advanced Indexes
+    date: Oct 22
+    slides: <a href="https://docs.google.com/presentation/d/1K2pC_Jq4odJRyRElzKTmiik09vumpm5ZV-zomwiNO4w/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/nnx_iwvgyyfqqVIYrUthV8ZeSRKV5074NEHUpFZd6geguxiAPF3YcevLgrhMUt2L.mvzGC5FYPhVI8nWq">Recording</a>
+
+  - topic: Denormalization & MongoDB
+    date: Oct 29
+    slides: <a href="https://docs.google.com/presentation/d/1E1RnZ6IOJl0_eG1DqqBal312zd53DATaIiF8NbpzIa8/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/3l2nZ9yAtmLEBWFXpPI2KB8sJHtuGPlZSooaCujfFvdNFd2IrARntaeLeif8O-RQ.z-wUhMXbP3IlHkXd">Recording</a>
+
+  - topic: Graph Databases
+    date: Nov 12
+    slides: <a href="https://docs.google.com/presentation/d/1ECRezTPcxfvlbGCvmuyMmhjd8VirZjudsuRI0SEn0gM/edit?usp=sharing">Slides</a>
+    recording: <a href="https://brown.zoom.us/rec/share/Df9q0NSKLYDHaeVB_i6vEKAyC-E1yAtcLYZZ_xTS7EqblcM1ORMnfvTO4NWwfn2c.OFaqSygKZim1_TlV">Recording</a>

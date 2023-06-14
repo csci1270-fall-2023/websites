@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Latches + Transactions | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="latches+transactions">Latches + Transactions <a class="pdf" href="../static/gen/latches+transactions.pdf">View as a PDF</a></h1>
+            
+        <h1 id="question-1">Question 1</h1>
+<p>Given the following concurrent transaction schedule, draw the corresponding precedence graph and give a serial order of execution based on a topological sort order.</p>
+<p><img src="/static/posts/homework/latches+transactions/schedule.png" alt="Q1" /></p>
+<h1 id="question-2">Question 2</h1>
+<p>Consider the following schedule, S:</p>
+<table>
+<thead>
+<tr>
+<th>T1</th>
+<th>T2</th>
+<th>T3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R(X)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>R(Y)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>W(X)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>R(Y)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>W(Y)</td>
+</tr>
+<tr>
+<td>W(X)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>R(Y)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Is this schedule conflict-serializable? Why or why not?</li>
+<li>Is this schedule view-serializable? Why or why not?</li>
+<li>Determine the precedence graph for this schedule.</li>
+</ol>
+<p>For each of the following, modify S to create a complete schedule that satisfies the stated condition. You may move around read or write operations in any way you'd like, but you may not add or remove any read or write operations. You may add commits or aborts.</p>
+<ol start="4">
+<li>Resulting schedule is recoverable.</li>
+<li>Resulting schedule avoids cascading aborts but is not recoverable.</li>
+<li>Resulting schedule is conflict-serializable.</li>
+</ol>
+<h1 id="question-3">Question 3</h1>
+<p>Consider the following transactions:</p>
+<pre><code>T1:
+read(B);
+read(A);
+if(A &gt; 0) then A := -B;
+write(A);
+
+T2:
+read(A);
+read(B);
+if(B &gt; 0) then B := -A;
+write(B);
+</code></pre>
+<p>Assume that the database is consistent if A = 1 or B = 1, with A = B = 1 as initial values.</p>
+<ol>
+<li>Show that every serial execution involving these two transactions preserves the consistency of the database.</li>
+<li>Show a concurrent execution of T1 and T2 that produces a non-serializable schedule.</li>
+<li>Is there a concurrent execution of T1 and T2 that produces a serializable schedule? If such execution exists, show an example, otherwise prove why it doesn't exist. (Hint: can we swap?)</li>
+<li>Add locking instructions to the above transactions so that they are compatible with 2-Phase Locking.</li>
+<li>Can your new transaction code result in a deadlock? Explain your answer.</li>
+</ol>
+<h1 id="question-4">Question 4</h1>
+<p>Given the following BTree (max degree 3), explain the steps that a database system that uses lock crabbing would go through to do the following operations:</p>
+<ol>
+<li>Read &quot;28&quot;</li>
+<li>Write &quot;23&quot;</li>
+</ol>
+<p>Assume that all operations are done using a single pointer <code>curr</code>. You should include locking, unlocking, and moving in your steps. An example of a response would be: <code>Lock {8}. Unlock {8}. Lock {13, 22}</code> and so on. Assume that the system will never abort.</p>
+<p><img src="/static/posts/homework/latches+transactions/btree.png" alt="Q4" /></p>
+<ol start="3">
+<li>Now, suppose we want to write &quot;6&quot; to the B-tree. Explain the lock steps in this situation. How many locks in total will we have to acquire using crabbing?</li>
+<li>Write &quot;6&quot; using optimistic locking. How many locks did we acquire?</li>
+<li>In our &quot;optimistic&quot; scheme, we don’t have locks on ancestor nodes. Suppose we go to read &quot;6&quot;, but we concurrently delete &quot;4&quot; from the tree. How can we handle this? When should we use crabbing and optimistic locking?</li>
+</ol>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

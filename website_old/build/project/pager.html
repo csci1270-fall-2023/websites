@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Pager | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="pager">Pager <a class="pdf" href="../static/gen/pager.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=UYrkQL1bX4A&ab_channel=TroyParry">Cooking By The Book</a></p>
+<p>BumbleBase is a disk-oriented database system, so at its foundation it has to manage data files on disk. In this assignment, we will build the machinery that will handle the low-level operations on our data files that will enable us to easily develop higher-level logic in future assignments.</p>
+<p><strong>Note:</strong> this assignment does not require you to write very many lines of code. However, the lines that you do write require a very detailed understanding of how a pager works. Before you begin coding, make sure you understand as much of the existing code as you can and understand how pages are being stored in memory - <strong>a strong understanding of how pages are stored and implemented is absolutely integral to succeeding in the rest of the course; make sure you understand it as well as possible!</strong> To that end, we highly recommend you attend the Pager Gearup and come to TA hours if you are stuck!</p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<h2 id="mutual-exclution">Mutual Exclution</h2>
+<p>Before we go on, we should explain the fundamentals of locking; you will encounter locks briefly in this assignment and revisit them in great detail in later assignments.</p>
+<h3 id="mutexes">Mutexes</h3>
+<p>A <strong>mutual exclution lock</strong> (mutex) is a kind of lock that ensures only one thread/process is accessing a resource at any given point in time. Once someone has acquired the lock, everybody else must wait for the lock to be unlocked before they can acquire the lock. A common problem with locking protocols is running into <strong>deadlocks</strong>, which is essentially when two threads are waiting for each other to free their locks, while holding the lock that the other thread needs.</p>
+<h3 id="rwlocks">RWLocks</h3>
+<p>Another way that we handle concurrent page accesses is in the form of <strong>readers-writers locks</strong> (RWLocks). A RWLock is a kind of lock that allows many readers to access a resource at a time, but only one writer. In other words, if a thread is granted a read lock, they can be sure that everybody else with a lock is also a reader, and if a thread is granted a write lock, they can be sure that they are the only one with any sort of lock, both read or write.</p>
+<p>This is slightly better than a regular mutex lock since it allows more than one reader to access a resource at a time. If your database experiences a very read-heavy load, this can decrease downtime as pages unnecessarily wait for resources to show up. The following is an example of how RWLocks are used:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#a6e22e">lock</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">RWLock</span>{}
+<span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">RLock</span>() <span style="color:#75715e">// Gets the lock, no problem
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">RLock</span>() <span style="color:#75715e">// Also no problem!
+</span><span style="color:#75715e">// lock.Lock() // Cannot get a write lock right now, since there are readers.
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">RUnlock</span>()
+<span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">RUnlock</span>() <span style="color:#75715e">// Now, lock is fully unlocked
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Lock</span>() <span style="color:#75715e">// So, we can get a write lock!
+</span><span style="color:#75715e">// lock.Lock() // However, because there is a write lock, nobody else can grab write locks
+</span><span style="color:#75715e">// lock.RLock() // ... or read locks
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>() <span style="color:#75715e">// Be sure to always unlock your locks when you&#39;re done!
+</span><span style="color:#75715e">// lock.Unlock() // But never too many times!
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Lock</span>()
+<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">lock</span>.<span style="color:#a6e22e">Unlock</span>() <span style="color:#75715e">// It can be useful to say: &#34;unlock this lock when this function exits&#34;.
+</span></pre><h2 id="pages">Pages</h2>
+<p>Given a set of records, we have many potential strategies of storing them in a file. One strategy is called a heap file, where the database is represented as a single, unorganized file, and records are inserted wherever there is space for it. However, heap files are not particularly organized; if you built an index over the entire file, there won't be a good way to use it without reading the entire index into memory. As you insert and delete data, fragmentation will lead to wasted space. And so on.</p>
+<p>Although we like to think of data in terms of bits and bytes, our disk and operating system handle data in units of pages. Formally, a <strong>page</strong> is the smallest amount of data that can be guaranteed to be written to disk in a single atomic operation, traditionally fixed at a uniform size such as 4096 bytes. In other words, our operating system exclusively read from and write to disk in blocks of 4096 bytes. We can leverage this feature of our operating system to create a more organized and flexible storage scheme.</p>
+<p>It's worth noting that these days, multiple page sizes are supported on various architectures. Additionally, database systems are free to set their own page sizes to multiples of the underlying system's page size. However, these design choices come with various tradeoffs. <strong>In BumbleBase, database pages will follow the page size of the hardware and operating system, i.e. database pages will contain 4096 bytes</strong> (<code>PAGESIZE</code> in <code>pager.go</code>).</p>
+<p>Each page is given a unique page id that can be used to determine the offset in the file where it belongs. In our scheme, the 0th page takes up bytes 0-4095, the 1th page takes up bytes 4096-8191, and so forth. In general, other systems may have other ways of mapping page id to page offset (using a page directory or other data structure).</p>
+<h3 id="disk-manager">Disk Manager</h3>
+<p>To store a database on disk, we can either write directly to block devices, or have the operating system do this for us. The former is a pain to implement and port to other hardware platforms. Instead, we will do the latter. Since the operating system doesn't know anything about our data model, database files are treated just like normal files, meaning that all the regular read and write operations are available for us to use.</p>
+<p>In BumbleBase, each table is stored as a separate file. To read a specific section of the table, we have to seek to the appropriate byte offset within the file, then read in the specified number of bytes. To minimize the number of blocks we read from disk, <em>the byte offset should be page-aligned (i.e. a multiple of the page size)</em>. We should read in one page's worth of data at a time. When writing to our database, we do the same thing: seek to the correct byte offset in the file, then write a page's worth of bytes to the file.</p>
+<p>Here's an example to illustrate: consider a particular tuple, A, which exists in page P. To select A, we first read in the entire page P, and then search P for A. It might seem wasteful to read in so much extra data if we only need one tuple, but as we'll see soon, doing this makes it easier to cache data that we've read in predictable and reusable chunks and leverages the operating system's underlying construction for speed.</p>
+<p>This functionality is provided for you. However, it's good to have a firm grasp of how we're writing data to and from pages.</p>
+<h3 id="buffer-cache--page-table">Buffer Cache &amp; Page Table</h3>
+<p>It would be wasteful to read a page into memory and immediately write it out; if we've already gone through the trouble of reading a page in, we should keep it around in case it is needed again in the near future. After all, some pages are often read very often, or might be read multiple times in a particular transaction. This process is called <strong>caching</strong>.</p>
+<p>The cached data will be stored in a buffer that we first pre-allocate, then fill. Critically, the buffer must be page aligned, such that the data stored in a page-sized block is actually stored as a single page, and not sharded across two. The buffer is represented as a series of <strong>frames</strong>, each large enough to hold one page. When a page is brought into memory, it will reside in a frame.</p>
+<p>To keep track of which pages are in which frames, we have a <strong>page table</strong>. A page table is a map from page ids to frame ids, and indicates where pages are currently being stored in memory.</p>
+<p>Let's consider an example. In the following diagram, our program has requested pages 0, 1, 2, and 3. To the external program, it seems as through these pages physically exist in order - this is known as the &quot;logical memory&quot; abstraction. The pages <em>actually</em> live in one of 8 frames that we've allocated. To figure out which frame each page lives in, we consult the page table, which maps the page ids to the frame its stored in.</p>
+<p><img src="/static/posts/project/pager/page_table.jpeg" alt="page table" /></p>
+<h3 id="pinning-pages">Pinning Pages</h3>
+<p>While a page is in use, we want to make sure that it doesn't get evicted from the cache. Pinning a page marks it as in use and prevents it from being evicted. Pinning is usually implemented as a thread-safe counter of the number of threads currently using the page. This is what we do as well (see the <code>pinCount</code> attribute).</p>
+<p>As an example, let's say we request a new page from the pager. Since this is a new page, we know that we're the only person using it, so we set the pin count to 1. Once we're finished, we decrement the pin count. If nobody else had taken the page in the meantime, we would be clear to free the page since the pin count would be 0. However, if someone else <em>did</em> take the page in the meantime, then the reference count would be greater than 0, meaning we cannot free the page.</p>
+<h3 id="getting-and-evicting-pages">Getting and Evicting Pages</h3>
+<p>Whenever we get a page that is not already in our page table, we want to grab it from disk and keep track of it in our page table. Initially, all of our empty frames are stored in a <strong>free list</strong>; while this free list is non-empty, we should be using one of our free frames to store new pages. However, once all of our frames are full, we should evict old pages from memory and use those newly freed frames to store our new pages.</p>
+<p>In addition to the free list, we also keep track of a <strong>pinned list</strong> and an <strong>unpinned list</strong>. While a page is in use, it should be in the pinned list, and while it is not in use, it should be in the unpinned list. Critically, when a page shifts from being in use to not being in use (<em>i.e.</em> the pin count drops to 0), it should be removed from the pinned list and inserted into the end of the unpinned list. Symettrically, when a page shifts from being not in use to being in use (<em>i.e.</em> the pin count increases to 1 from 0), it should be removed from the unpinned list and inserted into the end of the pinned list. A page should never move to the free list (think about why). Make sure you're able to wrap your head around what these three lists are used for!</p>
+<p><img src="/static/posts/project/pager/pager.png" alt="pager" /></p>
+<p>When a new page is requested and the free list is full, we need to evict an old page to create space. Notice that the first page in the unpinned list is most likely the best candidate to evict; it is not currently in use, and since we add new unpinned pages to the end of the unpinned list, it is the oldest such page. We have actually implemented what is known as a <strong>least recently used cache</strong>, or an <strong>LRU cache</strong>. This is one of many possible caching strategies we could have used, but is simple and effective for most use cases. Thus, we evict this page and use that frame for our new page!</p>
+<p>It's possible to have multiple pagers operating on the same allocated disk space. In the following example, each process thinks it has its own memory space when accessing the pages of a file. However, under the hood, the same amount of physical memory is still being used, but it is done in a way that is opaque to the user.</p>
+<p><img src="/static/posts/project/pager/page_tables.png" alt="page tables" /></p>
+<h3 id="dirty-pages">Dirty Pages</h3>
+<p>While data persistence is good, reading from and writing to the disk are expensive operations. In order to minimize the amount of writes, we avoid writing data to the disk unless something has changed. Concretely, if a user only performs SELECTs, but does not INSERT, DELETE, or UPDATE entries on a particular page, then there is no need to flush the page to disk, since the page hasn't changed.</p>
+<p><em>A page is considered <strong>dirty</strong> when it has been modified, and all dirty pages must be written out to disk before being evicted from the cache.</em> This guarantees that we persist all changes we make to the database.</p>
+<p><img src="/static/posts/project/pager/lists.png" alt="lists" /></p>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>In this assignment, you will implement a pager that can read pages in from disk, write them out to disk, and do so in a multithreaded environment.</p>
+<p>The following are the files you will need to alter:</p>
+<ul>
+<li><code>./pkg/storage/pager.go</code></li>
+</ul>
+<p>And the following are the files you will need to read:</p>
+<ul>
+<li><code>./pkg/storage/page.go</code></li>
+</ul>
+<h2 id="implementation-specific-details">Implementation-specific Details</h2>
+<ul>
+<li>Note that our <code>Page</code> struct is actually a logical frame! A particular <code>Page</code> instance will hold many different pages over its lifetime.</li>
+<li>We use three lists to keep track of pages: <code>freeList</code>, <code>unpinnedList</code>, and <code>pinnedList</code> - a page must be in exactly one of these pages.</li>
+<li>The <code>freeList</code> is a queue of pre-allocated pages. We have already populated the list for you in <code>NewPager</code>.</li>
+<li>The <code>unpinnedList</code> keeps track of pages in memory that have yet to be evicted, but are not currently in use. We should put newly unpinned pages at the tail of the <code>unpinnedList</code>. When we run out of pages from the free list, we should pop from the head of the <code>unpinnedList</code> to get a new page. This way, we implement LRU cache eviction.</li>
+<li>The <code>pinnedList</code> is a list of all blocks currently being used by the database. We should put newly pinned pages at the tail of the <code>pinnedList</code>.</li>
+<li>Remember to grab the <code>ptMtx</code> whenever mutating any of the lists/maps of the page table! Otherwise, our code won't be safe in a multithreaded setting.</li>
+<li>If your tests are timing out, it is most likely due to a mutex deadlock. Be sure that for every lock there is a corresponding unlock! The <code>defer</code> keyword may be of use here.</li>
+<li>Do <strong>NOT</strong> use the <code>Lock</code> or <code>Unlock</code> methods in the <code>page.go</code> file yet! These will be used in a later assignment; you are not expected to/supposed to do any page locking here - only page table locking!</li>
+</ul>
+<h2 id="pager">Pager</h2>
+<p>Implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">pager</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pager</span>) <span style="color:#a6e22e">newPage</span>(<span style="color:#a6e22e">pagenum</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">Page</span>, <span style="color:#66d9ef">error</span>)
+</pre><p><code>newPage</code> should check if there are pages in the free list, and return one from there if it exists. Otherwise, it should evict a page from the head of the unpinned list, flush that page's content out to memory, and return the clean page. If there are no pages in either list, then throw an error. Do not forget to set the returned page's variables correctly!</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">pager</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pager</span>) <span style="color:#a6e22e">GetPage</span>(<span style="color:#a6e22e">pagenum</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#a6e22e">page</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Page</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>)
+</pre><p><code>GetPage</code> should check the page table for the requested page. If it is an invalid page number (<em>e.g.</em> too large or too small), then we should throw an error.</p>
+<p>If the page is in the page table, then it is either in the unpinned or pinned list. If it is in the unpinned list, then we <em>note that it is actively being used</em> and return it. Otherwise, we have already noted it's actively being used.</p>
+<p>If the page is not in the page table, then we will need to grab a new page from disk. In the case that we are requesting a page that doesn't exist yet (<em>e.g.</em> the page number has never been seen before), then we don't need to read anything from disk. Otherwise, we read the data from disk into our page (hint: use <code>ReadPageFromDisk</code>). Finally, ensure that the page table is up to date and return the page. Remember to <code>Get</code> the page before returning it, and remember to check for errors and handle the lists properly in each error case!</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">pager</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pager</span>) <span style="color:#a6e22e">FlushPage</span>(<span style="color:#a6e22e">page</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Page</span>)
+</pre><p><code>FlushPage</code> should write the page's data out <em>to the correct offset</em> in the file. Hint: use <code>file.WriteAt</code>. We should only do this if the file exists and the page is dirty. It doesn't matter if the page is pinned - while technically this could result in a torn write, we will ensure that this won't happen at a higher level later on.</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">pager</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Pager</span>) <span style="color:#a6e22e">FlushAllPages</span>()
+</pre><p><code>FlushAllPages</code> should flush all pages. Note that all of the pages that need flushing are either in the pinned list or the unpinned list - iterating through them should achieve the desired result.</p>
+<h2 id="testing">Testing</h2>
+<p>Run our unit tests on Gradescope.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started, download the following stencil package: <a href="https://drive.google.com/file/d/122fuB0x-eBUjdbUWcvaSYaD9R9U0N5B4/view?usp=sharing">pager</a>. From now on, you'll be getting stencils in these <code>.zip</code> files; typically, you'll just need to drop the packages into the <code>pkg/</code> folder. In this case, you should put the <code>pager</code> folder into the <code>pkg</code> folder. We've provided an updated <code>main.go</code> file <a href="https://drive.google.com/file/d/1lQvcIuWSJJDJnvGxWBSQ1hkmVWyRVPX1/view?usp=sharing">here</a>. When finished, your filestructure should look like this:</p>
+<pre><code>./
+    - cmd/
+        - bumble/ (new `main.go`)
+    - pkg/
+        - config/
+        - list/
+        - pager/
+        - repl/
+</code></pre>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>SQL | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="sql">SQL <a class="pdf" href="../static/gen/sql.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=_D0ZQPqeJkk&ab_channel=Coltsrock56">Star Wars (Main Title)</a></p>
+<p>SQL is the language of relational databases. It's important to know how to query and manipulate structured data so that when you end up building your own database, you have an idea of how to use it. In this project, we'll practice writing SQL queries for the iMDb database.</p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<p>To get started with SQL, check out our <a href="../misc/sql_help">Guide to SQL</a>! Even if you're already proficient in it, everybody benefits from a brief refresher.</p>
+<p>Note that in this project, we are using <strong>sqlite3 version 3.22</strong> - this means that not all features you learn about in class are necessarily available. (<em>e.g.</em> window functions are not available for you to use) We assure you, however, that all of the problems are possible to do in sqlite3.</p>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>In this assignment, you will write SQL queries for the iMDb database. We have provided our version of this database with download instructions below.</p>
+<h2 id="part-1">Part 1:</h2>
+<ol>
+<li>Write a SQL query to find <code>primary_title</code> of top 10 movies which have received an average rating of more than or equal to 8.5, or have been voted by more than or equal to 1000000 people. The results should be sorted by the average rating in descending order.</li>
+<li>Write a SQL query that gets the director's <code>primary_name</code> for the movie 'Poeta'.</li>
+<li>Write a SQL query that returns the <code>primary_name</code> of directors and count of titles directed by each director. Results should be ordered by the count of titles in descending order</li>
+<li>Write a SQL query that returns the different genres of all the movies and average runtime of all genres.</li>
+<li>Write a SQL query that finds <code>primary_name</code> of directors who have directed movies that received an average rating less than or equal to 5.</li>
+</ol>
+<h2 id="part-2">Part 2:</h2>
+<ol>
+<li>Write a SQL query that returns <code>primary_title</code> and <code>start_year</code> of movies whose titles begin with 'The' and were released in a leap year (hint: leap years are divisible by 4).</li>
+<li>Write a SQL query that returns the <code>primary_title</code> and <code>start_year</code> of movies that were released 19 years after the birth year of Walt Disney. (Hint: the CAST function may come in handy)</li>
+<li>Write a SQL query that finds the <code>primary_title</code>, <code>start_year</code> and <code>runtime_minutes</code> of all shows whose <code>runtime_minutes</code> have exceeded the average runtime minutes of movies released in the same year. Results should be ordered by start year ascending and runtime minutes descending.</li>
+</ol>
+<h2 id="part-3">Part 3:</h2>
+<ol>
+<li>Write a SQL query that finds the <code>primary_title</code>, <code>avg_rating</code>, and <code>reviews</code> of 20 movies. The reviews depend on average rating. A movie with rating less than or equal to 3 should be reviewed as 'poor'. A movie with rating greater than 3 and less than or equal to 6 should be reviewed as 'okay' and a movie with rating greater than 6 should be reviewed as 'good'. The result should be sorted by the title (descending order) (Hint: The CASE function may come in handy).</li>
+<li>Write a SQL query that returns the decades and percentage of titles which were released in the corresponding decade.</li>
+<li>Write a SQL query that returns the name of director and a boolean value if the director has directed more than or equal to 5 movies. The boolean value will be 1 if true else 0.</li>
+</ol>
+<h2 id="testing">Testing</h2>
+<p>To validate that your queries are working as intended, upload your submission to Gradescope and view the autograder output. If you notice a weird, fractional score, it is because we are calculating your grade using <a href="https://en.wikipedia.org/wiki/F-score">F-score</a>. This means that returning all rows or returning no rows won't get you <em>closer</em> to the answer; rather, only by returning more correct rows and returning fewer incorrect rows can you maximize your score.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started, get your stencil repository <a href="https://classroom.github.com/a/oTtIgL3O">here</a>. Then, download our database from <a href="https://drive.google.com/file/d/140R92oMODDNHn7hJHiWv-FDKuSCB6QWJ/view?usp=sharing">here</a>, and place it in the stencil repo. A good first step is to confirm that the database has data in it, and that you can query it. You will write your queries for each subproblem in the provided sql file, and run it using a command like the following: <code>sqlite3 database.db &lt; sql/1_1.sql</code>.</p>
+<p>If you don't have sqlite3, then install it from <a href="https://www.sqlite.org/download.html">here</a>, or your package manager of choice. If you install it from the website, find the pre-compiled binary for your operating system. Note that sqlite3 is already installed on all department machines, so feel free to work from the CIT or SSH into a remote machine. Just be sure to save your work and keep it permissioned correctly so other students can't see what you've done!</p>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

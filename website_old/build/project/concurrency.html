@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Concurrency | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="concurrency">Concurrency <a class="pdf" href="../static/gen/concurrency.pdf">View as a PDF</a></h1>
+            
+        <p>Theme Song: <a href="https://www.youtube.com/watch?v=rGKfrgqWcv0&ab_channel=MumfordAndSonsVEVO">I Will Wait</a></p>
+<p>A database running on a single thread and supporting a single client, is not particularly interesting. We want to be able to run multiple operations and serve multiple clients at the same time. In this assignment, we'll implement both fine-grain and resource-level locking to ensure that your database is safe to use concurrently.</p>
+<p><em>Note: This is a challenging assignment with a lot of moving parts. Start early and code incrementally. Starting at the last minute is a <strong>very</strong> bad idea. Please do not take this advice as a challenge.</em></p>
+<hr />
+<h1 id="background-knowledge">Background Knowledge</h1>
+<h2 id="fine-grain-locking">Fine-Grain Locking</h2>
+<p>You may recall mutexes and reader-writers locks from the Pager assignment (if not, read that section of the Pager handout for a refresher) - in this assignment, we'll expand our usage of locks to make our B+Tree and hash table thread-safe using fine-grain locking.</p>
+<p>Fine-grain locking is a locking technique that involves locking a part of a data structure to ensure safe access rather than locking the entire data structure. In B+Trees, this means only locking the nodes that we're currently looking at, and in a hash table, this means only locking the buckets we're currently looking at. Clearly this is desirable - now we can have multiple tenants safely traversing and modifying the data structure at the same time, leading to huge speed ups. However, getting fine-grain locking right is incredibly nuanced, as you'll learn in this assignment.</p>
+<h3 id="fine-grain-locking-on-pages">Fine-Grain Locking on Pages</h3>
+<p>In the stencil code that we've provided, <code>Page</code>s have locks. Since the <code>Page</code> represents logical units in both hash tables and B+Trees, this <code>Lock</code> method will be instrumental in implementing the following two fine-grain locking schemes.</p>
+<h3 id="fine-grain-locking-on-hash-tables">Fine-Grain Locking on Hash Tables</h3>
+<p>Hash tables are rather simple structures to lock; the only entrypoints into a bucket are through the lookup table. Therefore for each read or write, we only need to lock the lookup table, then the bucket!</p>
+<p>On reads, we first acquire a read lock on the lookup table, then find our bucket. Next, we acquire a read lock on our bucket, then release our read lock on the lookup table, read our value, then release our read lock from the bucket.</p>
+<p>On writes, we first acquire a read lock on the lookup table, then find and lock our bucket. We could have grabbed a write lock, but there's no need to grab a write lock on the lookup table unless we are sure that we are going to split; this is called <strong>optimistic locking</strong>, and can reduce unnecessary waiting for locks. After we've grabbed a write lock on the bucket, we check if we could potentially split (which essentially means checking if the bucket is currently full); if so, we grab a write lock on the lookup table and complete our insert and split. If we don't split, we simply insert. Afterwards, we release all of our locks. You aren't required to perform optimistic locking in this assignment - it's perfectly find just to grab the write lock from the get go. However, do ensure that you release the write lock if you don't need to hold onto it - otherwise, it's not fine-grain locking at all!</p>
+<h3 id="fine-grain-locking-on-btrees">Fine-Grain Locking on B+Trees</h3>
+<p>B+Trees are much more difficult structures to lock. There are few major concerns. Firstly, the structure of the tree can change under us as nodes split. Secondly, we don't want to be overly pessimistic in our locking, since holding a write lock on our root node locks all other clients out of the tree. Thirdly, table scans and queries get especially complicated, especially with resource locking below. And so on.</p>
+<p>For sanity's sake, we will not be implementing fine-grain locking for selects, cursors, printing, or joins; we will focus on the main B+Tree operations: reading and writing. Primarily, we employ a scheme known as lock-crabbing which ensures that the structure of the database won't change underneath us as we acquire locks and traverse down the tree. The following is a brief overview of lock-crabbing.</p>
+<p>On reads, we first acquire a read lock on the root node. Then, we find the child node we want to go to, and grab a read lock on the child node. Only after locking the child node do we unlock the parent (root) node. This is the essense of lock-crabbing and is how we ensure that the shape of the tree doesn't change underneath us. Consider the case where we release the lock on the root before grabbing one on the child. In that split second, another thread could split the root node, making the child node obsolete. Crabbing avoids this issue entirely. We continue in this fashion all the way down to our target leaf node, perform our read, then release our final lock.</p>
+<p>On writes, we first acquire a write lock on the root node. Then, we find the child node we want to go to, and grab a write lock on this child node. We only release the write lock on our parent nodes if we can be sure that our child node will not split; if it can, then we hold onto the lock. Otherwise, we release the lock on our parent node and all other locks that we've been holding above us. It's worth thinking about how we can check if a child node could possibly split; this check is very similar to the one we would do in the hash table. As we recurse down, we hold locks on all parents that could potentially be affected by a node split. Eventually, we are guaranteed to unlock everything either after perfoming the write at a leaf node, or after a split is propagated up the tree. Because this algorithm is rather complicated, we've written a help doc <a href="/misc/locking">here</a>. Please use this and the associated helper functions in <code>btree_subr.go</code> when implementing locking!</p>
+<h2 id="transactions">Transactions</h2>
+<p>Transactions are a way of grouping multiple actions into one, ACID-compliant package. That is to say, we are guaranteed that either all of the actions in a transaction succeed or none of them succeed, and that they are isolated from other transactions. Transactions acquire locks on the resources they are accessing to be sure that they can read and write safely. Critically, notice that the nature of transaction-level locks and data structure-level locks are very different. Transaction locks are completely unaware of the underlying representation of the data; we're only concerned in logical units to preserve the integrity of the external view of the database. On the other hand, data structure-level locks are completely unaware of the data its locking; only the structure of how the data is stored. Thus, these two locking schemes are completely orthogonal to one another, and yet, are both essential for a database serving multiple tenants concurrently.</p>
+<h3 id="strict-2pl">Strict 2PL</h3>
+<p>Our transactions will adhere to strict two-phase locking. That is, we will acquire locks as we need them, but we will hold on to all of them until after we have committed our changes to the database. <strong>One great corrolary of this scheme is that we can be absolutely sure that there will not be cascading rollbacks</strong>; that is, if a transaction aborts, no other transaction will have to rollback because of it! This makes our lives a lot easier when implementing aborts, but it does mean that our transactions may wait unnecessarily for resources to open.</p>
+<h3 id="deadlock-avoidance">Deadlock Avoidance</h3>
+<p>We want to be sure that our transactions don't end up creating a deadlock; one way to do this is by detecting cycles in a &quot;waits-for&quot; graph. While a transaction is waiting for another transaction to free a particular resource, we should add an edge between it and the offending transaction to the &quot;waits-for&quot; graph. If a cycle is detected in this graph, that means that there is a cycle of transactions waiting for each other, meaning we have deadlocked and will not be able to proceed without killing off a transaction. As a matter of convention, the last transaction to join the graph should be the one that aborts. Critically, remember to remove edges between transactions once transactions die or are otherwise no longer waiting for a resource - otherwise, you may detect deadlocks that don't exist!</p>
+<hr />
+<h1 id="assignment-spec">Assignment Spec</h1>
+<h2 id="overview">Overview</h2>
+<p>In this project, you'll implement fine-grain locking on Hash and B+Tree, then resource-level locking, and finally implement deadlock detection and avoidance! Note that the assignment parts are somewhat isolated from each other; feel free to work out of order on this assignment.</p>
+<h2 id="new-repl-commands">New REPL Commands</h2>
+<p>The transaction REPL now supports two new commands:</p>
+<ul>
+<li><code>transaction [begin|commit]</code> - either starts or ends a transaction. Each client can have up to 1 transaction running at a time.</li>
+<li><code>lock &lt;table&gt; &lt;key&gt;</code> - grabs a write lock on a resource. Useful for debugging.</li>
+</ul>
+<h2 id="multiple-clients">Multiple Clients</h2>
+<p>Since we need to deal with multiple clients, we need to run BumbleBase as a server-client application rather than just as a command-line application. Running <code>./bumble -project transaction</code> should now start a server at port 8335. Then, run <code>./bumble_client -p 8335</code> to connect to the database and start running queries as normal! Using a tool like <a href="https://github.com/tmux/tmux/wiki">tmux</a> might help you manage multiple terminals.</p>
+<p>In our implementation, each client can have up to one transaction running at a time. To simulate multiple transactions, we need multiple clients; hence, now, our database supports multiple clients through <code>./bumble_client</code>. To begin a transaction, we run <code>transaction begin</code>, and to end it, <code>transaction commit</code>. Commands issued without an active transaction will be treated as a transaction of one action (<code>transaction begin</code>, [action], <code>transaction commit</code>).</p>
+<h2 id="stress-testing">Stress Testing</h2>
+<p>Because it can be useful to clobber your database to detect deadlocks or unsafe behaviour using a shotgun approach, we've provided a new executable named <code>bumble_stress</code> to help with this. We've also provided a set of sample workloads in the <code>workloads/</code> directory to run with <code>bumble_stress</code> - poke through <code>workloads/README.md</code> to get a sense of what each workload is doing, and feel free to make your own workloads!</p>
+<p>To stress test your database, build and run <code>./bumble_stress -index=&lt;btree|hash&gt; -workload=&lt;w.txt&gt; -n=&lt;n&gt; -verify</code>. The workload file should essentially mimic what would normally be piped through <code>STDIN</code>, separated by newlines. The numthreads argument will specify the number of threads that will run the workload - to be clear, we split the workload across <code>n</code> threads, not duplicate the workload for <code>n</code> threads, meaning each line will only be run once, but on different threads. The <code>index</code> flag determines which kind of index you'll be stress testing. Lastly, the <code>verify</code> flag runs a verification check at the end of the stress test to ensure that the datastructure is still consistent after the run. No <code>project</code> flag is required.</p>
+<p>Stress testing is an especially experimental feature in the course. As a result, we will not be evaluating your code using this stress testing mechanism. Treat it as a way to discover bugs in your implementation and learn more, not as a metric for completion.</p>
+<h2 id="part-0-a-new-repl">Part 0: A New REPL</h2>
+<p>Before you continue, add the following function to your <code>repl.go</code> file; this will let your REPL work across multiple clients:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#75715e">// Run the REPL.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">REPL</span>) <span style="color:#a6e22e">RunChan</span>(<span style="color:#a6e22e">c</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>, <span style="color:#a6e22e">prompt</span> <span style="color:#66d9ef">string</span>) {
+	<span style="color:#75715e">// Get reader and writer; stdin and stdout if no conn.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">writer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stdout</span>
+	<span style="color:#a6e22e">replConfig</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">REPLConfig</span>{<span style="color:#a6e22e">writer</span>: <span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">clientId</span>: <span style="color:#a6e22e">clientId</span>}
+	<span style="color:#75715e">// Begin the repl loop!
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">prompt</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">c</span> {
+		<span style="color:#75715e">// Emit the payload for debugging purposes.
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">payload</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n&#34;</span>)
+		<span style="color:#75715e">// Parse the payload.
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">fields</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Fields</span>(<span style="color:#a6e22e">payload</span>)
+		<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">fields</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">prompt</span>)
+			<span style="color:#66d9ef">continue</span>
+		}
+		<span style="color:#a6e22e">trigger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cleanInput</span>(<span style="color:#a6e22e">fields</span>[<span style="color:#ae81ff">0</span>])
+		<span style="color:#75715e">// Check for a meta-command.
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">trigger</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;.help&#34;</span> {
+			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">HelpString</span>())
+			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">prompt</span>)
+			<span style="color:#66d9ef">continue</span>
+		}
+		<span style="color:#75715e">// Else, check user commands.
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">command</span>, <span style="color:#a6e22e">exists</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">commands</span>[<span style="color:#a6e22e">trigger</span>]; <span style="color:#a6e22e">exists</span> {
+			<span style="color:#75715e">// Call a hardcoded function.
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">command</span>(<span style="color:#a6e22e">payload</span>, <span style="color:#a6e22e">replConfig</span>)
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+				<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%v\n&#34;</span>, <span style="color:#a6e22e">err</span>))
+			}
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#e6db74">&#34;command not found\n&#34;</span>)
+		}
+		<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#a6e22e">prompt</span>)
+	}
+	<span style="color:#75715e">// Print an additional line if we encountered an EOF character.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#a6e22e">writer</span>, <span style="color:#e6db74">&#34;\n&#34;</span>)
+}
+</pre><h2 id="part-1-fine-grain-locking---hash-tables">Part 1: Fine-Grain Locking - Hash Tables</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/hash/bucket.go</code></li>
+<li><code>pkg/hash/table.go</code></li>
+</ul>
+<p>Add locking the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Find</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">error</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Split</span>(<span style="color:#a6e22e">bucket</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashBucket</span>, <span style="color:#a6e22e">hash</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">table</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">HashTable</span>) <span style="color:#a6e22e">Select</span>() ([]<span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">Entry</span>, <span style="color:#66d9ef">error</span>)
+</pre><p>Some hints:</p>
+<ul>
+<li>Be careful whether you're using read or write locks!</li>
+<li>Using <code>defer</code> can save a lot of headache if you know for certain that a function will unlock some resource when it returns.</li>
+<li>Depending on your scheme, you may/should not have to add any locking to <code>Split</code> - think about what you should lock to keep the whole table safe, though!</li>
+<li>To lock a bucket, change calls to <code>GetBucket</code> and <code>GetBucketByPN</code> to <code>GetAndLockBucket</code> and <code>GetAndLockBucketByPN</code> respectively, passing in <code>READ_LOCK</code> or <code>WRITE_LOCK</code> as the second parameter - do this instead of locking the page directly. Don't forget to unlock the page when you are done!</li>
+</ul>
+<h2 id="part-2-fine-grain-locking---btrees">Part 2: Fine-Grain Locking - B+Trees</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/btree/node.go</code></li>
+<li><code>pkg/btree/btree.go</code></li>
+<li><code>pkg/btree/btree_subr.go</code></li>
+</ul>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LeafNode</span>) <span style="color:#a6e22e">insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">update</span> <span style="color:#66d9ef">bool</span>) <span style="color:#a6e22e">Split</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LeafNode</span>) delete(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LeafNode</span>) <span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">found</span> <span style="color:#66d9ef">bool</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) <span style="color:#a6e22e">insert</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">update</span> <span style="color:#66d9ef">bool</span>) <span style="color:#a6e22e">Split</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) delete(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">node</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">InternalNode</span>) <span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">int64</span>) (<span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">found</span> <span style="color:#66d9ef">bool</span>)
+</pre><p>Some hints:</p>
+<ul>
+<li>We guarantee these are the only functions you need to change. You should not have to change <code>split</code> or <code>insertSplit</code>.</li>
+<li>Before anything else, <strong>read through the new helper methods in <code>btree_subr.go</code></strong>! It will save you a LOT of time if you understand what they do.</li>
+<li>We handle the root node entirely for you in the <code>btree.go</code> file. Check out the <code>Insert</code> implementation in <code>btree.go</code> to see what else we handle for you.</li>
+<li>To lock a child node, change the call to <code>getChildAt</code> to <code>getAndLockChildAt</code> - do this instead of locking the page directly.</li>
+<li>After getting and locking a child node, you should immediately call <code>initChild</code> on it. This will set that node's parent field correctly so that <code>unlockParent</code> works properly.</li>
+<li>You should check whether we need to unlock parents at the begin of all of these function calls. You can do this by calling <code>unlockParent</code> with the <code>force</code> parameter set to <code>false</code>.</li>
+<li>For all leaf node functions, we will need to eventually force the current node and all parent nodes to unlock. You should take a look at the <code>force</code> parameter of <code>unlockParent</code> as well as the <code>unlock</code> method.</li>
+<li>Lastly, think about whether we should unlock all parents in each case of a <code>split</code>. Critically, you'll have to look into the result of <code>node.insertSplit</code> in each <code>insert</code> call and react appropriately.</li>
+</ul>
+<h2 id="part-3-transactions">Part 3: Transactions</h2>
+<!-- A relevant CW post: https://campuswire.com/c/GAAA5D576/feed/975 -->
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/concurrency/transaction.go</code></li>
+<li><code>pkg/concurrency/lock.go</code></li>
+</ul>
+<p>First, implement the following functions:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">tm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TransactionManager</span>) <span style="color:#a6e22e">Lock</span>(<span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>, <span style="color:#a6e22e">table</span> <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Index</span>, <span style="color:#a6e22e">resourceKey</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">lType</span> <span style="color:#a6e22e">LockType</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">tm</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">TransactionManager</span>) <span style="color:#a6e22e">Unlock</span>(<span style="color:#a6e22e">clientId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span>, <span style="color:#a6e22e">table</span> <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">Index</span>, <span style="color:#a6e22e">resourceKey</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">lType</span> <span style="color:#a6e22e">LockType</span>) <span style="color:#66d9ef">error</span>
+</pre><p>Some notes:</p>
+<ul>
+<li>There are two abstractions surrounding how we represent locks. Firstly, a <code>Resource</code> is a unique identifier for a specific tuple in a database using its table and key. Secondly, a <code>LockType</code> helps us keep track of which lock is currently being held on a particular resource. A <code>Transaction</code> keeps track of which locktypes it is holding.</li>
+<li>Transactions are identified by their <code>clientId</code>; whenever a new client connects to the server, it is assigned an ID, and since each client can only have one transaction at a time, its ID serves as a uuid for its transaction, should it exist.</li>
+<li>A <code>Transaction</code> should hold either a read or a write lock on a resource; never both and certainly not multiple of each. Thus, if a transaction requests a duplicate lock, ignore the duplicate, and if a transaction requests a read lock on a resource when it holds a write lock on the same resource, do nothing.</li>
+<li>Critically, we should disallow lock upgrades. This means that if a <code>Transaction</code> holds ` read lock on a resource and requests a write lock, you should throw an error.</li>
+<li>Remember to read-lock the <code>tmMtx</code> when you call <code>GetTransaction</code>!</li>
+<li>Remember to lock <code>Transaction</code>s when you access their resources!</li>
+<li><code>Lock</code> should check what lock we want to request, add an edge to our <code>pGraph</code>, check if there is a cycle and throw an error if there is, lock the resource if we can, and remove an edge from our <code>pGraph</code>.</li>
+<li><code>Unlock</code> should remove the lock from our transaction's resources and unlock the resource. Be sure to keep track of what locktype the resource had.</li>
+</ul>
+<h2 id="part-4-deadlock-avoidance">Part 4: Deadlock Avoidance</h2>
+<p>Relevant files:</p>
+<ul>
+<li><code>pkg/concurrency/transaction.go</code></li>
+<li><code>pkg/concurrency/deadlock.go</code></li>
+</ul>
+<p>Implement the following function and instrument your prior transactions code with it:</p>
+<pre style="color:#f8f8f2;background-color:#272822"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">g</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Graph</span>) <span style="color:#a6e22e">DetectCycle</span>() <span style="color:#66d9ef">bool</span>
+</pre><p>Feel free to use any cycle detection algorithm you like. We recommend depth-first search. You'll most likely have to define some helper functions to complete this function.</p>
+<p>Some notes:</p>
+<ul>
+<li>A transaction should only have an edge in the waits-for graph while it is actively waiting for a lock. Once it has been granted a lock, it should remove its edges from the graph to avoid false alarms.</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<p>Run our unit tests on Gradescope. We've provided a subset of the tests <a href="/static/posts/project/concurrency/concurrency_test_sample.go">here</a>. Moreover, try out the <code>bumble_stress</code> executable on a few workloads.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started, download the following stencil package: <a href="https://drive.google.com/file/d/1tKS5su3LHwQFHmfV1M9x-JgtbyQ_rCTs/view?usp=sharing">concurrency</a>, <a href="https://drive.google.com/file/d/11qutHgWAMJ5kF-HntZDLhMAfePBVcDnz/view?usp=sharing">bumble_client</a>, <a href="https://drive.google.com/file/d/1By5XRqypVwaNmPM-JayQkP_fpkPp6JjL/view?usp=sharing">bumble_stress</a>, <a href="https://drive.google.com/file/d/1X_Tr6q7Alwteb_7chmovXhE_UVGw51R1/view?usp=sharing">patch</a>, and <a href="https://drive.google.com/file/d/11IhFxKHMDUdnEdqcBye7gHWKeC7znYOt/view?usp=sharing">workloads</a>. We've provided an updated <code>main.go</code> file <a href="https://drive.google.com/file/d/1FjjGFsjWbKnaTN8fpq0f_EN_vvxZ0qV1/view?usp=sharing">here</a>. When finished, your filestructure should look like this:</p>
+<pre><code>./
+    - cmd/
+        - bumble/
+        - bumble_client/
+        - bumble_stress/
+    - pkg/
+        - btree/
+        - config/
+        - db/
+        - utils/
+        - hash/
+        - list/
+        - pager/
+        - repl/
+        - query/
+        - concurrency/
+</code></pre>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

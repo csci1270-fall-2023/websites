@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+    <title>Hash + Join Algorithms | CSCI 1270 - Database Management Systems</title>
+    <link rel="shortcut icon" type="image/png" href="../static/img/bee.svg" />
+    <meta property="og:image" content="../static/img/preview.png" />
+    <meta name="author" content="CSCI 1270 Course Staff" />
+    <meta name="description" content="Brown University CSCI 1270 - Database Management Systems, Fall 2021" />
+    <meta name="keywords"
+        content="cs, computer science, computer, science, brown, brown university, university, college, school, education, database, databases, dbms, oracle, postgres, ingres, sql, mysql" />
+    <meta charset="utf-8">
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- CSS -->
+    <link href="../static/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- JS -->
+    <script defer src="../static/js/jquery.min.js"></script>
+    <script defer src="../static/js/script.js"></script>
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Inconsolata:wght@400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <!-- REGULAR NAV -->
+        <div class="nav-holder nav-left">
+            <img class="nav-logo shake" src="../static/img/bee.svg" draggable="false" />
+            <span class="nav-link">
+                <a href="/">CSCI 1270</a>
+            </span>
+        </div>
+        <div class="nav-holder nav-right">
+            <span class="nav-link">
+                <a href="/#assignments">Assignments</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#lectures">Lectures</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#calendar">Calendar</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#resources">Resources</a>
+            </span>
+            <span class="nav-link">
+                <a href="/#staff">Staff</a>
+            </span>
+        </div>
+
+        <!-- MOBILE NAV -->
+        <div id="navholder-mobile" class="navholder-mobile">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
+            <div class="navholder-content">
+                <a onclick="closeNav()" href="/">CSCI 1270</a>
+                <a onclick="closeNav()" href="/#assignments">Assignments</a>
+                <a onclick="closeNav()" href="/#lectures">Lectures</a>
+                <a onclick="closeNav()" href="/#calendar">Calendar</a>
+                <a onclick="closeNav()" href="/#resources">Resources</a>
+                <a onclick="closeNav()" href="/#staff">Staff</a>
+            </div>
+        </div>
+
+        <!-- MOBILE NAV BUTTON -->
+        <span class="hamburger" onclick="openNav()">☰</span>
+    </nav>
+    
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="hash+join_algorithms">Hash + Join Algorithms <a class="pdf" href="../static/gen/hash+join_algorithms.pdf">View as a PDF</a></h1>
+            
+        <h1 id="question-1">Question 1</h1>
+<p>Please provide short answers to the following questions:</p>
+<ol>
+<li>What is the difference between static and dynamic hashing?</li>
+<li>What problem does does dynamic hashing address that static hashing does not?</li>
+<li>Why is it important to keep track of the local depth in extendible hashing?</li>
+<li>In extendible hashing, what happens when try to insert into a bucket that is full? Please consider all cases.</li>
+<li>Why do we want a hash function to uniformly distribute our input space?</li>
+<li>Would a cryptographic hash like SHA-256 be good for a hash table? Why or why not?</li>
+</ol>
+<h1 id="question-2">Question 2</h1>
+<p>Given bucket sizes of 2, a hashing function that uses the lowest d bits (d = depth), and an initial hash of 0 bits, hash 2, 3, 5, 8, 12, 17, 19, 21, 27, 31 in the given order and draw a diagram of the final result, showing all relevant information, (bucket lookup table, corresponding hash keys, pointers, buckets, entries, overflow buckets, local and global depth values, next pointers, level, and anything else relevant), using each of the following hashing schemes:</p>
+<ol>
+<li>Extendible hashing.</li>
+<li>Linear hashing.</li>
+</ol>
+<h1 id="question-3">Question 3</h1>
+<p>Consider relations r1(A, B, C) and r2(C, D, E) with the following properties: r1 has 20,000 tuples, r2 has 45,000 tuples, 25 tuples of r1 fit on one block, and 30 tuples of r2 fit on one block. Assume we have <code>M</code> pages of memory; i.e. we can hold <code>M</code> blocks in memory at a time. Assume that an in memory hash table can be computed for r2 and that neither r1 nor r2 are sorted on their join key. Assuming we do not need to leave enough space for disk output, estimate the number of block transfers required, using each of the following join strategies for r1 and r2:</p>
+<ol>
+<li>Block nested-loop join.</li>
+<li>Merge join.</li>
+<li>Hash join.</li>
+</ol>
+<h1 id="question-4">Question 4</h1>
+<p>Consider a Bloom Filter, which is a very fancy <code>has</code> table. We can use a Bloom Filter to quickly find if an entry <em>may</em> exist or <em>definitely does not</em> exist.</p>
+<p>We'll make a small and simple Bloom Filter of only 8 bits. Since we're starting empty, it will look like this:</p>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Now, to show that an entry exists, we can hash the key for that entry and get a value. We assign a 1 at that corresponding slot in the Bloom Filter.<br />
+For example, if we have an entry &quot;Buzzwell&quot;, and h(&quot;Buzzwell&quot;) = 3, then the we can note that &quot;Buzzwell&quot; exists by updating the Bloom Filter to look like this:</p>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Add the rest of the bees to our Bloom Filter. What does the final Bloom Filter look like?</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">h(name)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Barry Benson</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">Adam Flayman</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">Janet Benson</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">Lou Lo Duca</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">Bob Bumble</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>How do we know that &quot;Vanessa Bloome&quot;, where h(&quot;Vanessa Bloome&quot;) = 5, <em>definitely does not</em> exist in our data?</li>
+<li>Why do we know that &quot;Barry Benson&quot; <em>might</em> exist in our data?</li>
+<li>Suppose we utilized a Bloom Filter for our database of bees. Thus, for an EXISTS query, we consult the Bloom Filter. Then, if necessary, we lookup in the database itself.<br />
+a. What is the minimum number of database lookups that will occur? In what situation will this happen? Why will this happen?<br />
+b. What is the maximum number of database lookups that will occur? In what situation will this happen? Why will this happen?</li>
+</ol>
+<hr />
+
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+<footer>
+    <p>Copyright © 2021 CSCI 1270 @ Brown</p>
+</footer>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+
+</html>

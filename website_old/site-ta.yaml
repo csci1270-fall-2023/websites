@@ -1,0 +1,36 @@
+name: CSCI 1270 - Database Management Systems
+output: build-ta
+draft: true
+static_src: static
+static_dest: static
+
+partials:
+  header: views/partials/header.tmpl
+  post-header: views/partials/post-header.tmpl
+  footer: views/partials/footer.tmpl
+
+pages:
+  - title: Home
+    path: /
+    template: views/index.tmpl
+    data:
+      assignment: src/data/assignment.yaml
+      gearup: src/data/gearup.yaml
+      faq: src/data/faq.yaml
+      lecture: src/data/lecture.yaml
+      seminar: src/data/seminar.yaml
+      staff: src/data/staff.yaml
+
+collections:
+  - title: Project
+    path: /project
+    template: views/handout.tmpl
+    posts: src/docs/project
+  - title: Homework
+    path: /homework
+    template: views/handout.tmpl
+    posts: src/docs/homework
+  - title: Misc
+    path: /misc
+    template: views/misc.tmpl
+    posts: src/docs/misc

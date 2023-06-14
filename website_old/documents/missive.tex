@@ -1,0 +1,152 @@
+\documentclass{article}
+\usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{fancyhdr, graphicx, amsmath, amssymb, mathrsfs, amsthm, hyperref, listings}
+
+% HOUSEKEEPING
+\thispagestyle{fancyplain}
+\headheight 35pt
+\headsep 10pt
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+% ASSIGNMENT INFORMATION
+\newcommand\course{CSCI 1270} % COURSE NAME
+\newcommand\semester{Fall 2021} % SEMESTER
+\newcommand\ttitle{Missive} % DOCUMENT TITLE
+
+% HEADER
+\lhead{\course\ --- \semester}
+\chead{\textbf{\Large \ttitle}}
+\rhead{}
+
+% PANDOC FIXES
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+\providecommand{\tightlist}{%
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\newcommand{\passthrough}[1]{#1}
+
+
+%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\section{Course Overview}
+The amount of information that must be processed in many applications is exploding. A modern database management system (DBMS) provides the scalability that is required by these applications. As a result, DBMS’s are now ubiquitous in modern industrial practice. This course examines the practice of database management through two major units. The first discusses the users’ view (externals) of a DBMS. It covers concepts that are fundamental to the proper use of a DBMS, including database languages and database design. The second discusses what goes on inside (internals) of a DBMS. It covers algorithmic detail for some of the key components of a DBMS.
+
+
+\section{Course Staff}
+\subsection{Who We Are}
+\begin{center}
+\begin{tabular}{ | c | c | c | }
+    \hline
+    \textbf{Position} & \textbf{Name} & \textbf{CS Login} \\
+    \hline\hline
+    Professor & Stan Zdonik & \texttt{sbz} \\
+    HTA & Desmond Cheong & \texttt{dcheong} \\
+    HTA & Nick Young & \texttt{nyoung10} \\
+    GTA & Connor Luckett & \texttt{cluckett} \\
+    UTA & Aakansha Mathur & \texttt{amathur7} \\
+    UTA & Huiyuan Wu & \texttt{hwu62} \\
+    UTA & Junchi Chu & \texttt{jchu27} \\
+    UTA & Sayan Chakraborty & \texttt{schakr12} \\
+    UTA & Solomon Boukman & \texttt{sboukman} \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection{Office Hours / TA Hours}
+Professor Zdonik will be available by appointment only. The TAs will hold hours during the week. See the website for a complete and up-to-date schedule of office hours. If hours need to be re-scheduled, students will be informed via Campuswire.
+
+TA hours will be held over Zoom and SignMeUp. Students will enter a queue on \\ \texttt{signmeup.cs.brown.edu} and wait in a Zoom waiting room to be helped by a TA. Please consult the documentation on the website for more information.
+
+\subsection{Contact}
+The two official course email address are \texttt{cs1270tas@lists.brown.edu} (which goes to all TAs) and \\
+\texttt{cs1270headtas@lists.brown.edu} (which goes to the HTAs and Professor Zdonik). All students will also be added to a class Campuswire, where they can ask course-related questions to be answered by TAs or peers.
+
+In general, Campuswire should be used for all course-related questions. For more urgent or matters, the email lists above are acceptable. The exceptions are when you have a reason to speak only with a specific TA (i.e., about a specific grading question) or with the professor and/or HTAs.
+
+Students who sign up for the course will be subscribed to a course mailing list. The TAs may use that list alongside Campuswire for any course announcements: reminders about due dates, hours switches, review sessions, etc. Please make sure to read your email!
+
+\subsection{Campuswire}
+We will be using Campuswire to manage course announcements and allow students to get questions answered quickly. Here, you can see any updates that we post as well as ask clarification questions. We have chosen to use Campuswire to provide you with a platform to address questions you have by either asking other students and the course staff or searching for existing answers.
+
+Please use Campuswire only for quick clarification questions and save in-depth questions for TA hours. Additionally, do not post any code in a public post. Doing so is a violation of the collaboration policy. A good rule of thumb is that if a question is specific to your implementation of the project, it should be asked in hours rather than on Campuswire, but if a question is related to a programming language or assignment-specific bug, then post on Campuswire.
+
+Please note that we observe Campuswire ``quiet hours'' past midnight eastern time. The intention is two-fold: so students don't stay up late expecting an answer from a TA, and so TAs don't stay up late because they feel obligated to be on Campuswire.
+
+
+\section{Requirements}
+\subsection{Course Prerequisites}
+There are no formal course prerequisites other than an intro sequence, although we recommend having taken either CSCI 0300, CSCI 0320, or CSCI 0330. If you have only taken CSCI 0150 or CSCI 0170, you should email \texttt{cs1270tas@cs.brown.edu} to discuss course expectations.
+
+\subsection{Textbook}
+You are required to have access to \emph{Database System Concepts, Seventh Edition} by Silberschatz, Korth, and Sudarshan. ISBN: 9780078022159. A copy of the textbook has been placed on reserve in the library. We encourage students to share textbooks with their friends. If you have any trouble accessing a copy of the textbook, please reach out to the course staff.
+
+\subsection{Time Requirements}
+In addition to three hours per week in class, expect to spend around ten hours per week on written and coding assignments. Assignment difficulty may vary.
+
+
+\newpage
+\section{Assignments and Grading}
+There will be eight assignments, each with a written and coding portion. Coding assignments will be done in Go, with the exception of one assignment in SQL. You are not expected to have prior experience with Go; however, prior experience in a systems language will be beneficial. The coding assignments are designed to give you hands-on practice with different aspects of database design and implementation, and the written assignments are meant to reinforce concepts covered in class.
+
+In addition, there will be three timed quizzes. You will be able to start the quiz any time on the day of the quiz; however, once you begin, you will have to submit the quiz within 90 minutes. The quizzes are closed-book and will cover concepts on the prior homeworks and lectures. There are no new assignments during the week before a quiz.
+
+Lastly, following each lecture will be a set of post-lecture trivia questions aimed at reinforcing your understanding of the content. These questions will be graded for completion.
+
+The grade breakdown is as follows:
+\begin{center}
+    \begin{tabular}{ | l | r | }
+    \hline
+    Projects & 50\% \\
+    Homeworks & 15\% \\
+    Quiz 1 & 10\% \\
+    Quiz 2 & 10\% \\
+    Quiz 3 & 10\% \\
+    Post-lecture Questions & 5\% \\
+    \hline
+    \end{tabular}
+\end{center}
+
+All of the grading in this course will be done by graduate and undergraduate students. Anonymous grading will be used, meaning that all grading will be done by the course staff without knowing the identity of the student who turned in the assignment. This means that when turning in homework, please do not include any personal identifying information (name, Banner ID, email, etc.). Repeated failure to do so may result in a grade penalty for that assignment.
+
+\subsection{Late Submission Policy}
+Everyone is allowed a total of five (5) ``free late days'' on programming assignments for the semester. You may not use more than two (2) late days on a single assignment. Beyond that, you are penalized 25\% of the assignment’s value for each day it is late, distributed optimally. Late penalties are capped at 100\% of an assignment’s value. A late day used on either the written or code portion of an assignment counts as a late day for the assignment as a whole. Late days cannot be used on the last two assignments of the course; namely, Concurrency or Recovery. We disallow late days for Concurrency to ensure that all students and staff have an uninterrupted Thanksgiving break, and we disallow late days for Recovery to ensure that we can get grades in on time. If you would like an extension for any reason, please contact the professor or any of the HTAs to look through your request.
+
+\subsection{Regrade Requests}
+Regrade requests will be handled through Gradescope. If you have any questions or concerns about a grade you've received, submit a regrade request there and your grader will respond with comments or amendments. If an issue needs to be escalated, email the HTAs after having an exchange with your grader on Gradescope.
+
+\subsection{Solution Code Requests}
+Since projects in CSCI 1270 build atop one another, we recognize that if a student falls behind, later projects will be impossible. If you require solution code to continue in the course, please fill out the form linked on the website to request it. You will only receive solution code two days after the due date of the relevant project due date(s) at the earliest. \textbf{Most importantly, note that distributing or making available solution code in any way, knowingly or unknowingly, is a violation of the Academic Code.} This includes sharing code with a peer in the class, even if they have also filled out the request form.
+
+
+\section{Lectures}
+Lectures will be held on Mondays and Wednesdays, 3:00-4:20 PM virtually via Zoom unless otherwise specified. Additional optional lectures may be held on Friday at the same time. See the website for an up-to-date schedule of the lectures and for the Zoom link. Please note that this schedule is subject to change.
+
+Lecture slides and a recording of each lecture will be available online on the course website.
+
+Each of the lectures has an associated reading in the textbook (a list of the associated readings can be found on the lecture page of the website). We recommend looking at the chapter(s) before coming to lecture as well as after lecture to reinforce the concepts.
+
+Because the class is offered remotely and students will not all be in the same timezone, attendance for lectures is not required, although it is highly recommended for those who can attend. Recordings will be available in a timely manner after lectures.
+
+
+\section{Policies and Accomodations}
+\subsection{Incomplete Policy}
+Incompletes are granted only under \textbf{exceptional} circumstances (e.g., severe illness, death in the family, etc). Getting a dean to certify your reason for requesting an incomplete helps, but is not sufficient by itself.
+
+\textbf{\emph{Too heavy of a course load is not sufficient reason for an incomplete!}}
+
+\subsection{Diversity and Inclusion}
+Our intent is that this course provide a welcoming environment for all students who satisfy the prerequisites. Our TAs have undergone training in diversity and inclusion; all members of the CS community, including faculty and staff, are expected to treat one another in a professional manner. If you feel you have not been treated in a professional manner by any of the course staff, please contact either Tom Doeppner (the director of undergraduate studies), Ugur Cetintemel (the department chair), or Laura Dobler (the department’s coordinator for diversity and inclusion initiatives). We take all complaints about unprofessional behavior seriously.
+
+\subsection{SEAS Accomodations}
+Brown University is committed to full inclusion of all students. Please inform the instructor if you have a disability or other condition that might require accommodations or modification of any of these course procedures. You may email the instructor, come to office hours, or speak with them after class, and your confidentiality is respected. We will do whatever we can to support accommodations recommended by SEAS. For more information contact Student and Employee Accessibility Services (SEAS) at 401-863-9588 or SEAS@brown.edu. Students in need of short-term academic advice or support can contact one of the deans in the Dean of the College office.
+
+\subsection{Mental Health}
+Being a student can be very stressful. If you feel you are under too much pressure or there are psychological issues that are keeping you from performing well at Brown, we encourage you to contact Brown’s Counseling and Psychological Services (CAPS). They provide confidential counseling and can provide notes supporting extensions on assignments for health reasons.
+\end{document}

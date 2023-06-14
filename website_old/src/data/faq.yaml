@@ -1,0 +1,35 @@
+faqs:
+  - question: |
+      Will this course be accessible to remote students?
+    answer: |
+      Yes, all lectures will be delivered virtually. Lectures will also be recorded and timezone accommodations will be given for quizzes. Details regarding TA Hours are still being ironed out.
+
+  - question: |
+      What is the weekly workload for CSCI 1270? Any time commitment estimates?
+    answer: |
+      There will be weekly written homeworks and coding assignments, with more time given to accommodate more complex tasks. Time commitments are tricky to estimate, because there's a large variance from student to student. But we're putting a lot of structure in place that should make this course very manageable.
+
+  - question: |
+      I've heard this course will be run in Golang and SQL; should I prepare?
+    answer: |
+      While knowing the working language will only help you, we do not expect anybody to come into this course knowing either Golang or SQL. There will be space dedicated to learning Go and SQL.
+
+  - question: |
+      I need an override code! I need to enroll concurrently with another course! I have another special request that requires instructor permission!
+    answer: |
+      Please email us at <a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a>.
+
+  - question: |
+      Can I audit this class?
+    answer: |
+      We do not allow students to audit CSCI 1270. This is primarily because a significant proportion of your learning will happen through implementing the projects, which must be engaged with fully in order for the course to progress; a result of our cumulative assignments. However, if you are only interested in loosely following along the lectures and assignments, we encourage you to <a href="https://www.brown.edu/academics/college/degree/about/office-hours">Vagabond</a> the class instead - all of our content is open to all Brown students!
+
+  - question: |
+      Can anyone attend the seminars?
+    answer: |
+      Yes! Our Friday seminars are open to the entire Brown community - please, drop by!
+
+  - question: |
+      {Any other question}
+    answer: |
+      Wait! Before you ask, please read our Missive (linked below in the resources section)! If that doesn't answer your question, then please email our Head TA mailing list at <a href="mailto:cs1270headtas@lists.brown.edu">cs1270headtas@lists.brown.edu</a>!

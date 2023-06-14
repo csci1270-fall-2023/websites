@@ -1,0 +1,17 @@
+{{ partial post-header }}
+
+<article>
+    <section id="handout">
+        <div class="hexagon"></div>
+        <h1 tabindex="0" id="{{ data post.name }}">{{ data post.title }} <a class="pdf" href="../static/gen/{{ data post.name }}.pdf">View as a PDF</a></h1>
+            
+        {{ content }}
+
+        <h1 tabindex="0">Feedback</h1>
+        <p>
+            As this is a new course, we appreciate any feedback you have for us! If you enjoyed this assignment, hated this assignment, or have other thoughts to share, please do so <a href="https://forms.gle/VPwUWmVv68v1JVh4A">here</a>!
+        </p>
+    </section>
+</article>
+
+{{ partial footer }}

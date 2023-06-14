@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{fancyhdr, graphicx, amsmath, amssymb, mathrsfs, amsthm, listings, hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+% HOUSEKEEPING
+\thispagestyle{fancyplain}
+\headheight 35pt
+\headsep 10pt
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% ASSIGNMENT INFORMATION
+\newcommand\course{CSCI 1270} % COURSE NAME
+\newcommand\semester{Fall 2021} % SEMESTER
+\newcommand\ttitle{Collaboration Policy} % DOCUMENT TITLE
+
+% HEADER
+\lhead{\course\ --- \semester}
+\chead{\textbf{\Large \ttitle}}
+\rhead{}
+
+% PANDOC FIXES
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+\providecommand{\tightlist}{%
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\newcommand{\passthrough}[1]{#1}
+
+
+%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+Some CS courses at Brown allow virtually no cooperation or discussion between students. Many students and TAs feel that these policies stifle the learning process and have spoken out in favor of a more liberal and honor system-based policy that depends on the maturity of the students to know what work should be their own and what they can share with their peers.
+
+CSCI 1270 encourages collaboration and discussion in the hope of stimulating a better learning environment. Without going beyond the \href{https://www.brown.edu/academics/college/degree/policies/academic-code}{Academic Code} (see Basic Policy, Principles of the Brown University Community), we provide the following guidelines.
+
+You should do your own thinking, your own design, and your own coding. You are allowed to talk to other students about the content of the lectures, the textbook, and about high-level concepts in general. You may answer questions from other students about packages used for assignments, as long as the problem is a narrow one and not one that helps in the problem-solving process at large. Finally, you may assist another student with debugging if they are stuck with a specific low-level problem that has been impeding progress on the work.
+
+What is \textbf{not} allowed is that you let yourself be led by another student to the extent that your task becomes significantly less challenging because of your discussion with them.
+More specifically, you should do your own problem solving, program design and decomposition, and data structure design. In conversation with other students, be sure not to venture into design and coding specifics and, especially, never sit down to discuss an assignment with someone else before you have analyzed the problem in depth on your own.
+
+The most blatant violation that can occur is code-copying. \textbf{This will absolutely not be tolerated}. We reserve the right to do a ``wire-pull test'' (i.e., ask you to explain your program). In addition, we will use highly reliable tools to compare your code to that of other students (including assignments from years past) for violations. In a similar vein, if you are working on department machines, make sure that all of your coursework on the filesystem has the proper permissions so that other students cannot view and potentially copy your work. See \href{https://linux.die.net/man/1/chmod}{chmod(1)} or ask a consultant for help if you don’t know how to go about this. Failure to do this can potentially be viewed as a violation of the academic code.
+
+For written homework assignments, you may work in groups to understand the problems, but the write-up should be yours. Copying or paraphrasing someone else’s work is not allowed. This includes looking online or through question banks for answers. You must completely understand the answers you give, and we reserve the same ``wire-pull test'' rights as on coding assignments.
+
+If you are unsure about what you can or can't discuss with a peer, go to TA hours or post on Campuswire. TA hours are intended for students to use as a resource for getting help with assignments; the TAs should always be your first resource when you have a course-related question or problem. There are no restrictions on what you can ask a TA, so long as the question is appropriate and course-related (though there is no guarantee that a TA will answer every question equally). It is expected that, before coming to a TA for help, you have made a significant attempt on your own to resolve your problems. This means that you have thoroughly considered the question and possible solutions and are, perhaps, unclear as to the nature of the question or some of the concepts involved. For programs, in order to receive help, you must have made a serious attempt to trace your bug to its source, or at least isolate its occurrence to a few specific scenarios. Simply stating ``I have a bug'' will result in no help whatsoever from your TA other than the friendly suggestion that you try using a debugger. If you think you have found a bug in any of the TA-supplied code, then isolate the bug and provide the TAs with a few explicit scenarios in which it occurs. This will help us reproduce and subsequently fix the problem. Finally, please respect the time of the TAs by not asking for help outside of hours. They are also students and have their own work to do.
+
+We believe that this policy is explicit enough to guide your judgment and that we have not left you many gray areas. If you are ever in doubt about the legality of your actions, be sure to clear them with Professor Zdonik or a TA, even if only after the event has occurred. When we confront a student with a case of suspected violation, an answer of ``I didn’t know that this was wrong'' is not likely to find much sympathy. Be sure that no part of this document is unclear to you and follow it to a tee. Remember that this policy is meant to encourage, not penalize or criminalize, collaboration: collaborate well and collaborate fully, just make sure that you collaborate legally as well.
+
+\end{document}

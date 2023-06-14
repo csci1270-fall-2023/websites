@@ -1,0 +1,70 @@
+staff:
+  - name: Stan Zdonik
+    cslogin: sbz
+    photo: sbz.jpg
+    role: Professor
+    bio: ""
+    emoji: ""
+    
+  - name: Desmond Cheong
+    cslogin: dcheong
+    photo: dcheong.jpg
+    role: HTA
+    bio: CS senior specializing in systems, powered by yakult and kaya toast.
+    emoji: 🙃
+    
+  - name: Nick Young
+    cslogin: nyoung10
+    photo: nyoung10.jpg
+    role: HTA
+    bio: Hi! I'm from Vancouver, Canada and I enjoy photography, badminton, and building mechanical keyboards!
+    emoji: 🧋
+    
+  - name: Connor Luckett
+    cslogin: cluckett
+    photo: cluckett.jpg
+    role: GTA
+    bio: Hi, I'm Connor! I am in my third year as a Ph.D. student, mentored by Dr. Cetintemel. I love to think about how we can help others navigate GDPR/CCPA compliance. I am an avid drummer and a Private Pilot.
+    emoji: ✈️
+    
+  - name: Aakansha Mathur
+    cslogin: amathur7
+    photo: amathur7.jpg
+    role: UTA
+    bio: I am a SCM CS student at Brown. My academic interests are databases, machine learning and natural language processing.
+    emoji: ❄️
+    
+  - name: Huiyuan Wu
+    cslogin: hwu62
+    photo: hwu62.jpg
+    role: UTA
+    bio: Hi, i am Huiyuan Wu, a second year Master's student in computer science.
+    emoji: 😅
+    
+  - name: Junchi Chu
+    cslogin: jchu27
+    photo: jchu27.jpg
+    role: UTA
+    bio: I love cooking, fishing, writing my novels. I like basketball, my favorite team is GSW!
+    emoji: 😂
+    
+  - name: Sayan Chakraborty
+    cslogin: schakr12
+    photo: schakr12.jpg
+    role: UTA
+    bio: Hi! I'm an international CS grad student from India. I can speak 4 languages. In my spare time you can find me eating/cooking good food, listening to podcasts or sleeping (basically I'm the human form of a Panda).
+    emoji: 😴
+    
+  - name: Solomon Boukman
+    cslogin: sboukman
+    photo: sboukman.jpg
+    role: UTA
+    bio: I use he/him pronouns, and I am from New Jersey. For fun I like playing basketball, videogames, skateboarding, and gardening. My interests with computer science are machine learning and data engineering.
+    emoji: 💯
+    
+  - name: Amrit Singh Rana
+    cslogin: arana16
+    photo: arana16.jpg
+    role: UTA
+    bio: Hi. I am Amrit. I am a first year ScM student. I am interested in Distributed Systems. I like to hike, travel and play music in my free time.
+    emoji: 🎹
