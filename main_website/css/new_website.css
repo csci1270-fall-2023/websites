@@ -1,0 +1,185 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700,600,400|Inter:600");
+
+/* Variables */
+:root {
+    --black: rgba(0, 0, 0, 1);
+    --blue-zodiac: rgba(11, 36, 69, 1);
+    --mist-gray: rgba(196, 196, 196, 1);
+    --iron: rgba(211, 214, 217, 1);
+    --soapstone: rgba(255, 250, 250, 1);
+    --white: rgba(255, 255, 255, 1);
+
+    --font-size-xs: 12px;
+    --font-size-s: 14px;
+    --font-size-m: 15px;
+    --font-size-l: 17px;
+    --font-size-xl: 20px;
+    --font-size-xxl: 30px;
+    --font-size-xxxl: 40px;
+
+    --font-family-montserrat: "Montserrat";
+}
+
+/* Classes */
+
+.montserrat-normal-white-12px {
+    color: var(--white);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.border-1px-black{
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--black);
+}
+
+.montserrat-normal-black-40px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xxxl);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-17px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-l);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-white-15px {
+    color: var(--white);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-m);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-14px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-s);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-white-20px {
+    color: var(--white);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xl);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-15px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-m);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.border-3px-black{
+    border-width: 3px;
+    border-style: solid;
+    border-color: var(--black);
+}
+
+.montserrat-normal-black-15px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-m);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-white-12px {
+    color: var(--white);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-14px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-s);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-white-20px {
+    color: var(--white);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xl);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-20px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xl);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-40px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xxxl);
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-normal-black-30px {
+    color: var(--black);
+    font-family: var(--font-family-montserrat);
+    font-size: var(--font-size-xxl);
+    font-weight: 400;
+    font-style: normal;
+}
+.home {
+    align-items: center;
+    background-color: var(--white);
+    border: 1px none;
+    display: flex;
+    flex-direction: column;
+}
+
+/* The hero image */
+.hero-image {
+    /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/datamanagement.jpeg");
+
+    /* Set a specific height */
+    height: 400px;
+    width: 1500px;
+    right: 150px;
+
+    /* Position and center the image to scale nicely on all screens */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/* Place text in the middle of the image */
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.schedule_table {
+    height: 150px;
+}

@@ -16,6 +16,7 @@
 
   <!-- CSS -->
   <link href="css/normalize.css" rel="stylesheet" type="text/css" />
+  <link href="css/new_website.css" rel="stylesheet" type="text/css" />
   <link href="css/style.css" rel="stylesheet" type="text/css" />
 
   <!-- JS -->
@@ -34,27 +35,14 @@
 <nav>
   <!-- REGULAR NAV -->
   <div class="nav-holder nav-left">
-    <img class="nav-logo shake" src="img/bee.svg" draggable="false" />
-    <span class="nav-link">
-                <a href="#">CSCI 1270</a>
-            </span>
+    <span class="nav-link"> <a href="#">CSCI 1270</a> </span>
   </div>
   <div class="nav-holder nav-right">
-            <span class="nav-link">
-                <a href="#assignments">Assignments</a>
-            </span>
-    <span class="nav-link">
-                <a href="#lectures">Lectures</a>
-            </span>
-    <span class="nav-link">
-                <a href="#calendar">Calendar</a>
-            </span>
-    <span class="nav-link">
-                <a href="#resources">Resources</a>
-            </span>
-    <span class="nav-link">
-                <a href="#staff">Staff</a>
-            </span>
+    <span class="nav-link"> <a href="#assignments">Assignments</a> </span>
+    <span class="nav-link"> <a href="#schedule">Schedule</a> </span>
+    <span class="nav-link"> <a href="#resources">Resources</a> </span>
+    <span class="nav-link"> <a href="#calendar">Office Hours</a> </span>
+    <span class="nav-link"> <a href="#staff">Staff</a> </span>
   </div>
 
   <!-- MOBILE NAV -->
@@ -62,11 +50,11 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">☰</a>
     <div class="navholder-content">
       <a onclick="closeNav()" href="#">CSCI 1270</a>
+      <a onclick="closeNav()" href="#schedule">Schedule</a>
       <a onclick="closeNav()" href="#assignments">Assignments</a>
-      <a onclick="closeNav()" href="#lectures">Lectures</a>
-      <a onclick="closeNav()" href="#calendar">Calendar</a>
       <a onclick="closeNav()" href="#resources">Resources</a>
       <a onclick="closeNav()" href="#staff">Staff</a>
+      <a onclick="closeNav()" href="#hours">Office Hours</a>
     </div>
   </div>
 
@@ -76,11 +64,11 @@
 
 <main>
   <section id="landing">
-    <div class="landing-container">
-      <img class="landing-logo shake" src="img/bee.svg" draggable="false" />
-      <div>
-        <h1 class="landing-title fun">CSCI 1270</h1>
-        <h2 class="landing-subtitle fun">Database Management Systems</h2>
+    <!-- Hero -->
+    <div class="hero-image">
+      <div class="hero-text">
+        <h1>CSCI 1270</h1>
+        <h1>Database Management Systems</h1>
       </div>
     </div>
   </section>
@@ -107,7 +95,6 @@
       </strong>
     </p>
   </section>
-
 
   <!-- INTRODUCTION -->
   <section id="faq">
@@ -201,76 +188,58 @@
         <th>In</th>
       </tr>
       <tr>
-        <td><a href="homework/setup.html">Setup</a></td>
+        <td>Setup</td>
         <td>-</td>
         <td>-</td>
         <td>Sep 20</td>
       </tr>
       <tr>
-        <td><a href="homework/relational_algebra.html">Relational Algebra</a></td>
-        <td><a href="project/go.html">Go</a></td>
+        <td>Relational Algebra</td>
+        <td>Go</td>
         <td>Sep 15</td>
         <td>Sep 22</td>
       </tr>
       <tr>
-        <td><a href="homework/er_diagrams.html">ER Diagrams</a></td>
-        <td><a href="project/sql.html">SQL</a></td>
+        <td>ER Diagrams</td>
+        <td>SQL</td>
         <td>Sep 22</td>
         <td>Sep 29</td>
       </tr>
       <tr>
-        <td><a href="homework/constraints+normalization.html">Constraints + Normalization</a></td>
-        <td><a href="project/pager.html">Pager</a></td>
+        <td>Constraints + Normalization</td>
+        <td>Pager</td>
         <td>Sep 29</td>
         <td>Oct 11</td>
       </tr>
       <tr>
-        <td>Quiz 1</td>
-        <td>-</td>
-        <td>Oct 13</td>
-        <td>Oct 13</td>
-      </tr>
-      <tr>
-        <td><a href="homework/storage+btrees.html">Storage + B-Trees</a></td>
-        <td><a href="project/b+tree.html">B+Tree</a></td>
+        <td>Storage + B-Trees</td>
+        <td>B+Tree</td>
         <td>Oct 13</td>
         <td>Oct 25</td>
       </tr>
       <tr>
-        <td><a href="homework/hash+join_algorithms.html">Hash + Join Algorithms</a></td>
-        <td><a href="project/hash.html">Hash</a></td>
+        <td>Hash + Join Algorithms</td>
+        <td>Hash</td>
         <td>Oct 25</td>
         <td>Nov 01</td>
       </tr>
       <tr>
-        <td><a href="homework/query_optimization.html">Query Optimization</a></td>
-        <td><a href="project/query.html">Query</a></td>
+        <td>Query Optimization</td>
+        <td>Query</td>
         <td>Nov 01</td>
         <td>Nov 08</td>
       </tr>
       <tr>
-        <td>Quiz 2</td>
-        <td>-</td>
-        <td>Nov 10</td>
-        <td>Nov 10</td>
-      </tr>
-      <tr>
-        <td><a href="homework/latches+transactions.html">Latches + Transactions</a></td>
-        <td><a href="project/concurrency.html">Concurrency</a></td>
+        <td>Latches + Transactions</td>
+        <td>Concurrency</td>
         <td>Nov 10</td>
         <td>Nov 24</td>
       </tr>
       <tr>
-        <td><a href="homework/logging+recovery.html">Logging + Recovery</a></td>
-        <td><a href="project/recovery.html">Recovery</a></td>
+        <td>Logging + Recovery</td>
+        <td>Recovery</td>
         <td>Nov 29</td>
         <td>Dec 06</td>
-      </tr>
-      <tr>
-        <td>Quiz 3</td>
-        <td>-</td>
-        <td>Dec 14</td>
-        <td>Dec 14</td>
       </tr>
 
     </table>
@@ -285,50 +254,50 @@
       <tr>
         <td>Go</td>
         <td>Sep 15</td>
-        <td><a href="https://docs.google.com/presentation/d/1cX58Flfs1jOZePIvcTxQFrXSrVxS982QPu3IV1Oay14/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/YO-_LoSP8nqIupZoco91Or7gm_i8-sbpZ4R3ObE3ogq0RzR5iU00eZ42kO74TNxL.kN7DHdOFM5PxUSLc">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>SQL</td>
         <td>Sep 22</td>
-        <td><a href="https://docs.google.com/presentation/d/1Wu9iCNr5ozRXlCK9FILlSkLQD0HFuQ32Wazdhk-KZlI/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/9VyYcauZNQJ6ClXYVLTBb8li3GdKGKqk4yUwFuHk-GzXHQBHEc2MVikr09Bx69iN.DNQl-Kc12sKn3ZjI">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>Pager</td>
         <td>Sep 29</td>
-        <td><a href="https://docs.google.com/presentation/d/1RoBGFFpeWqnvs_GIU8HEhgrMIdYHW1pTUcF5GJjKqpU/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/To_bm7ugvi07epZNL2k7C_TgDPi11yD5IGPKUMPB5klCfCTAMheuSZcVsbeNRpg.D90vPwqXKcRP6V8P">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>B+Tree</td>
         <td>Oct 13</td>
-        <td><a href="https://docs.google.com/presentation/d/104FBRbNMpAqWOfUdFd9VLZB1-F4loNWTeLo4h3jV2go/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/0FuY3O3weXo2K6UTlHOoDfeGcyHwTBX2oAAQKSC30w5UpepFE7E6EAc8jzFB4vks.TRf1dDutCiBOdjZ9?startTime=1634241265000">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>Hash</td>
         <td>Oct 25</td>
-        <td><a href="https://docs.google.com/presentation/d/1FOVgTu1cQrGpdruA1BSU_WvXIg5UdXHDoMEuqkntS9I/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/aJMHhexjSD0QsfKwlVyIxGzyiso9UuoruAecyq_0W60TpA7PgoTEvd27hIoXnyLx.0o6Y4b5XAvT2qtRY">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>Query</td>
         <td>Nov 1</td>
-        <td><a href="https://docs.google.com/presentation/d/1ddAo72y7_Jt7fvupG3DOsVr8aONzdk2stZMzf-lu80c/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/yuZwdqAkAzcgbggFtG-029V8cOBCiWv-ssYJWhnYcq5WjIwW59pOdN-HuLv3h_1H.U-RUTVXbgKQ8ex1b">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>Concurrency</td>
         <td>Nov 10</td>
-        <td><a href="https://docs.google.com/presentation/d/1ZT0lxjus54bPWsnMQsLV-i38tMPQfo0MaPx0vzvyfSI/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/j-p91yeWVoy_KsDH5ky9k0eYY4tnlb5OGyRF9hIYeesANm87ei5QqLOYcTa-T3Av.r2n3eso1oLextnIN">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
       <tr>
         <td>Recovery</td>
         <td>Nov 29</td>
-        <td><a href="https://docs.google.com/presentation/d/1dFTTQbZJR0Ae1PbygNZ1RY1Z0t3o3MAlxdHSFFCsL2Q/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/60VXlRsj70BtaIcufXulPS03z86-U1EaqjPW5iyKnXncQQNZLh8ghtOXzWBVRorn.FjLR3BMM6sLWEU8i">Recording</a></td>
+        <td>Slides</td>
+        <td>Recording</td>
       </tr>
 
     </table>
@@ -355,291 +324,143 @@
     </p>
   </section>
 
-
-  <!-- LECTURES -->
-  <section id="lectures">
+  <!-- SCHEDULE -->
+  <section id="schedule">
     <div class="hexagon"></div>
-    <h1 tabindex="0">Lectures</h1>
-
-    <p>
-      Lectures are held on Mondays and Wednesdays from 3:00 pm to 4:20 pm virtually via
-      <a href="https://brown.zoom.us/j/99985999323">Zoom</a> unless otherwise specified. Lecture slides and recordings
-      will be posted soon after lecture ends. You are highly encouraged to attend all lectures.
-    </p>
-    <p>
-      <strong>The following lecture schedule is very approximate</strong>. Please note that the schedule may
-      be subject to change depending how quickly or slowly we are able to
-      move through lectures.
-    </p>
-
+    <h1 tabindex="0">Schedule</h1>
     <table>
       <tr>
-        <th>Topic</th>
-        <th>Date</th>
-        <th>Slides</th>
-        <th>Recording</th>
-        <th>Book</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+      </tr>
+      <tr class="schedule_table">
+        <td></td>
+        <td></td>
+        <td>
+          <p>6 Sep</p>
+          <p>Lecture 1 : Introduction</p>
+        </td>
+        <td>7 Sep</td>
+        <td>8 Sep</td>
       </tr>
       <tr>
-        <td>Introduction to Databases</td>
-        <td>Sep 08</td>
-        <td><a href="https://drive.google.com/file/d/1zEOuOnQPZccWyXTEj_1qKwrvd4m1VztL/view?usp=sharing">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/qOuY8BbFlsgmz3NZSpppFPpKe0_VPgLbSf23H2z2MwCaR70Rb5jeSUg59BSLKkUG.jaZFcd7yHOfY8ywY?startTime=1631126752000">Recording</a></td>
-        <td>CH1</td>
+        <td>11 Sep</td>
+        <td>12 Sep</td>
+        <td>13 Sep</td>
+        <td>14 Sep</td>
+        <td>15 Sep</td>
       </tr>
       <tr>
-        <td>Relational Model + Algebra</td>
-        <td>Sep 13</td>
-        <td><a href="https://docs.google.com/presentation/d/1vO9eHP_XLqUB_nmmYUzSTvqiUONbuMzj/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://drive.google.com/file/d/17ntiNyaRaiLJBZ_ZHmzfnDWISq2FSKW_/view?usp=sharing">2</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/uN8DrBdYoZJbkl_eYuuMp8PlmYZWQgmE-1YuYhCSjTdvZzGisVH1CbWbPt-_mSXJ.XToDUEO1zKZfKBmk">Recording</a></td>
-        <td>CH2</td>
+        <td>18 Sep</td>
+        <td>19 Sep</td>
+        <td>20 Sep</td>
+        <td>21 Sep</td>
+        <td>22 Sep</td>
       </tr>
       <tr>
-        <td>Entity-Relationship Models</td>
-        <td>Sep 15</td>
-        <td><a href="https://docs.google.com/presentation/d/1waqPyMvovMnGHtgNysIpJNbnynn5OLXl/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/2Iah-pFaK5XmaI15R6qKoUSplslw-yu3gFaNpLT0IT9v-d6AyP0vvnCI3w2RN3nO.hc9H4O-YgPAY6xIg">Recording</a></td>
-        <td>CH6</td>
+        <td>25 Sep</td>
+        <td>26 Sep</td>
+        <td>27 Sep</td>
+        <td>28 Sep</td>
+        <td>29 Sep</td>
       </tr>
       <tr>
-        <td>Relational Calculus + SQL</td>
-        <td>Sep 20</td>
-        <td><a href="https://docs.google.com/presentation/d/15qgdGJ6WXuVGBvofK8W4g6opJunIezJI/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1GUqUAna5UDMycyYoXpQGz4qoqkyP8Sve/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a></td>
-        <td><a href="https://drive.google.com/file/d/1_-nI7i7yMhjfUxJXowDJ7CHLbk1aKbiA/view?usp=sharing">Recording</a></td>
-        <td>CH3, CH4, CH5</td>
+        <td>2 Oct</td>
+        <td>3 Oct</td>
+        <td>4 Oct</td>
+        <td>5 Oct</td>
+        <td>6 Oct</td>
       </tr>
       <tr>
-        <td>Constraints</td>
-        <td>Sep 22</td>
-        <td><a href="https://drive.google.com/file/d/1lbyAzjlAIGQBcHEN23wsmoyoAp2U1sWd/view?usp=sharing">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/DbtUkwq74wlU3iq13htPX-Vp1gxPmpaKtmZiEJecyR7jmQdM_Y3JCcxqc0Iv8zQW.T7i9HMjxBSb06mXz">Recording</a></td>
-        <td>CH4, CH7</td>
+        <td>2 Oct</td>
+        <td>3 Oct</td>
+        <td>4 Oct</td>
+        <td>5 Oct</td>
+        <td>6 Oct</td>
       </tr>
       <tr>
-        <td>Normalization</td>
-        <td>Sep 27</td>
-        <td><a href="https://drive.google.com/file/d/1urV8U8CYWsfUKwl0iBqyl8cQgE-bSSLV/view?usp=sharing">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/17R1DBRdFJZgLNbeAffrvT93HROE2GVXKMuEYVFyLpU_6I5-dQvFN7U7YBVJq3kL.u8PGAm6FYLnkqCku">Recording</a></td>
-        <td>CH7</td>
+        <td>9 Oct</td>
+        <td>10 Oct</td>
+        <td>11 Oct</td>
+        <td>12 Oct</td>
+        <td>13 Oct</td>
       </tr>
       <tr>
-        <td>Storage and Disks</td>
-        <td>Sep 29</td>
-        <td><a href="https://docs.google.com/presentation/d/1cDtEoif3zObXIxCtdxU0Se3qq2aWYgXf/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1KgHTrisIyA6Gd5dJxzUXMgDYAYlTYouMIpWATgfZPZc/edit?usp=sharing">2</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/wJbmOktcaETGESDw4rGIh23BZkXncbQjd86rvf_GyAJy98WBfN4OY0kfVpUNG1a1.clbjb550n7NX3Qoc">Recording</a></td>
-        <td>CH12</td>
+        <td>16 Oct</td>
+        <td>17 Oct</td>
+        <td>18 Oct</td>
+        <td>19 Oct</td>
+        <td>20 Oct</td>
       </tr>
       <tr>
-        <td>B-Trees</td>
-        <td>Oct 04</td>
-        <td><a href="https://docs.google.com/presentation/d/1X0e1LzNFTUDD3Nj3W7GeX3KFBiU1yFmF/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/D3bonciwZh4T45u58FwJm4m3SPjQkKhnv3_0MsUK7OozuOesY_XZJ0FqiPSLVNg.sDjJF_efO9Xk-Gta">Recording</a></td>
-        <td>CH13, CH14</td>
+        <td>23 Oct</td>
+        <td>24 Oct</td>
+        <td>25 Oct</td>
+        <td>26 Oct</td>
+        <td>27 Oct</td>
       </tr>
       <tr>
-        <td>Hashing</td>
-        <td>Oct 06</td>
-        <td><a href="https://docs.google.com/presentation/d/1X0e1LzNFTUDD3Nj3W7GeX3KFBiU1yFmF/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1e6AdLr8aB6aM5UX0PB8H9zBYMIAlx3P6/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/Tt6o1Gynzp6X2eLL2DFjrKjtOHSVMc97kXQDtgVYAgka87H-ApZIgyLcF0zTaAtg.T-eF2eilscAjza-q">Recording</a></td>
-        <td>CH 14</td>
+        <td>30 Oct</td>
+        <td>31 Oct</td>
+        <td>1 Nov</td>
+        <td>2 Nov</td>
+        <td>3 Nov</td>
       </tr>
       <tr>
-        <td>Indigenous Peoples' Day (No Class)</td>
-        <td>Oct 11</td>
-        <td>-</td>
-        <td>-</td>
-        <td>TBA</td>
+        <td>6 Nov</td>
+        <td>7 Nov</td>
+        <td>8 Nov</td>
+        <td>9 Nov</td>
+        <td>10 Nov</td>
       </tr>
       <tr>
-        <td><strong>Quiz 1</strong></td>
-        <td>Oct 13</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
+        <td>13 Nov</td>
+        <td>14 Nov</td>
+        <td>15 Nov</td>
+        <td>16 Nov</td>
+        <td>17 Nov</td>
       </tr>
       <tr>
-        <td>Query Processing</td>
-        <td>Oct 18</td>
-        <td><a href="https://docs.google.com/presentation/d/1WiOIn_skeOTdixaGJj4Zpedw3hZunzoG/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/sKhrM7DkV8HY4Px924krb39m4_getp_E-m9j1WC_uyOYAmnyQQ22n2HsgiIFUQL3.ri_gdvZPt5kZUrw9">Recording</a></td>
-        <td>CH14</td>
+        <td>20 Nov</td>
+        <td>21 Nov</td>
+        <td>22 Nov</td>
+        <td>23 Nov</td>
+        <td>24 Nov</td>
       </tr>
       <tr>
-        <td>Query Processing cont.</td>
-        <td>Oct 20</td>
-        <td>-</td>
-        <td><a href="https://brown.zoom.us/rec/share/z3q1uhGILgn7Vjn3cFJMdaAh8lOLGD2PwaRz-kOWAfzzkUUnK-mvoWoNf2T2O8So.hhp2LpxEqOCrOP9E">Recording</a></td>
-        <td>CH15</td>
+        <td>27 Nov</td>
+        <td>28 Nov</td>
+        <td>29 Nov</td>
+        <td>30 Nov</td>
+        <td>1 Dec</td>
       </tr>
       <tr>
-        <td>Transactions</td>
-        <td>Oct 25</td>
-        <td><a href="https://docs.google.com/presentation/d/1MRn8om7MP86CIP-kwA28TIgkULlsee6_/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/lzLpjMtYqFxz-D3HjFRE94ao38Hz1hiNgVcPXiNNjCR8DFbDRrY_QXqznQQDdGIg.9Qko50FLjTlzaiAz">Recording</a></td>
-        <td>CH15, CH16</td>
+        <td>2 Dec</td>
+        <td>3 Dec</td>
+        <td>4 Dec</td>
+        <td>5 Dec</td>
+        <td>6 Dec</td>
       </tr>
       <tr>
-        <td>Transactions cont.</td>
-        <td>Oct 27</td>
-        <td>-</td>
-        <td><a href="https://brown.zoom.us/rec/share/GPtaigzjiToG9mPSgB4hPnvJuk00Jgl7CysPwbYsuKdk2sIfLyKhCJYSO2PE1Cy2.Pb-FkD9ovzZbg20_?startTime=1635360311000">Recording</a></td>
-        <td>CH17</td>
+        <td>9 Dec</td>
+        <td>10 Dec</td>
+        <td>11 Dec</td>
+        <td>12 Dec</td>
+        <td>13 Dec</td>
       </tr>
       <tr>
-        <td>Recovery</td>
-        <td>Nov 01</td>
-        <td><a href="https://docs.google.com/presentation/d/1H_A5RXyOHuVyFoyQblA7DgXwRbwfJ5Y4/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/N353ZciDzvcABxV8wmJfRnXMxMRXaUMT5meZuy4ym6WuzrzjGclKOY9JJQZZpK9n.t2AnFUWKEuGDHYGP">Recording</a></td>
-        <td>CH17</td>
+        <td>16 Dec</td>
+        <td>17 Dec</td>
+        <td>18 Dec</td>
+        <td>19 Dec</td>
+        <td>20 Dec</td>
       </tr>
-      <tr>
-        <td>Concurrency</td>
-        <td>Nov 03</td>
-        <td><a href="https://drive.google.com/file/d/1l_UzKwpPV_vOg2kMNYAOBm5xnquZuxsK/view?usp=sharing">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/RGiyhPfLJjU5ja142extkhrzd4X4G4OHOobFVC-xlrj30fXVJz7uOXiaTB9kmjnS.C9lpU3xW9VfAvvbn">Recording</a></td>
-        <td>CH18</td>
-      </tr>
-      <tr>
-        <td>Parallel Databases</td>
-        <td>Nov 08</td>
-        <td><a href="https://docs.google.com/presentation/d/1-7YJn5dZCrRR_Z5UOPiXG2wcjQjo159W/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/lGFojpTUYNyWCAA3BKO-dp862qob0tBAl4dJDb0A443Zgoi8ytmVvvBUnfHkObSW.hJ7ppFIQ-AloRy99">Recording</a></td>
-        <td>CH19</td>
-      </tr>
-      <tr>
-        <td><strong>Quiz 2</strong></td>
-        <td>Nov 10</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Distributed Databases</td>
-        <td>Nov 15</td>
-        <td><a href="https://docs.google.com/presentation/d/12uj7e0qbO1lZOi_pD793yKOGq3ZbRjoe/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a>, <a href="https://docs.google.com/presentation/d/1hfhyZD1sakfjzqc_HmjnByjxRwmCFyYk/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">2</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/1g3vmXBfTKR8fRb9k7ZyYwruIcmEd5Ttm5rBNw8xYxG9gCAj9XciSFpE-QsYk54H.SQXNvuyVgnnvNOAg">Recording</a></td>
-        <td>CH21-23</td>
-      </tr>
-      <tr>
-        <td>NoSQL Databases</td>
-        <td>Nov 17</td>
-        <td><a href="https://docs.google.com/presentation/d/1ktY9ZThrVKLqjznZC-DzsFUBuxPpcEwh/edit?usp=sharing&ouid=114798319277224579289&rtpof=true&sd=true">1</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/y8iJC2f51opnP8zwFnOhXotdgaIG2zUiCZWSQdr13cX60aYbmS8yGemDcfAJtEYr.FhPZ6qbAphx35CsX">Recording</a></td>
-        <td>CH21-23</td>
-      </tr>
-      <tr>
-        <td>Thanksgiving (No class)</td>
-        <td>Nov 22</td>
-        <td>-</td>
-        <td>-</td>
-        <td>CH29</td>
-      </tr>
-      <tr>
-        <td>Thanksgiving (No class)</td>
-        <td>Nov 24</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Thanksgiving (No class)</td>
-        <td>Nov 29</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Guest Lecture - John Meehan</td>
-        <td>Dec 01</td>
-        <td>-</td>
-        <td><a href="https://brown.zoom.us/rec/share/iCCVHaHrqJG8H0iWHpEghWhgpAEizuG1952ktwYjrS4dk0YuI02NZMTlTCK_aH0f.TkIDdEIxA2hlaqJU">Recording</a></td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Guest Lecture - Franco Solleza</td>
-        <td>Dec 06</td>
-        <td><a href="https://drive.google.com/file/d/1y_PbCy3oc0zvL_rJp3VROYZtEU3ZYVxd/view?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/DM6PkZ9MaNvs6N0HgW27dPLVZd5wT67rkTptL5wsmVzBHWavpedlS4O7FpCiFct1.BUMJn8rjqlcXuXB9">Recording</a></td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td>Guest Lecture - Andy Pavlo</td>
-        <td>Dec 08</td>
-        <td>-</td>
-        <td><a href="https://brown.zoom.us/rec/share/MJ1KypJ50l7MlWabyJrYDlYk7zUjSreqjjzDeEVnCLHaqipVgD0l13Ys3vG9cMDV.jgeIzRtdWxyMiHtT">Recording</a></td>
-        <td>-</td>
-      </tr>
-      <tr>
-        <td><strong>Quiz 3</strong></td>
-        <td>Dec 14</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-      </tr>
-
     </table>
-  </section>
 
-
-  <!-- SEMINARS -->
-  <section id="seminars">
-    <div class="hexagon"></div>
-    <h1 tabindex="0">Seminars</h1>
-
-    <p>
-      To spread our love of databases and to expose you to cutting edge database concepts, the
-      CSCI 1270 TAs run seminars on Fridays from 3:00 pm to 4:00 pm, in-person in CIT Lubrano (477).
-      Recordings will be posted soon after the seminar ends. You are highly encouraged to attend any
-      seminars that interest you!
-    </p>
-    <p>
-      <strong>The following seminar schedule is very approximate</strong>. Please note that the schedule may
-      be subject to change depending on TA availability.
-    </p>
-
-    <table>
-      <tr>
-        <th>Topic</th>
-        <th>Date</th>
-        <th>Slides</th>
-        <th>Recording</th>
-      </tr>
-      <tr>
-        <td>Efficient SQL</td>
-        <td>Oct 01</td>
-        <td><a href="https://docs.google.com/presentation/d/1Z1kmIUzZX2OKYNhvuYwWVyo-rzX9h5gDzVrrw7aEXdY/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/MvKloeJzM0QtifdkHE2dCayMKtZrRGjoaOH6SVbqZE8MP3e09G2W3ngJ3psAJpjH.2IbWP26FGIiP95jP">Recording</a></td>
-      </tr>
-      <tr>
-        <td>Time Series Databases</td>
-        <td>Oct 08</td>
-        <td><a href="https://docs.google.com/presentation/d/1aoBZJTjGUH6ILApbnwQrjvhBsnB3D1ClIZHDDnxGdf8/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/LvJDKmn-Live9Ni643NIK57y499MHKLSCRr2-Aw20RUGmWjdfOo5D0hcLAoYJvCa.2EGrW3FRcT3DTs-D">Recording</a></td>
-      </tr>
-      <tr>
-        <td>Advanced Indexes</td>
-        <td>Oct 22</td>
-        <td><a href="https://docs.google.com/presentation/d/1K2pC_Jq4odJRyRElzKTmiik09vumpm5ZV-zomwiNO4w/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/nnx_iwvgyyfqqVIYrUthV8ZeSRKV5074NEHUpFZd6geguxiAPF3YcevLgrhMUt2L.mvzGC5FYPhVI8nWq">Recording</a></td>
-      </tr>
-      <tr>
-        <td>Denormalization & MongoDB</td>
-        <td>Oct 29</td>
-        <td><a href="https://docs.google.com/presentation/d/1E1RnZ6IOJl0_eG1DqqBal312zd53DATaIiF8NbpzIa8/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/3l2nZ9yAtmLEBWFXpPI2KB8sJHtuGPlZSooaCujfFvdNFd2IrARntaeLeif8O-RQ.z-wUhMXbP3IlHkXd">Recording</a></td>
-      </tr>
-      <tr>
-        <td>Graph Databases</td>
-        <td>Nov 12</td>
-        <td><a href="https://docs.google.com/presentation/d/1ECRezTPcxfvlbGCvmuyMmhjd8VirZjudsuRI0SEn0gM/edit?usp=sharing">Slides</a></td>
-        <td><a href="https://brown.zoom.us/rec/share/Df9q0NSKLYDHaeVB_i6vEKAyC-E1yAtcLYZZ_xTS7EqblcM1ORMnfvTO4NWwfn2c.OFaqSygKZim1_TlV">Recording</a></td>
-      </tr>
-
-    </table>
-  </section>
-
-
-  <!-- CALENDAR -->
+  <!-- Calendar -->
   <section id="calendar">
     <div class="hexagon"></div>
     <h1 tabindex="0">Calendar</h1>
@@ -661,16 +482,16 @@
 
     <h2>Guides</h2>
     <ul>
-      <li><a href="misc/course_guide.html">Course Guide</a></li>
-      <li><a href="misc/dev_guide.html">Local Development Guide</a></li>
-      <li><a href="misc/go_help.html">Guide to Golang</a></li>
-      <li><a href="misc/sql_help.html">Guide to SQL</a></li>
+      <li><a href="https://docs.google.com/document/d/1cVjTdk5JLWMGC4iGkS6wewn9PDJz8ZQfj_mhikTavs8/edit?usp=sharing">Course Guide</a></li>
+      <li><a href="https://docs.google.com/document/d/1fzIwBBp4DECWTeIp1XxCo3_CTvpu8MqcfWOp8p6YSmA/edit">Local Development Guide</a></li>
+      <li><a href="https://hackmd.io/ZWJ-W_Z2QP2zAH12_ms1rQ?view">Guide to Golang</a></li>
+      <li><a href="https://hackmd.io/UsjplgjdSKK4SlTHaP-W6Q?view">Guide to SQL</a></li>
     </ul>
 
     <h2>Documents</h2>
     <ul>
-      <li><a href="static/files/missive.pdf">Missive</a></li>
-      <li><a href="static/files/collab.pdf">Collaboration Policy</a></li>
+      <li><a href="https://docs.google.com/document/d/1t72XulebmbYIWaEdp4VPODEl0XqnEZ1WpskigB38SI0/edit?usp=sharing">Missive</a></li>
+      <li><a href="https://docs.google.com/document/d/1GAOYTDjBuvYdf7LtmCy_9iexPHTmscDV9UX0cM0DmZI/edit?usp=sharing">Collaboration Policy</a></li>
     </ul>
 
     <h2>Contact</h2>
